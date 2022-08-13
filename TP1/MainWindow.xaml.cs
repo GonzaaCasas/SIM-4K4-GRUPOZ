@@ -12,17 +12,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
+using MahApps.Metro.IconPacks;
 
 namespace TP1
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void LaunchGitHubSite(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeployCupCakes(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
