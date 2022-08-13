@@ -29,12 +29,8 @@ namespace TP1
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
-
+            System.Diagnostics.Process.Start("https://github.com/GonzaaCasas/SIM-4K4-GRUPOZ");
         }
 
-        private void DeployCupCakes(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TP1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Trabajo Practico 1 - Generación de números aleatorios" Height="450" Width="800">
 
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
@@ -19,25 +19,7 @@
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
 
-    <mah:MetroWindow.RightWindowCommands>
-        <mah:WindowCommands>
-            <Button Click="DeployCupCakes" Content="Deploy CupCakes">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconModern Width="22"
-                                        Height="22"
-                                        VerticalAlignment="Center"
-                                        Kind="FoodCupcake" />
-                            <TextBlock Margin="4 0 0 0"
-                         VerticalAlignment="Center"
-                         Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-        </mah:WindowCommands>
-    </mah:MetroWindow.RightWindowCommands>
+    
     <Grid>
         
     </Grid>
