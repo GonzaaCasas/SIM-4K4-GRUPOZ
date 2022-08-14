@@ -54,9 +54,9 @@ namespace TP1.Views
             muestra = 20;
 
             numeros_aleatorios.Clear(); // deja el vector estado vacio
-            numeros_aleatorios.Add(xi_1 / modulo); // agregar el primer random que corresponde a la semilla
+            numeros_aleatorios.Add(xi_1 / modulo); // agrega el primer random que corresponde a la semilla
 
-            generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
+            generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
 
         }
 
@@ -64,22 +64,22 @@ namespace TP1.Views
         {
             muestra = 1;
 
-            generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
         }
 
         private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas ---  falta para que se habilite solo despues de apretar el boton generar
         {
             muestra = 20;
 
-            generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
         }
 
-        private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular 10000 numeros aleatorios --- falta para que se habilite solo despues de apretar el boton generar
+        private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios --- falta para que se habilite solo despues de apretar el boton generar
         {
 
             muestra = 10000 - numeros_aleatorios.ToArray().Count(); // para simular hasta llegar 10000
 
-            generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
 
         }
 
@@ -91,9 +91,9 @@ namespace TP1.Views
             for (int i = 0; i < muestra ; i++)
             {
 
-                xi = generadorCongruenteMultiplicativo(xi_1, cMultiplicadora, modulo);
+                xi = generadorCongruenteMultiplicativo(this.xi_1, cMultiplicadora, modulo);
                 numeros_aleatorios.Add(xi / modulo); // agrega los random
-                xi_1 = xi;
+                this.xi_1 = xi;
 
 
             }
