@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using System.Collections;
+using TP1.Mvvm;
 
 namespace TP1.Views
 {
@@ -56,7 +57,7 @@ namespace TP1.Views
             numeros_aleatorios.Clear(); // deja el vector estado vacio
             numeros_aleatorios.Add(xi_1 / modulo); // agrega el primer random que corresponde a la semilla
 
-            generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
+            numeros_aleatorios = Gestor.generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
 
         }
 
@@ -64,14 +65,14 @@ namespace TP1.Views
         {
             muestra = 1;
 
-            generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            numeros_aleatorios = Gestor.generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
         }
 
         private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas ---  falta para que se habilite solo despues de apretar el boton generar
         {
             muestra = 20;
 
-            generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            numeros_aleatorios = Gestor.generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
         }
 
         private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios --- falta para que se habilite solo despues de apretar el boton generar
@@ -79,32 +80,10 @@ namespace TP1.Views
 
             muestra = 10000 - numeros_aleatorios.ToArray().Count(); // para simular hasta llegar 10000
 
-            generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            numeros_aleatorios = Gestor.generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
 
         }
 
-
-        private void generar(decimal xi_1,decimal cIndependiente, decimal cMultiplicadora,decimal modulo, int muestra)
-        {
-         
-
-            for (int i = 0; i < muestra ; i++)
-            {
-
-                xi = generadorCongruenteMultiplicativo(this.xi_1, cMultiplicadora, modulo);
-                numeros_aleatorios.Add(xi / modulo); // agrega los random
-                this.xi_1 = xi;
-
-
-            }
-
-            mostrarVectorEstado(numeros_aleatorios);
-        }
-
-        private decimal generadorCongruenteMultiplicativo(decimal xi_1, decimal a, decimal m)
-        {
-            return (a * xi_1 ) % m;
-        }
 
 
         private void mostrarVectorEstado(ArrayList vectorEstado)
