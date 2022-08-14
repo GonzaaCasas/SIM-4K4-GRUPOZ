@@ -24,11 +24,11 @@ namespace TP1.Views
 
     public partial class PuntoA : Page
     {
-        private decimal semilla;
+        private decimal xi_1;
         private decimal cIndependiente;
         private decimal cMultiplicadora;
         private decimal modulo;
-        private decimal muestra;
+        private int muestra;
         private ArrayList numeros_aleatorios = new ArrayList();
         private decimal xi;
         
@@ -44,46 +44,61 @@ namespace TP1.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void BtnGenerar_Click(object sender, RoutedEventArgs e)
+        private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
         {
-            semilla = Int32.Parse(TxtSemilla.Text); // semilla
+            xi_1 = Int32.Parse(TxtSemilla.Text); // semilla
             cIndependiente = Int32.Parse(TxtConstanteIndependiente.Text);
             cMultiplicadora = Int32.Parse(TxtConstanteMultiplicadora.Text);
             modulo = Int32.Parse(TxtModulo.Text);
 
             muestra = 20;
 
-            generar(semilla, cIndependiente, cMultiplicadora, modulo);
+            numeros_aleatorios.Clear(); // deja el vector estado vacio
+            numeros_aleatorios.Add(xi_1 / modulo); // agregar el primer random que corresponde a la semilla
 
-            // despues checkear lo de cambiar int por double o decimal
-
-
-            mostrarVectorEstado(numeros_aleatorios);
+            generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
 
         }
 
-        private void generar(decimal xi_1,decimal cIndependiente, decimal cMultiplicadora,decimal modulo)
+        private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez ---  falta para que se habilite solo despues de apretar el boton generar
+        {
+            muestra = 1;
+
+            generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+        }
+
+        private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas ---  falta para que se habilite solo despues de apretar el boton generar
+        {
+            muestra = 20;
+
+            generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+        }
+
+        private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular 10000 numeros aleatorios --- falta para que se habilite solo despues de apretar el boton generar
         {
 
-            numeros_aleatorios.Clear(); // deja el vector estado vacio
+            muestra = 10000 - numeros_aleatorios.ToArray().Count(); // para simular hasta llegar 10000
+
+            generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+
+        }
 
 
-            decimal ri = (xi_1/ modulo);
+        private void generar(decimal xi_1,decimal cIndependiente, decimal cMultiplicadora,decimal modulo, int muestra)
+        {
+         
 
-            numeros_aleatorios.Add(ri); // agregar el primer random que corresponde a la semilla
-
-           
-
-            for (int i = 0; i < muestra - 1; i++)
+            for (int i = 0; i < muestra ; i++)
             {
 
                 xi = generadorCongruenteMultiplicativo(xi_1, cMultiplicadora, modulo);
                 numeros_aleatorios.Add(xi / modulo); // agrega los random
                 xi_1 = xi;
 
-             
 
             }
+
+            mostrarVectorEstado(numeros_aleatorios);
         }
 
         private decimal generadorCongruenteMultiplicativo(decimal xi_1, decimal a, decimal m)
@@ -96,9 +111,9 @@ namespace TP1.Views
         {
             foreach (var item in vectorEstado)
             {
-                Console.WriteLine(item); // esto es para chequear nomas en la consola hay que ver desp como mostrar en la ventana
+                Console.WriteLine(item); // esto es para chequear nomas en la consola 
             }
-            
+            Console.WriteLine(vectorEstado.Count); // es solo para chequear 
         }
 
         //private int generadorCongruenteMixto(int xi_1, int a, int c, int m)

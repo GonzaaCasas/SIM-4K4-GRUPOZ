@@ -17,7 +17,7 @@
             HorizontalAlignment="Right"
             Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
             Kind= "AlphaABox" />
-        
+
         <Grid  Margin="10,60,10,10">
 
             <Grid.Resources >
@@ -25,7 +25,7 @@
                     <Setter Property="Margin" Value="10,10,10,10" />
                 </Style>
             </Grid.Resources>
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -83,6 +83,29 @@
                     Height="30" 
                     VerticalAlignment="Top"
                     Click="BtnGenerar_Click">Generar</Button>
+            <Button x:Name="BtnGenerarProximo" 
+                Grid.Column="3" 
+                Grid.Row="1" 
+                IsDefault="True" 
+                Width="100" 
+                Height="30" 
+                VerticalAlignment="Top" Content="Proximo" Margin="47,63,48,0" Click="BtnGenerarProximo_Click"/>
+            <Button x:Name="BtnGenerarVeinte" 
+                Grid.Column="3" 
+                Grid.Row="2" 
+                IsDefault="True" 
+                Width="100" 
+                Height="30" 
+                VerticalAlignment="Top"
+                Click="BtnGenerarVeinte_Click" Content="Generar 20 mas" Margin="47,10,48,0"/>
+            <Button x:Name="BtnGenerarDiezMil" 
+                Grid.Column="3" 
+                Grid.Row="2" 
+                IsDefault="True" 
+                Width="100" 
+                Height="30" 
+                VerticalAlignment="Top"
+                Click="BtnGenerarDiezMil_Click" Content="Generar 10000" Margin="47,64,48,0"/>
 
 
 
