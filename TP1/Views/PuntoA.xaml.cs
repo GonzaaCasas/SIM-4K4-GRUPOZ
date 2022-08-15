@@ -32,6 +32,7 @@ namespace TP1.Views
         private decimal cMultiplicadora;
         private decimal modulo;
         private int muestra;
+        private string metodo = "";
         private List<decimal> numeros_aleatorios = new List<decimal>();
 
 
@@ -53,41 +54,70 @@ namespace TP1.Views
 
         private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
         {
-            xi_1 = Int32.Parse(TxtSemilla.Text); // semilla
-            cIndependiente = Int32.Parse(TxtConstanteIndependiente.Text);
-            cMultiplicadora = Int32.Parse(TxtConstanteMultiplicadora.Text);
-            modulo = Int32.Parse(TxtModulo.Text);
+            xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
+            cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text);
+            cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
+            modulo = decimal.Parse(TxtModulo.Text);
 
             muestra = 20;
 
-            numeros_aleatorios.Clear(); // deja el vector estado vacio
-            numeros_aleatorios.Add(xi_1 / modulo); // agrega el primer random que corresponde a la semilla
+            if ((bool)rbMultiplicativo.IsChecked)
+            {
+                metodo = "Multiplicativo";
+            }
+            else
+            {
+                if ((bool)rbAditivo.IsChecked)
+                {
+                    metodo = "Aditivo";
+                }
+                else
+                {
+                    if ((bool)rbMixto.IsChecked)
+                    {
+                        metodo = "Mixto";
+                    }
+                }
+            }
 
-            numeros_aleatorios = Gestor.generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
+            numeros_aleatorios.Clear(); // deja el vector estado vacio
+
+            numeros_aleatorios= Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
 
             mostrarVectorEstado(numeros_aleatorios);
+            activarBotones();
+        }
+
+        private void activarBotones()
+        {
+            BtnGenerarProximo.IsEnabled = true;
+            BtnGenerarVeinte.IsEnabled = true;
+            BtnGenerarDiezMil.IsEnabled = true;
         }
 
         private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez ---  falta para que se habilite solo despues de apretar el boton generar
         {
             muestra = 1;
 
-            numeros_aleatorios = Gestor.generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            numeros_aleatorios.AddRange(Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra));
+            mostrarVectorEstado(numeros_aleatorios);
         }
 
         private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas ---  falta para que se habilite solo despues de apretar el boton generar
         {
             muestra = 20;
 
-            numeros_aleatorios = Gestor.generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            numeros_aleatorios.AddRange(Gestor.generar( metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra));
+            mostrarVectorEstado(numeros_aleatorios);
         }
 
         private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios --- falta para que se habilite solo despues de apretar el boton generar
         {
 
-            muestra = 10000 - numeros_aleatorios.ToArray().Count(); // para simular hasta llegar 10000
+            muestra = 10000 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
 
-            numeros_aleatorios = Gestor.generar(this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            numeros_aleatorios = Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            mostrarVectorEstado(numeros_aleatorios);
 
         }
 
@@ -108,18 +138,16 @@ namespace TP1.Views
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
             DataTable tablaNumero = new DataTable();
-            tablaNumero.Columns.Add("numeros");
-
-
-            //string strEstado;
-            //strEstado = "Numeros aleatorios:";
+            tablaNumero.Columns.Add("num");
+            tablaNumero.Columns.Add("valor");
 
             foreach (var item in vectorEstado)
             {
-                tablaNumero.Rows.Add(item.ToString());
+                DataRow _row = tablaNumero.NewRow();
+                _row[0] = tablaNumero.Rows.Count +1;
+                _row[1] = item.ToString();
+                tablaNumero.Rows.Add(_row);
             }
-
-            //t.vectorEstado = vectorEstado;
             dgvVectorEstado.DataContext = tablaNumero;
 
         }
