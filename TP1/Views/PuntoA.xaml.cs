@@ -61,24 +61,7 @@ namespace TP1.Views
 
             muestra = 20;
 
-            if ((bool)rbMultiplicativo.IsChecked)
-            {
-                metodo = "Multiplicativo";
-            }
-            else
-            {
-                if ((bool)rbAditivo.IsChecked)
-                {
-                    metodo = "Aditivo";
-                }
-                else
-                {
-                    if ((bool)rbMixto.IsChecked)
-                    {
-                        metodo = "Mixto";
-                    }
-                }
-            }
+            metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : "Mixto";
 
             numeros_aleatorios.Clear(); // deja el vector estado vacio
 

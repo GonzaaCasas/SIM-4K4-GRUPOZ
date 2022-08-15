@@ -24,9 +24,6 @@ namespace TP1.Models
                     case "Multiplicativo":
                         xi = generadorCongruenteMultiplicativo(xi_1, a, modulo);
                         break;
-                    case "Aditivo":
-                        xi = generadorCongruenteAditivo(xi, xi_1, modulo);
-                        break;
                     case "Mixto":
                         xi = generadorCongruenteMixto(xi_1, a, c, modulo);
                         break;
@@ -50,11 +47,11 @@ namespace TP1.Models
             return (a * xi_1) % m;
         }
 
-        private static decimal generadorCongruenteAditivo(decimal xi_1, decimal xi_0, decimal m)
-        {
-            // FIX THIS NIGGER
-            return (xi_1 + xi_0) % m;
-        }
+//        private static decimal generadorCongruenteAditivo(decimal xi_1, decimal xi_0, decimal m)
+//        {
+//            // FIX THIS NIGGER
+//            return (xi_1 + xi_0) % m;
+//        }
 
         public static List<decimal> generarRandomcSharp(int muestra)
         {
