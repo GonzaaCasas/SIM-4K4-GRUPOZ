@@ -11,9 +11,9 @@ namespace TP1.Models
     {
         private static List<decimal> numeros_aleatorios = new List<decimal>();
         private static decimal xi;
-        public static List<decimal> generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
+        public static List<decimal> generar(string metodo, decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
         {
-            numeros_aleatorios.Add(xi_1 / modulo); // agrega el primer random que corresponde a la semilla
+            numeros_aleatorios.Add(Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero));
 
             for (int i = 0; i < muestra; i++)
             {
