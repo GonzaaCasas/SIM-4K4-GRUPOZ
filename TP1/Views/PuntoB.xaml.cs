@@ -32,18 +32,12 @@ namespace TP1.Views
         private decimal cMultiplicadora;
         private decimal modulo;
         private List<decimal> numeros_aleatorios = new List<decimal>();
-        private List<decimal> calculo = new List<decimal>(); // desp le ppongo otro nombre a la lista no sabia q poner 
-
-
-
-        decimal esperado;
-        decimal lim_inferior;
-        decimal lim_superior;
-        decimal paso;
+        private Gestor gestor;
 
         public PuntoB()
         {
             InitializeComponent();
+            gestor = new Gestor();
             
         }
 
@@ -56,12 +50,12 @@ namespace TP1.Views
 
         private void BtnGenerar_B_Click(object sender, RoutedEventArgs e)
         {
-            //muestra = Int32.Parse(TxtMuestra.Text);
-            //subintervalos = Int32.Parse(TxtSubintervalos.Text);
-            subintervalos = 10;
-            muestra = 20;
+           
+            muestra = Int32.Parse(TxtMuestra.Text);
+            subintervalos = Int32.Parse(TxtSubintervalos.Text);
 
-            xi_1 = 37; // semilla
+            // desp ver para que lo pida por pantalla a estos valores
+            xi_1 = 37; // semilla  
             cIndependiente = 7;
             cMultiplicadora = 19;
             modulo = 53;
@@ -74,76 +68,16 @@ namespace TP1.Views
 
             mostrarVectorEstado(numeros_aleatorios);
 
-            
-
-            // generarSerie();
+           
         }
 
         private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
-            testChiCuadrado();
+           gestor.testChiCuadrado(numeros_aleatorios, this.muestra, this.subintervalos);
         }
 
 
-
-        public void testChiCuadrado()
-        {
-
-            decimal min = numeros_aleatorios.Min();
-            decimal max = numeros_aleatorios.Max();
-
-            this.esperado = this.muestra / this.subintervalos;
-            this.paso = (max - min) / this.subintervalos;
-
-            this.lim_inferior = min;
-            this.lim_superior = lim_inferior + paso;
-
-            int[] count = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-            for (int i = 0; i < subintervalos - 1; i++)
-            {
-                foreach (var random in numeros_aleatorios)
-                {
-                    if (random >= lim_inferior && random < lim_superior)
-                    {
-                        count[i]++;
-                    }
-                }
-
-                this.lim_inferior = this.lim_superior;
-                this.lim_superior = this.lim_superior + paso;
-
-            }
-
-            //  e_o = this.esperado
-            for (int i = 0; i < count.Count() ; i++)
-            {
-               double e_o = (double)(this.esperado - count[i]);
-               decimal e_oExpDos = (decimal)Math.Pow(e_o, 2);  // lo puse en  varios paso para q se entienda al leerlo 
-               decimal res = e_oExpDos / this.esperado;
-               this.calculo.Add(res);
-            }
-
-            decimal chiCuadrado = calculo.Sum();
-
-            double gradosLibertad = subintervalos - 1;
-            double alfa = 0.05;
-
-            decimal chiSquareTeorico = (decimal)MathNet.Numerics.Distributions.ChiSquared.InvCDF(gradosLibertad, 1- alfa);
-
-            if( chiCuadrado < chiSquareTeorico )
-            {
-                // tirar que esta todo ok
-            }
-
-            Console.WriteLine(chiCuadrado.ToString());
-        }
-
-        //public void generarSerie()
-        //{
-        //    rand_num = rd.Next(0, 9);
-        //    Console.WriteLine(rand_num);
-        //}
+       
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
             
@@ -156,9 +90,6 @@ namespace TP1.Views
 
             Console.WriteLine(vectorEstado.ToArray().Count());
             
-
-            //t.vectorEstado = strEstado;
-
 
         }
 
