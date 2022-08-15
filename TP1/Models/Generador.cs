@@ -11,18 +11,18 @@ namespace TP1.Models
     {
         private static List<decimal> numeros_aleatorios = new List<decimal>();
         private static decimal xi;
-        public static List<decimal> generar(string metodo, decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
+
+        public static List<decimal> generar(string metodo, decimal semilla, decimal c, decimal a, decimal modulo, int muestra)
         {
-            numeros_aleatorios.Add(Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero));
+            decimal xi_1 = semilla;
 
             for (int i = 0; i < muestra; i++)
             {
+                xi = generadorCongruenteMultiplicativo(xi_1, a, modulo);
 
-                xi = generadorCongruenteMultiplicativo(xi_1, cMultiplicadora, modulo);
-                numeros_aleatorios.Add(Math.Round((xi / modulo),4,MidpointRounding.AwayFromZero)); // agrega los random
+                numeros_aleatorios.Add(Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero)); // agrega los random
+
                 xi_1 = xi;
-
-
             }
 
             return numeros_aleatorios;
