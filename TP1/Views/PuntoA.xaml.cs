@@ -120,11 +120,7 @@ namespace TP1.Views
 
         }
 
-        //private int generadorCongruenteMixto(int xi_1, int a, int c, int m)
-        //{
-
-        //    return (a * xi_1 + c) % m;
-        //}
+       
 
     }
 }
