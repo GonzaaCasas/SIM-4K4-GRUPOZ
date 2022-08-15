@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,9 @@ namespace TP1.ViewModels
 {
     public class PuntoAVM : ViewModelBase
     {
-        private string _vectorEstado;
+        private List<decimal> _vectorEstado;
 
-        public string vectorEstado
+        public List<decimal> vectorEstado
         {
             get { return _vectorEstado; }
 

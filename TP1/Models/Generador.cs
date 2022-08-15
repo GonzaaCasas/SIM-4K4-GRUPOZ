@@ -9,9 +9,9 @@ namespace TP1.Models
 {
     internal class Generador
     {
-        private static ArrayList numeros_aleatorios = new ArrayList();
+        private static List<decimal> numeros_aleatorios = new List<decimal>();
         private static decimal xi;
-        public static ArrayList generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
+        public static List<decimal> generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
         {
             numeros_aleatorios.Add(xi_1 / modulo); // agrega el primer random que corresponde a la semilla
 
@@ -19,7 +19,7 @@ namespace TP1.Models
             {
 
                 xi = generadorCongruenteMultiplicativo(xi_1, cMultiplicadora, modulo);
-                numeros_aleatorios.Add(xi / modulo); // agrega los random
+                numeros_aleatorios.Add(Math.Round((xi / modulo),4,MidpointRounding.AwayFromZero)); // agrega los random
                 xi_1 = xi;
 
 
