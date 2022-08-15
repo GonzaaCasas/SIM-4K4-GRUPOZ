@@ -11,10 +11,10 @@ namespace TP1.Models
     {
         private static List<decimal> numeros_aleatorios = new List<decimal>();
         private static decimal xi;
-        public static List<decimal> generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
+        public static List<decimal> generar(string metodo, decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
         {
 
-
+            //agregar diferentes metodos
             for (int i = 0; i < muestra; i++)
             {
 
