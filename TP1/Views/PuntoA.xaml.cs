@@ -85,6 +85,7 @@ namespace TP1.Views
             numeros_aleatorios= Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
 
             mostrarVectorEstado(numeros_aleatorios);
+           // Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
             activarBotones();
         }
 

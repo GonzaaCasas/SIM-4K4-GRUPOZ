@@ -18,7 +18,18 @@ namespace TP1.Models
 
             for (int i = 0; i < muestra; i++)
             {
-                xi = generadorCongruenteMultiplicativo(xi_1, a, modulo);
+                switch (metodo)
+                {
+                    case "Multiplicativo":
+                        xi = generadorCongruenteMultiplicativo(xi_1, a, modulo);
+                        break;
+                    case "Aditivo":
+                        xi = generadorCongruenteAditivo(xi, xi_1, modulo);
+                        break;
+                    case "Mixto":
+                        xi = generadorCongruenteMixto(xi_1, a, c, modulo);
+                        break;
+                }
 
                 numeros_aleatorios.Add(Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero)); // agrega los random
 
@@ -40,6 +51,7 @@ namespace TP1.Models
 
         private static decimal generadorCongruenteAditivo(decimal xi_1, decimal xi_0, decimal m)
         {
+            // FIX THIS NIGGER
             return (xi_1 + xi_0) % m;
         }
     }
