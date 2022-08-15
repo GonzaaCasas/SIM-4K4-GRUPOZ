@@ -81,16 +81,16 @@ namespace TP1.Mvvm
                 simActual++;
 
             }
-            array.Add(p1); // va agregando al fnal del forech el reultado de cada probabiliddad seguro hay una forma de hacerlo en 1 linea
-            array.Add(p2);
-            array.Add(p3);
-            array.Add(p4);
-            array.Add(p5);
-            array.Add(p6);
-            array.Add(p7);
-            array.Add(p8);
-            array.Add(p9);
-            array.Add(p10);
+            array.Add(Math.Round(p1, 4, MidpointRounding.AwayFromZero)); // va agregando al fnal del forech el reultado de cada probabiliddad seguro hay una forma de hacerlo en 1 linea
+            array.Add(Math.Round(p2, 4, MidpointRounding.AwayFromZero));
+            array.Add(Math.Round(p3, 4, MidpointRounding.AwayFromZero));
+            array.Add(Math.Round(p4, 4, MidpointRounding.AwayFromZero));
+            array.Add(Math.Round(p5, 4, MidpointRounding.AwayFromZero));
+            array.Add(Math.Round(p6, 4, MidpointRounding.AwayFromZero));
+            array.Add(Math.Round(p7, 4, MidpointRounding.AwayFromZero));
+            array.Add(Math.Round(p8, 4, MidpointRounding.AwayFromZero));
+            array.Add(Math.Round(p9, 4, MidpointRounding.AwayFromZero));
+            array.Add(Math.Round(p10, 4, MidpointRounding.AwayFromZero));
 
             return array; // esto habria que mostrar u de ultima para cada pN dentro de un label entonces el return seria cada probabilidad y no una lista
         }
