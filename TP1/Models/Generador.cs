@@ -13,7 +13,7 @@ namespace TP1.Models
         private static decimal xi;
         public static List<decimal> generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
         {
-
+            numeros_aleatorios.Add(Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero));
 
             for (int i = 0; i < muestra; i++)
             {
