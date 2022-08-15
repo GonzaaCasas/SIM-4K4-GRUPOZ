@@ -31,18 +31,16 @@ namespace TP1.Views
         private decimal cMultiplicadora;
         private decimal modulo;
         private int muestra;
-        private ArrayList numeros_aleatorios = new ArrayList();
+        private List<decimal> numeros_aleatorios = new List<decimal>();
 
 
-        PuntoAVM t = new PuntoAVM();
+        //PuntoAVM numeros_aleatorios = new PuntoAVM();
 
 
 
         public PuntoA()
         {
             InitializeComponent();
-
-            lblVectorEstado.DataContext = t;
 
         }
 
@@ -105,22 +103,25 @@ namespace TP1.Views
 
         }
 
-        private void mostrarVectorEstado(ArrayList vectorEstado)
+        //private void CreateDatatable(decimal numero)
+        //{
+        //    DataTable TablaNumero
+        //}
+
+        private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
-            string strEstado;
-            strEstado = "Numeros aleatorios:";
+            //string strEstado;
+            //strEstado = "Numeros aleatorios:";
 
-            foreach (var item in vectorEstado)
-            {
-                CreateLabelDynamically(item.ToString());
-            }
-            
-            //t.vectorEstado = strEstado;
+            //foreach (var item in vectorEstado)
+            //{
+            //    CreateLabelDynamically(item.ToString());
+            //}
 
+            //t.vectorEstado = vectorEstado;
+            dgvVectorEstado.ItemsSource = vectorEstado;
 
         }
-
-       
 
     }
 }

@@ -14,7 +14,7 @@ namespace TP1.Mvvm
         private decimal xi;
 
 
-        public static ArrayList generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
+        public static List<decimal> generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
         {
 
             return Generador.generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra);

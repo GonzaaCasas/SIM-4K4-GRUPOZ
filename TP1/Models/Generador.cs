@@ -9,9 +9,9 @@ namespace TP1.Models
 {
     internal class Generador
     {
-        private static ArrayList numeros_aleatorios = new ArrayList();
+        private static List<decimal> numeros_aleatorios = new List<decimal>();
         private static decimal xi;
-        public static ArrayList generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
+        public static List<decimal> generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
         {
 
 
