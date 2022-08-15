@@ -13,7 +13,7 @@ namespace TP1.Models
         private static decimal xi;
         public static ArrayList generar(decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
         {
-
+            numeros_aleatorios.Add(xi_1 / modulo); // agrega el primer random que corresponde a la semilla
 
             for (int i = 0; i < muestra; i++)
             {

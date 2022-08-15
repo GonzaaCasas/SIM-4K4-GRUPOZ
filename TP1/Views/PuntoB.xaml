@@ -17,5 +17,24 @@
                                        VerticalAlignment="Top"
                                        Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
                                        Kind= "AlphaBBox" />
+        <Button x:Name="BtnGenerar_B" 
+            IsDefault="True" 
+            Width="100" 
+            Height="30" 
+            VerticalAlignment="Top"
+            Click="BtnGenerar_B_Click"
+            Command="{Binding generarCommand}"
+            Content="Generar" Margin="632,127,68,0"
+                    />
+        <TextBox x:Name="TxtMuestra" 
+            PreviewTextInput="NumberValidationTextBox" 
+            MaxHeight="26" MaxWidth="175" 
+            MinWidth="150" Margin="0,29,650,395"/>
+        <Label Content="Cantidad a generar" FontSize="14" Margin="0,0,625,421"/>
+        <TextBox x:Name="TxtSubintervalos" 
+            PreviewTextInput="NumberValidationTextBox" 
+            MaxHeight="26" MaxWidth="175" 
+            MinWidth="150" Margin="205,29,445,395"/>
+        <Label Content="Subintervalos" FontSize="14" Margin="205,5,420,416"/>
     </Grid>
 </Page>
