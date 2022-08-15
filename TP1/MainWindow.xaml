@@ -10,7 +10,7 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:local="clr-namespace:TP1"
                  mc:Ignorable="d"
-                 Title="Trabajo Practico 1 - Generación de números aleatorios" Height="600" Width="850">
+                 Title="Trabajo Practico 1 - Generación de números aleatorios" Height="600" Width="850" MinWidth="850" MinHeight="600">
 
     <controls:MetroWindow.DataContext>
         <viewModels:ShellViewModel />

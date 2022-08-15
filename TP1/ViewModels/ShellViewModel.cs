@@ -27,7 +27,7 @@ namespace TP1.ViewModels
             {
                 Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.AlphaA },
                 Label = "Punto A",
-                NavigationType = typeof(PuntoA),
+                NavigationType = typeof(PuntoAVM),
                 NavigationDestination = new Uri("Views/PuntoA.xaml", UriKind.RelativeOrAbsolute)
             });
             this.Menu.Add(new MenuItem()

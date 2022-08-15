@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using System.Collections;
 using TP1.Mvvm;
+using TP1.ViewModels;
 
 namespace TP1.Views
 {
@@ -31,17 +32,23 @@ namespace TP1.Views
         private decimal modulo;
         private int muestra;
         private ArrayList numeros_aleatorios = new ArrayList();
-        private decimal xi;
-        
+
+
+        PuntoAVM t = new PuntoAVM();
+
+
 
         public PuntoA()
         {
             InitializeComponent();
+
+            lblVectorEstado.DataContext = t;
+
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            Regex regex = new Regex("[^0-9,]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
@@ -59,6 +66,7 @@ namespace TP1.Views
 
             numeros_aleatorios = Gestor.generar(xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
 
+            mostrarVectorEstado(numeros_aleatorios);
         }
 
         private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez ---  falta para que se habilite solo despues de apretar el boton generar
@@ -84,15 +92,32 @@ namespace TP1.Views
 
         }
 
+        private void CreateLabelDynamically(string numero)
+        {
+            Label dynamicLabel = new Label();
+            dynamicLabel.Width = 240;
 
+            dynamicLabel.Height = 30;
+
+            dynamicLabel.Content = numero;
+
+            stckEstado.Children.Add(dynamicLabel);
+
+        }
 
         private void mostrarVectorEstado(ArrayList vectorEstado)
         {
+            string strEstado;
+            strEstado = "Numeros aleatorios:";
+
             foreach (var item in vectorEstado)
             {
-                Console.WriteLine(item); // esto es para chequear nomas en la consola 
+                CreateLabelDynamically(item.ToString());
             }
-            Console.WriteLine(vectorEstado.Count); // es solo para chequear 
+            
+            //t.vectorEstado = strEstado;
+
+
         }
 
         //private int generadorCongruenteMixto(int xi_1, int a, int c, int m)
