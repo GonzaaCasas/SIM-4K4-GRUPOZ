@@ -13,6 +13,12 @@ namespace TP1.Mvvm
         private ArrayList numeros_aleatorios = new ArrayList();
         private decimal xi_1;
 
+        decimal esperado;
+        decimal lim_inferior;
+        decimal lim_superior;
+        decimal paso;
+        private List<decimal> e_oExpDosDividoEsperado = new List<decimal>(); // desp le ppongo otro nombre a la lista no sabia q poner 
+
         public static List<decimal> generar(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra)
         {
             return Generador.generar(metodo, xi_1, c, a, modulo, muestra);

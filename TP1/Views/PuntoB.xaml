@@ -40,10 +40,10 @@
         <TextBox x:Name="TxtMuestra" 
             PreviewTextInput="NumberValidationTextBox" 
             MaxHeight="26" MaxWidth="175" 
-            MinWidth="150" Margin="46,78,604,346"/>
+            MinWidth="150" Margin="46,78,604,346" Text="20"/>
         <TextBox x:Name="TxtSubintervalos" 
             PreviewTextInput="NumberValidationTextBox" 
             MaxHeight="26" MaxWidth="175" 
-            MinWidth="150" Margin="230,78,420,346"/>
+            MinWidth="150" Margin="230,78,420,346" Text="10"/>
     </Grid>
 </Page>
