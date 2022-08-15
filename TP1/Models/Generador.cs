@@ -19,7 +19,7 @@ namespace TP1.Models
             {
 
                 xi = generadorCongruenteMultiplicativo(xi_1, cMultiplicadora, modulo);
-                numeros_aleatorios.Add(Math.Truncate((xi / modulo)*10000)/10000); // agrega los random
+                numeros_aleatorios.Add(Math.Round((xi / modulo),4,MidpointRounding.AwayFromZero)); // agrega los random
                 xi_1 = xi;
 
 
