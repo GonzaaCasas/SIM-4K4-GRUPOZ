@@ -44,8 +44,8 @@ namespace TP1.Views
         private void BtnGenerar_C_Click(object sender, RoutedEventArgs e)
         {
 
-            muestra = Int32.Parse(TxtMuestra.Text); //asociar a la interfaz
-            subintervalos = Int32.Parse(TxtSubintervalos.Text); //asociar a la interfaz
+           // muestra = Int32.Parse(TxtMuestra.Text); //asociar a la interfaz
+           // subintervalos = Int32.Parse(TxtSubintervalos.Text); //asociar a la interfaz
 
             // desp ver para que lo pida por pantalla a estos valores
             xi_1 = 37; // semilla  
@@ -64,7 +64,7 @@ namespace TP1.Views
         }
           private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
-            gestor.testChiCuadrado(numeros_aleatorios, this.muestra, this.subintervalos);
+            Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
         }
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {

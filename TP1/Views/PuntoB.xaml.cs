@@ -25,14 +25,8 @@ namespace TP1.Views
     /// </summary>
     public partial class PuntoB : Page
     {
-       // decimal rand_num;
-        Random rd = new Random();
         int muestra;
         int subintervalos;
-        //private decimal xi_1;
-        //private decimal cIndependiente;
-        //private decimal cMultiplicadora;
-        //private decimal modulo;
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private Gestor gestor;
 
@@ -59,10 +53,7 @@ namespace TP1.Views
 
             numeros_aleatorios.Clear(); // deja el vector estado vacio
 
-           
-            double[] samples = SystemRandomSource.Doubles(muestra, 37);  // genera numeros random [0; 1), primer argumento es la cantidad a generar
-            numeros_aleatorios = samples.Select(a => (decimal)a).ToList();
-
+            numeros_aleatorios = Gestor.generadorRandomPuntoB(muestra);
 
             mostrarVectorEstado(numeros_aleatorios);
            
@@ -70,7 +61,7 @@ namespace TP1.Views
 
         private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
-           gestor.testChiCuadrado(numeros_aleatorios, this.muestra, this.subintervalos);
+           Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
         }
 
        

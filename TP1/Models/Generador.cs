@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics.Random;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,5 +55,13 @@ namespace TP1.Models
             // FIX THIS NIGGER
             return (xi_1 + xi_0) % m;
         }
+
+        public static List<decimal> generarRandomcSharp(int muestra)
+        {
+          
+            double[] samples = SystemRandomSource.Doubles(muestra, new Random().Next(1, 100));  // genera numeros random [0; 1), primer argumento es la cantidad a generar, el segundo arg es una semilla aleatoria
+            return samples.Select(a => (decimal)a).ToList();
+        }
+
     }
 }
