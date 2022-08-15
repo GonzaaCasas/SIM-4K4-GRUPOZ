@@ -99,7 +99,8 @@ namespace TP1.Views
         {
             muestra = 1;
 
-            numeros_aleatorios.AddRange(Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra));
+            Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+
             mostrarVectorEstado(numeros_aleatorios);
         }
 
@@ -107,18 +108,18 @@ namespace TP1.Views
         {
             muestra = 20;
 
-            numeros_aleatorios.AddRange(Gestor.generar( metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra));
+            Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+
             mostrarVectorEstado(numeros_aleatorios);
         }
 
         private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios --- falta para que se habilite solo despues de apretar el boton generar
         {
-
             muestra = 10000 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
 
-            numeros_aleatorios = Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
-            mostrarVectorEstado(numeros_aleatorios);
+            Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
+            mostrarVectorEstado(numeros_aleatorios);
         }
 
         private void CreateLabelDynamically(string numero)

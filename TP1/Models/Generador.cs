@@ -12,9 +12,9 @@ namespace TP1.Models
         private static List<decimal> numeros_aleatorios = new List<decimal>();
         private static decimal xi;
 
-        public static List<decimal> generar(string metodo, decimal semilla, decimal c, decimal a, decimal modulo, int muestra)
+        public static List<decimal> generar(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra)
         {
-            decimal xi_1 = semilla;
+            numeros_aleatorios.Add(Math.Round((xi_1 / modulo), 4, MidpointRounding.AwayFromZero));
 
             for (int i = 0; i < muestra; i++)
             {
