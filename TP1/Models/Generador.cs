@@ -28,10 +28,19 @@ namespace TP1.Models
             return numeros_aleatorios;
         }
 
+        private static decimal generadorCongruenteMixto(decimal xi_1, decimal a, decimal c, decimal m)
+        {
+            return (a * xi_1 + c) % m;
+		    }
+
         private static decimal generadorCongruenteMultiplicativo(decimal xi_1, decimal a, decimal m)
         {
             return (a * xi_1) % m;
         }
 
+        private static decimal generadorCongruenteAditivo(decimal xi_1, decimal xi_0, decimal m)
+        {
+            return (xi_1 + xi_0) % m;
+        }
     }
 }
