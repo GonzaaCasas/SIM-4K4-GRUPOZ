@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics.Random;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TP1.Mvvm;
 
+
 namespace TP1.Views
 {
     /// <summary>
@@ -27,10 +29,10 @@ namespace TP1.Views
         Random rd = new Random();
         int muestra;
         int subintervalos;
-        private decimal xi_1;
-        private decimal cIndependiente;
-        private decimal cMultiplicadora;
-        private decimal modulo;
+        //private decimal xi_1;
+        //private decimal cIndependiente;
+        //private decimal cMultiplicadora;
+        //private decimal modulo;
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private Gestor gestor;
 
@@ -54,20 +56,15 @@ namespace TP1.Views
             muestra = Int32.Parse(TxtMuestra.Text);
             subintervalos = Int32.Parse(TxtSubintervalos.Text);
 
-            // desp ver para que lo pida por pantalla a estos valores
-            xi_1 = 37; // semilla  
-            cIndependiente = 7;
-            cMultiplicadora = 19;
-            modulo = 53;
-
 
             numeros_aleatorios.Clear(); // deja el vector estado vacio
-           
 
-            numeros_aleatorios = Gestor.generar("metodo",xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
+           
+            double[] samples = SystemRandomSource.Doubles(muestra, 37);  // genera numeros random [0; 1), primer argumento es la cantidad a generar
+            numeros_aleatorios = samples.Select(a => (decimal)a).ToList();
+
 
             mostrarVectorEstado(numeros_aleatorios);
-
            
         }
 
@@ -76,7 +73,6 @@ namespace TP1.Views
            gestor.testChiCuadrado(numeros_aleatorios, this.muestra, this.subintervalos);
         }
 
-
        
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
@@ -84,11 +80,11 @@ namespace TP1.Views
 
             foreach (var item in vectorEstado)
             {
-                Console.WriteLine(item);
-               
+                Console.WriteLine(item); // solo para checkear desp borro
+
             }
 
-            Console.WriteLine(vectorEstado.ToArray().Count());
+            Console.WriteLine(vectorEstado.ToArray().Count()); // solo para checkear desp borro
             
 
         }

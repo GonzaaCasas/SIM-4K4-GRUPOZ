@@ -11,7 +11,6 @@ namespace TP1.Mvvm
     internal class Gestor
     {
         private ArrayList numeros_aleatorios = new ArrayList();
-        private decimal xi_1;
 
         decimal esperado;
         decimal lim_inferior;
@@ -42,7 +41,7 @@ namespace TP1.Mvvm
             {
                 foreach (var random in numeros_aleatorios)
                 {
-                    if (random >= lim_inferior && random < lim_superior)
+                    if (random >= lim_inferior && random <= lim_superior)
                     {
                         observados[i]++;
                     }
