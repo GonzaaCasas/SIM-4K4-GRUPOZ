@@ -10,21 +10,12 @@ namespace TP1.Mvvm
 {
     internal class Gestor
     {
-
-
         private ArrayList numeros_aleatorios = new ArrayList();
         private decimal xi_1;
 
-        decimal esperado;
-        decimal lim_inferior;
-        decimal lim_superior;
-        decimal paso;
-        private List<decimal> e_oExpDosDividoEsperado = new List<decimal>(); // desp le ppongo otro nombre a la lista no sabia q poner 
-
-        public static List<decimal> generar(string metodo, decimal xi_1, decimal cIndependiente, decimal cMultiplicadora, decimal modulo, int muestra)
+        public static List<decimal> generar(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra)
         {
-
-            return Generador.generar( metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+            return Generador.generar(metodo, xi_1, c, a, modulo, muestra);
         }
 
         public void testChiCuadrado(List<decimal>  numeros_aleatorios,int muestra, int subintervalos)
