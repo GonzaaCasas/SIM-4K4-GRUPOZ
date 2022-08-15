@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using TP1.Mvvm;
 using TP1.ViewModels;
+using System.Data;
 
 namespace TP1.Views
 {
@@ -103,23 +104,23 @@ namespace TP1.Views
 
         }
 
-        //private void CreateDatatable(decimal numero)
-        //{
-        //    DataTable TablaNumero
-        //}
 
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
+            DataTable tablaNumero = new DataTable();
+            tablaNumero.Columns.Add("numeros");
+
+
             //string strEstado;
             //strEstado = "Numeros aleatorios:";
 
-            //foreach (var item in vectorEstado)
-            //{
-            //    CreateLabelDynamically(item.ToString());
-            //}
+            foreach (var item in vectorEstado)
+            {
+                tablaNumero.Rows.Add(item.ToString());
+            }
 
             //t.vectorEstado = vectorEstado;
-            dgvVectorEstado.ItemsSource = vectorEstado;
+            dgvVectorEstado.DataContext = tablaNumero;
 
         }
 

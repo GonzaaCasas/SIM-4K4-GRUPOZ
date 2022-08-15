@@ -77,9 +77,9 @@
             </StackPanel>
             <StackPanel Grid.Column="0" Grid.Row="1" Name="stckEstado" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="60,10,10,10">
                 <!--<Label Name="lblVectorEstado"  Content="{Binding vectorEstado}"  Grid.Row="1" Grid.Column="0"></Label>-->
-                <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding vectorEstado}" AutoGenerateColumns="False">
+                <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Numero" Binding="{Binding vectorEstado[0]}"/>
+                        <DataGridTextColumn Header="Numero" Binding="{Binding numeros}"/>
 
                     </DataGrid.Columns>
                 </DataGrid>
