@@ -15,9 +15,17 @@ namespace TP1.Mvvm
 
 
         public static List<decimal> generar(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra)
+
         {
             return Generador.generar(metodo, xi_1, c, a, modulo, muestra);
         }
+
+        public static List<decimal> generarSiguientes(string metodo, decimal c, decimal a, decimal modulo, int muestra)
+
+        {
+            return Generador.generarSiguientes(metodo, c, a, modulo, muestra);
+        }
+
 
         public static List<decimal> generadorRandomPuntoB(int muestra)
         {

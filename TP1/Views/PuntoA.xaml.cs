@@ -120,7 +120,7 @@ namespace TP1.Views
         {
             muestra = 1;
 
-            Gestor.generar(metodo, this.numeros_aleatorios.Last() * this.modulo, cIndependiente, cMultiplicadora, modulo, muestra);
+            Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
             mostrarVectorEstado(numeros_aleatorios);
         }
@@ -129,7 +129,7 @@ namespace TP1.Views
         {
             muestra = 20;
 
-            Gestor.generar(metodo, this.numeros_aleatorios.Last() * this.modulo, cIndependiente, cMultiplicadora, modulo, muestra);
+            Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
             mostrarVectorEstado(numeros_aleatorios);
         }
@@ -138,7 +138,7 @@ namespace TP1.Views
         {
             muestra = 10000 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
 
-            Gestor.generar(metodo, this.numeros_aleatorios.Last() * this.modulo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+            Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
             mostrarVectorEstado(numeros_aleatorios);
         }
