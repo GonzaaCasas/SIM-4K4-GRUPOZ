@@ -31,6 +31,9 @@ namespace TP1.Views
         private decimal modulo;
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private Gestor gestor;
+        private List<decimal> observados = new List<decimal>();
+        private List<decimal> limites = new List<decimal>();
+
         public PuntoC()
         {
             InitializeComponent();
@@ -41,30 +44,35 @@ namespace TP1.Views
             Regex regex = new Regex("[^0-9,]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-        private void BtnGenerar_C_Click(object sender, RoutedEventArgs e)
+        private void BtnGenerarC_Click(object sender, RoutedEventArgs e)
         {
 
-           // muestra = Int32.Parse(TxtMuestra.Text); //asociar a la interfaz
-           // subintervalos = Int32.Parse(TxtSubintervalos.Text); //asociar a la interfaz
+            muestra = Int32.Parse(TxtMuestra.Text); 
+            subintervalos = Int32.Parse(TxtSubintervalos.Text); 
 
-            // desp ver para que lo pida por pantalla a estos valores
-            xi_1 = 37; // semilla  
-            cIndependiente = 7;
-            cMultiplicadora = 19;
-            modulo = 53;
+          
+            xi_1 = Int32.Parse(TxtSemilla.Text);
+            cIndependiente = Int32.Parse(TxtConstanteIndependiente.Text);
+            cMultiplicadora = Int32.Parse(TxtConstanteMultiplicadora.Text);
+            modulo = Int32.Parse(TxtModulo.Text);
 
 
             numeros_aleatorios.Clear(); // deja el vector estado vacio
 
 
-            numeros_aleatorios = Gestor.generar("Mixto", xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
+            numeros_aleatorios = Gestor.generar("Mixto", xi_1, cIndependiente, cMultiplicadora, modulo, muestra ); 
 
             mostrarVectorEstado(numeros_aleatorios);
-
+           
         }
-          private void BtnTest_Click(object sender, RoutedEventArgs e)
+
+        private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
-            Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
+            observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
+            decimal esperado = muestra / subintervalos;
+            limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
+           
+           
         }
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
@@ -80,5 +88,7 @@ namespace TP1.Views
 
 
         }
+
+   
     }
 }

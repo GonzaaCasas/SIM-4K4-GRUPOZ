@@ -24,9 +24,9 @@ namespace TP1.Mvvm
             return Generador.generarRandomcSharp(muestra);
         }
 
-        public static List<decimal> test(List<decimal> numeros_aleatorios, int muestra, int subintervalos)
+        public static List<decimal> test(List<decimal> numeros_aleatorios, int muestra, int subintervalos) // cambiar a List<decimal>
         {
-           return ChiCuadrado.testChiCuadrado(numeros_aleatorios, muestra, subintervalos);
+            return ChiCuadrado.testChiCuadrado(numeros_aleatorios, muestra, subintervalos);
 
         }
 
@@ -48,7 +48,7 @@ namespace TP1.Mvvm
             foreach (decimal i in numeros_aleatorios)
             {
 
-                if (i * 10000 < 1000) { p1 = (p1 * simAnterior + 1) / simActual; }                    // no Ame dejaba comparar decimales asi que los paso a entero y los comparo
+                if (i * 10000 <= 1000) { p1 = (p1 * simAnterior + 1) / simActual; }                    // no Ame dejaba comparar decimales asi que los paso a entero y los comparo
                 else { p1 = (p1 * simAnterior + 0) / simActual; }
 
                 if (1000 <= i * 10000 & i * 10000 < 2000) { p2 = (p2 * simAnterior + 1) / simActual; }
@@ -92,7 +92,7 @@ namespace TP1.Mvvm
             array.Add(Math.Round(p9, 4, MidpointRounding.AwayFromZero));
             array.Add(Math.Round(p10, 4, MidpointRounding.AwayFromZero));
 
-            //Console.WriteLine(array.Sum());
+           // Console.WriteLine(array.Sum());
 
             return array; // esto habria que mostrar u de ultima para cada pN dentro de un label entonces el return seria cada probabilidad y no una lista
         }

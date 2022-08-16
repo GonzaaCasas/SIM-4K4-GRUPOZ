@@ -35,6 +35,8 @@ namespace TP1.Views
         private string metodo = "";
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private List<decimal> frecuencia_nroaleatorios = new List<decimal>();
+        private IEnumerable<decimal> porcentajes;
+
 
         //PuntoAVM numeros_aleatorios = new PuntoAVM();
 
@@ -71,7 +73,8 @@ namespace TP1.Views
             // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
             activarBotones();
 
-            porcentajeIntervalos();
+            porcentajes = porcentajeIntervalos();
+          
 
         }
 
@@ -82,7 +85,7 @@ namespace TP1.Views
             BtnGenerarDiezMil.IsEnabled = true;
         }
 
-        private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez ---  falta para que se habilite solo despues de apretar el boton generar
+        private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez 
         {
             muestra = 1;
 
@@ -91,7 +94,7 @@ namespace TP1.Views
             mostrarVectorEstado(numeros_aleatorios);
         }
 
-        private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas ---  falta para que se habilite solo despues de apretar el boton generar
+        private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas 
         {
             muestra = 20;
 
@@ -100,7 +103,7 @@ namespace TP1.Views
             mostrarVectorEstado(numeros_aleatorios);
         }
 
-        private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios --- falta para que se habilite solo despues de apretar el boton generar
+        private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios 
         {
             muestra = 10000 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
 
@@ -109,9 +112,11 @@ namespace TP1.Views
             mostrarVectorEstado(numeros_aleatorios);
         }
 
-        private void porcentajeIntervalos()
+        private IEnumerable<decimal> porcentajeIntervalos()
         {
-            Gestor.probabilidad(numeros_aleatorios);
+
+            return porcentajes =  Gestor.probabilidad(numeros_aleatorios).Select(x => x* 100).ToList();
+         
         }
 
 
@@ -137,9 +142,11 @@ namespace TP1.Views
 
             foreach (var item in vectorEstado)
             {
+               // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
                 DataRow _row = tablaNumero.NewRow();
                 _row[0] = tablaNumero.Rows.Count +1;
-                _row[1] = item.ToString();
+                //  _row[1] = item.ToString();
+                _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
                 tablaNumero.Rows.Add(_row);
             }
             dgvVectorEstado.DataContext = tablaNumero;
