@@ -39,14 +39,14 @@ namespace TP1.Models
             decimal chiCuadrado = acumuladoChi.Sum();
 
             double gradosLibertad = subintervalos - 1;
-            double alfa = 0.05;
+            double alfa = 0.05; // nivel de significación 95 %
 
             decimal chiSquareTeorico = (decimal)MathNet.Numerics.Distributions.ChiSquared.InvCDF(gradosLibertad, 1 - alfa);
 
             if (chiCuadrado < chiSquareTeorico)
             {
-                // tirar que esta todo ok
-            }
+                // se acepta la hipotesis nula  caso contrario se la rechaza
+            } 
 
             return observados;
 
