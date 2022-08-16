@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,13 +17,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TP1.Mvvm;
-
+using ScottPlot;
+using MathNet.Numerics;
+using LiveCharts.Wpf;
+using LiveCharts;
 
 namespace TP1.Views
 {
     /// <summary>
     /// Interaction logic for PuntoB.xaml
     /// </summary>
+    /// 
+
+
     public partial class PuntoB : Page
     {
         int muestra;
@@ -34,7 +41,7 @@ namespace TP1.Views
         {
             InitializeComponent();
             gestor = new Gestor();
-            
+
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -76,10 +83,20 @@ namespace TP1.Views
             }
 
             Console.WriteLine(vectorEstado.ToArray().Count()); // solo para checkear desp borro
-            
+
+            string[] intervalos = new string[] { "intervalo 1", "Intervalo 2", "Intervalo 3" };
+            List<decimal> numeros = new List<decimal>();
+            numeros.Add(10);
+            numeros.Add(20);
+            numeros.Add(30);
+
+            double[] valores = { 12, 45, 87, 28 };
+
+            GraficoB.AgregarColeccion(valores);
 
         }
 
-        
     }
+
+
 }
