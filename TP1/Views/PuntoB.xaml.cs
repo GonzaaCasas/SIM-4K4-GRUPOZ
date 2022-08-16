@@ -67,15 +67,27 @@ namespace TP1.Views
 
             mostrarVectorEstado(numeros_aleatorios);
 
-           // Gestor.probabilidad(numeros_aleatorios);
+            // Gestor.probabilidad(numeros_aleatorios);
+            BtnTest.IsEnabled = true;
+            dgvVectorEstado.Visibility = Visibility.Visible;
 
         }
 
         private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
+            dgvVectorEstado.Visibility = Visibility.Hidden;
             observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
             decimal esperado = muestra / subintervalos;
             limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
+
+            string[] labels = new string[subintervalos];
+            decimal anterior = limites[0];
+            for (int i = 1; i < subintervalos + 1; i++)
+            {
+                labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString() 
+                    + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
+                anterior = limites[i];
+            }
 
             decimal[] vectorEsperado = new decimal[subintervalos];
 
@@ -85,9 +97,10 @@ namespace TP1.Views
             }
 
             decimal[] vectorObservados = observados.ToArray();
-
+            GraficoB.Reset(); //funciona dudoso
             GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
             GraficoB.AgregarColeccion(vectorObservados, "Observados");
+            GraficoB.AgregarIntervalos(labels);
             GraficoB.Visible();
 
         }
@@ -95,26 +108,20 @@ namespace TP1.Views
        
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
-            
+            DataTable tablaNumero = new DataTable();
+            tablaNumero.Columns.Add("num");
+            tablaNumero.Columns.Add("valor");
 
             foreach (var item in vectorEstado)
             {
-                Console.WriteLine(item); // solo para checkear desp borro
-
+                // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+                DataRow _row = tablaNumero.NewRow();
+                _row[0] = tablaNumero.Rows.Count + 1;
+                //  _row[1] = item.ToString();
+                _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+                tablaNumero.Rows.Add(_row);
             }
-
-            Console.WriteLine(vectorEstado.ToArray().Count()); // solo para checkear desp borro
-
-            //string[] intervalos = new string[] { "intervalo 1", "Intervalo 2", "Intervalo 3" };
-            //List<decimal> numeros = new List<decimal>();
-            //numeros.Add(10);
-            //numeros.Add(20);
-            //numeros.Add(30);
-
-            //double[] valores = { 12, 45, 87, 28 };
-
-            
-
+            dgvVectorEstado.DataContext = tablaNumero;
         }
 
     }

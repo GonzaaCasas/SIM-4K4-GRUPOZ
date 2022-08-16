@@ -19,12 +19,12 @@
                                        VerticalAlignment="Top"
                                        Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
                                        Kind= "AlphaBBox" />
-        <Grid Margin="0,30,0,0">
+        <Grid Margin="10,30,0,0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="160"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"></RowDefinition>
@@ -33,7 +33,7 @@
             </Grid.RowDefinitions>
 
 
-            <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,30,0,0">
+            <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" HorizontalAlignment="Center">
                 <Label Content="Subintervalos" FontSize="14" />
                 <TextBox x:Name="TxtSubintervalos" 
                 PreviewTextInput="NumberValidationTextBox" 
@@ -41,7 +41,7 @@
                 MinWidth="150"  Text="10"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,30,0,0" >
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,10" HorizontalAlignment="Center" >
                 <Label Content="Cantidad a generar" FontSize="14"/>
                 <TextBox x:Name="TxtMuestra" 
                 PreviewTextInput="NumberValidationTextBox" 
@@ -68,6 +68,7 @@
                 Click="BtnTest_Click"
                 Command="{Binding generarCommand}"
                 Content="test"
+                IsEnabled="False"
                         />
             </StackPanel>
             <DockPanel x:Name="stackPlot"
@@ -75,8 +76,42 @@
                         Grid.Row="1" 
                         Grid.ColumnSpan="2" 
                         Grid.RowSpan="2" 
-                        Margin="0,30,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        Margin="0,30,0,30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <local:Grafico x:Name="GraficoB" ></local:Grafico>
+                
+            </DockPanel>
+            <DockPanel Grid.Column="0" Grid.Row="1" Name="stckEstado" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="10,10,10,30" HorizontalAlignment="Center">
+                <DataGrid x:Name="dgvVectorEstado" Visibility="Hidden" ItemsSource="{Binding}" AutoGenerateColumns="False">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="Background" Value="LightBlue"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Violet"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nº" Binding="{Binding num}">
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment"
+                                                Value="Center" />
+
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </DockPanel>
 
         </Grid>

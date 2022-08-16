@@ -76,7 +76,6 @@
                          Text="53"/>
             </StackPanel>
             <DockPanel Grid.Column="1" Grid.Row="1" Name="stckEstado" Grid.RowSpan="2" Margin="10,10,10,10">
-                <!--<Label Name="lblVectorEstado"  Content="{Binding vectorEstado}"  Grid.Row="1" Grid.Column="0"></Label>-->
                 <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False">
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
@@ -96,7 +95,7 @@
                         <DataGridTextColumn Header="Nº" Binding="{Binding num}">
                             
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="160" CanUserResize="False">
+                        <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
                                     <Setter Property="HorizontalContentAlignment"

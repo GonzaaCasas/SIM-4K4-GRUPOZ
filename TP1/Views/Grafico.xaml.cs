@@ -51,6 +51,7 @@ namespace TP1.Views
 
             DataContext = this;
 
+            //ToolTip =
 
         }
 
@@ -75,6 +76,12 @@ namespace TP1.Views
         public void Visible()
         {
             Visibility = Visibility.Visible;
+        }
+
+        public void Reset()
+        {
+            SeriesCollection.Clear();
+            Visibility = Visibility.Hidden;
         }
 
     }
