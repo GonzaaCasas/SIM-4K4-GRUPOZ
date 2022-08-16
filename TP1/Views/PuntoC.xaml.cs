@@ -72,7 +72,8 @@ namespace TP1.Views
             decimal esperado = muestra / subintervalos;
             limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
            
-           
+
+
         }
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
