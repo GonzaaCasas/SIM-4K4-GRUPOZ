@@ -71,8 +71,9 @@ namespace TP1.Views
             observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
             decimal esperado = muestra / subintervalos;
             limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
-           
-           
+            Console.WriteLine("hola");
+
+
         }
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
