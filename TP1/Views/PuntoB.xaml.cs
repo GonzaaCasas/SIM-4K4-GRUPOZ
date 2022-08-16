@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,13 +17,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TP1.Mvvm;
-
+using ScottPlot;
+using MathNet.Numerics;
+using LiveCharts.Wpf;
+using LiveCharts;
 
 namespace TP1.Views
 {
     /// <summary>
     /// Interaction logic for PuntoB.xaml
     /// </summary>
+    /// 
+
+
     public partial class PuntoB : Page
     {
         int muestra;
@@ -37,7 +44,7 @@ namespace TP1.Views
         {
             InitializeComponent();
             gestor = new Gestor();
-            
+
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -60,35 +67,64 @@ namespace TP1.Views
 
             mostrarVectorEstado(numeros_aleatorios);
 
-           // Gestor.probabilidad(numeros_aleatorios);
+            // Gestor.probabilidad(numeros_aleatorios);
+            BtnTest.IsEnabled = true;
+            dgvVectorEstado.Visibility = Visibility.Visible;
 
         }
 
         private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
+            dgvVectorEstado.Visibility = Visibility.Hidden;
             observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
             decimal esperado = muestra / subintervalos;
             limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
-            
+
+            string[] labels = new string[subintervalos];
+            decimal anterior = limites[0];
+            for (int i = 1; i < subintervalos + 1; i++)
+            {
+                labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString() 
+                    + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
+                anterior = limites[i];
+            }
+
+            decimal[] vectorEsperado = new decimal[subintervalos];
+
+            for (int i = 0; i < subintervalos; i++)
+            {
+                vectorEsperado[i] = esperado;
+            }
+
+            decimal[] vectorObservados = observados.ToArray();
+            GraficoB.Reset(); //funciona dudoso
+            GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
+            GraficoB.AgregarColeccion(vectorObservados, "Observados");
+            GraficoB.AgregarIntervalos(labels);
+            GraficoB.Visible();
 
         }
 
        
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
-            
+            DataTable tablaNumero = new DataTable();
+            tablaNumero.Columns.Add("num");
+            tablaNumero.Columns.Add("valor");
 
             foreach (var item in vectorEstado)
             {
-                Console.WriteLine(item); // solo para checkear desp borro
-
+                // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+                DataRow _row = tablaNumero.NewRow();
+                _row[0] = tablaNumero.Rows.Count + 1;
+                //  _row[1] = item.ToString();
+                _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+                tablaNumero.Rows.Add(_row);
             }
-
-            Console.WriteLine(vectorEstado.ToArray().Count()); // solo para checkear desp borro
-            
-
+            dgvVectorEstado.DataContext = tablaNumero;
         }
 
-        
     }
+
+
 }
