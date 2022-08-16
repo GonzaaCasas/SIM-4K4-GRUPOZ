@@ -122,7 +122,7 @@ namespace TP1.Models
             for (int i = 0; i < subintervalos - 1; i++)
             {
 
-                List<decimal> limites = new List<decimal>();
+               // List<decimal> limites = new List<decimal>();
 
 
                 array.Add(lim_superior);
