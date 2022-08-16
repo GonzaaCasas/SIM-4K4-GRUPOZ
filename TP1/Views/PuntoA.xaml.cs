@@ -50,62 +50,72 @@ namespace TP1.Views
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9,]+");
+            Regex regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private bool ValidarCampoDecimal(string textoCampo)
+
+        private bool ValidarModulo(decimal modulo)
         {
-            string patron = @"^(\d+\,)?\d+$";
-            Match match = Regex.Match(textoCampo, patron);
-
-            if (textoCampo!=string.Empty && match.Success)
-            {
-                return true;
-            }
-            return false;
-
+            return (modulo > 0);
         }
 
-        //private bool ValidarCamposForm()
-        //{
-        //    if (ValidarCampoDecimal(TxtSemilla.Text) && ValidarCampoDecimal(TxtConstanteMultiplicadora.Text) && ValidarCampoDecimal(TxtConstanteIndependiente.Text) && ValidarCampoDecimal(TxtModulo.Text))
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-            
-        //}
+        private bool ValidarCMultiplicadora(decimal multiplicador, decimal modulo)
+        {
+            return (multiplicador > 0 && multiplicador < modulo);
+        }
+
+        private bool ValidarCIncremento(decimal multiplicador, decimal modulo)
+        {
+            return (multiplicador > 0 && multiplicador < modulo);
+        }
+
+        private bool ValidarSemilla(decimal semilla, decimal modulo)
+        {
+            return (semilla >= 0 && semilla < modulo);
+        }
+
+
+        private bool ValidarCamposForm()
+        {
+            decimal semilla = decimal.Parse(TxtSemilla.Text);
+            decimal modulo = decimal.Parse(TxtModulo.Text);
+            decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
+            decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
+
+            //return (ValidarSemilla(semilla, modulo) && ValidarCMult(multiplicador, modulo) && ValidarCampo(TxtConstanteIndependiente.Text) && ValidarCampo(TxtModulo.Text));
+            return true;
+        }
 
         private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
         {
-            //ValidarCampoDecimal(TxtSemilla.Text);
-            //ValidarCampoDecimal(TxtConstanteMultiplicadora.Text);
-            //ValidarCampoDecimal(TxtConstanteIndependiente.Text);
-            //ValidarCampoDecimal(TxtModulo.Text);
 
-            xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
-            cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text);
-            cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
-            modulo = decimal.Parse(TxtModulo.Text);
+            if (ValidarCamposForm())
+            {
+                xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
+                cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text);
+                cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
+                modulo = decimal.Parse(TxtModulo.Text);
 
-            muestra = 20;
+                metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : "Mixto";
+                muestra = 20;
 
-            metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : "Mixto";
+                
 
-            numeros_aleatorios.Clear(); // deja el vector estado vacio
+                numeros_aleatorios.Clear(); // deja el vector estado vacio
 
-            numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra); // le pongo -1 pq ya agregue al array el random de la semilla
+                numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra); // le pongo -1 pq ya agregue al array el random de la semilla
 
-            mostrarVectorEstado(numeros_aleatorios);
-            // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
-            activarBotones();
+                mostrarVectorEstado(numeros_aleatorios);
+                // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
+                activarBotones();
 
-            porcentajes = porcentajeIntervalos();
-          
+                porcentajes = porcentajeIntervalos();
+            }
+            else
+            {
+                MessageBox.Show("Intente escribir numeros enteros o decimales", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
 
@@ -184,5 +194,19 @@ namespace TP1.Views
 
         }
 
+        private void rbMixto_Checked(object sender, RoutedEventArgs e)
+        {
+            var boton = sender as RadioButton;
+
+            TxtConstanteIndependiente.IsEnabled = true;
+        }
+
+        private void rbMultiplicativo_Checked(object sender, RoutedEventArgs e)
+        {
+
+            var boton = sender as RadioButton;
+
+            TxtConstanteIndependiente.IsEnabled = false;
+        }
     }
 }
