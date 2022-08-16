@@ -54,8 +54,39 @@ namespace TP1.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
+        private bool ValidarCampoDecimal(string textoCampo)
+        {
+            string patron = @"^(\d+\,)?\d+$";
+            Match match = Regex.Match(textoCampo, patron);
+
+            if (textoCampo!=string.Empty && match.Success)
+            {
+                return true;
+            }
+            return false;
+
+        }
+
+        //private bool ValidarCamposForm()
+        //{
+        //    if (ValidarCampoDecimal(TxtSemilla.Text) && ValidarCampoDecimal(TxtConstanteMultiplicadora.Text) && ValidarCampoDecimal(TxtConstanteIndependiente.Text) && ValidarCampoDecimal(TxtModulo.Text))
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+            
+        //}
+
         private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
         {
+            //ValidarCampoDecimal(TxtSemilla.Text);
+            //ValidarCampoDecimal(TxtConstanteMultiplicadora.Text);
+            //ValidarCampoDecimal(TxtConstanteIndependiente.Text);
+            //ValidarCampoDecimal(TxtModulo.Text);
+
             xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
             cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text);
             cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
