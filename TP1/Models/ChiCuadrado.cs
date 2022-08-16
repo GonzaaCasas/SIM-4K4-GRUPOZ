@@ -15,11 +15,11 @@ namespace TP1.Models
         {
             acumuladoChi.Clear();
 
-            
-            List<decimal> observados = new List<decimal>();  
+
+            List<decimal> observados = new List<decimal>();
 
             decimal esperado = muestra / subintervalos;
-           
+
 
 
             observados = freqRelativas(numeros_aleatorios, subintervalos, muestra);
@@ -51,6 +51,9 @@ namespace TP1.Models
             return observados;
 
         }
+
+
+
 
         public  static List<decimal> freqRelativas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
         {
@@ -127,14 +130,14 @@ namespace TP1.Models
 
                 lim_superior = lim_superior + paso;
 
-
             }
+
+            array.Add(lim_superior);
 
 
             return array;
 
         }
-
 
     }
 

@@ -67,7 +67,7 @@ namespace TP1.Views
 
             mostrarVectorEstado(numeros_aleatorios);
 
-            Gestor.probabilidad(numeros_aleatorios);
+           // Gestor.probabilidad(numeros_aleatorios);
 
         }
 

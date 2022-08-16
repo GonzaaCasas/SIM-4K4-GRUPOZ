@@ -26,7 +26,8 @@ namespace TP1.Models
                         break;
                 }
 
-                decimal rnd = Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero);
+                // decimal rnd = Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero);
+                decimal rnd = (xi / modulo);
 
                 numeros_aleatorios.Add(rnd); // agrega los random
             }
