@@ -65,7 +65,7 @@ namespace TP1.Views
 
             numeros_aleatorios.Clear(); // deja el vector estado vacio
 
-            numeros_aleatorios= Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1); // le pongo -1 pq ya agregue al array el random de la semilla
+            numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra); // le pongo -1 pq ya agregue al array el random de la semilla
 
             mostrarVectorEstado(numeros_aleatorios);
             // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
@@ -83,7 +83,7 @@ namespace TP1.Views
         {
             muestra = 1;
 
-            Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+            Gestor.generar(metodo, this.numeros_aleatorios.Last() * this.modulo, cIndependiente, cMultiplicadora, modulo, muestra);
 
             mostrarVectorEstado(numeros_aleatorios);
         }
@@ -92,7 +92,7 @@ namespace TP1.Views
         {
             muestra = 20;
 
-            Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+            Gestor.generar(metodo, this.numeros_aleatorios.Last() * this.modulo, cIndependiente, cMultiplicadora, modulo, muestra);
 
             mostrarVectorEstado(numeros_aleatorios);
         }
@@ -101,7 +101,7 @@ namespace TP1.Views
         {
             muestra = 10000 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
 
-            Gestor.generar(metodo, this.xi_1, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+            Gestor.generar(metodo, this.numeros_aleatorios.Last() * this.modulo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
             mostrarVectorEstado(numeros_aleatorios);
         }
