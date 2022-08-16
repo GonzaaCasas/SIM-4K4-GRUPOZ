@@ -76,7 +76,19 @@ namespace TP1.Views
             observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
             decimal esperado = muestra / subintervalos;
             limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
-            
+
+            decimal[] vectorEsperado = new decimal[subintervalos];
+
+            for (int i = 0; i < subintervalos; i++)
+            {
+                vectorEsperado[i] = esperado;
+            }
+
+            decimal[] vectorObservados = observados.ToArray();
+
+            GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
+            GraficoB.AgregarColeccion(vectorObservados, "Observados");
+            GraficoB.Visible();
 
         }
 
@@ -93,15 +105,15 @@ namespace TP1.Views
 
             Console.WriteLine(vectorEstado.ToArray().Count()); // solo para checkear desp borro
 
-            string[] intervalos = new string[] { "intervalo 1", "Intervalo 2", "Intervalo 3" };
-            List<decimal> numeros = new List<decimal>();
-            numeros.Add(10);
-            numeros.Add(20);
-            numeros.Add(30);
+            //string[] intervalos = new string[] { "intervalo 1", "Intervalo 2", "Intervalo 3" };
+            //List<decimal> numeros = new List<decimal>();
+            //numeros.Add(10);
+            //numeros.Add(20);
+            //numeros.Add(30);
 
-            double[] valores = { 12, 45, 87, 28 };
+            //double[] valores = { 12, 45, 87, 28 };
 
-            GraficoB.AgregarColeccion(valores);
+            
 
         }
 
