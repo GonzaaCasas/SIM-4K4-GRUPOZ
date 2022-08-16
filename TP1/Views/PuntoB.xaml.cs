@@ -29,6 +29,9 @@ namespace TP1.Views
         int subintervalos;
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private Gestor gestor;
+        private List<decimal> observados = new List<decimal>();
+        private List<decimal> limites = new List<decimal>();
+
 
         public PuntoB()
         {
@@ -56,12 +59,18 @@ namespace TP1.Views
             numeros_aleatorios = Gestor.generadorRandomPuntoB(muestra);
 
             mostrarVectorEstado(numeros_aleatorios);
-           
+
+            Gestor.probabilidad(numeros_aleatorios);
+
         }
 
         private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
-           Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
+            observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
+            decimal esperado = muestra / subintervalos;
+            limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
+            
+
         }
 
        

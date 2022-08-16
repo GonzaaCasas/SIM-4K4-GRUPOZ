@@ -55,8 +55,8 @@ namespace TP1.Models
 
         public static List<decimal> generarRandomcSharp(int muestra)
         {
-          
-            double[] samples = SystemRandomSource.Doubles(muestra, new Random().Next(1, 100));  // genera numeros random [0; 1), primer argumento es la cantidad a generar, el segundo arg es una semilla aleatoria
+            //new Random().Next(1, 100)
+            double[] samples = SystemRandomSource.Doubles(muestra, 37);  // genera numeros random [0; 1), primer argumento es la cantidad a generar, el segundo arg es una semilla aleatoria
             return samples.Select(a => (decimal)a).ToList();
         }
 

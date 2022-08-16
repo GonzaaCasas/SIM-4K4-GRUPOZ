@@ -12,7 +12,7 @@ namespace TP1.Mvvm
     {
         private ArrayList numeros_aleatorios = new ArrayList();
 
-     
+
 
         public static List<decimal> generar(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra)
         {
@@ -24,15 +24,15 @@ namespace TP1.Mvvm
             return Generador.generarRandomcSharp(muestra);
         }
 
-        public static void test(List<decimal>  numeros_aleatorios,int muestra, int subintervalos)
+        public static List<decimal> test(List<decimal> numeros_aleatorios, int muestra, int subintervalos)
         {
-             ChiCuadrado.testChiCuadrado(numeros_aleatorios,  muestra,  subintervalos);
+           return ChiCuadrado.testChiCuadrado(numeros_aleatorios, muestra, subintervalos);
 
         }
 
         public static List<decimal> probabilidad(List<decimal> numeros_aleatorios)
         {
-            List<decimal> array= new List<decimal>(); //aca se crea unna nueva lista donde contendra los valores de las probabilidades de cada intervalo
+            List<decimal> array = new List<decimal>(); //aca se crea unna nueva lista donde contendra los valores de las probabilidades de cada intervalo
             int simActual = 1;
             int simAnterior = 0;
             decimal p1 = 0;
@@ -48,7 +48,7 @@ namespace TP1.Mvvm
             foreach (decimal i in numeros_aleatorios)
             {
 
-                if (i * 10000 < 1000) { p1 = (p1 * simAnterior + 1) / simActual; }                    // no me dejaba comparar decimales asi que los paso a entero y los comparo
+                if (i * 10000 < 1000) { p1 = (p1 * simAnterior + 1) / simActual; }                    // no Ame dejaba comparar decimales asi que los paso a entero y los comparo
                 else { p1 = (p1 * simAnterior + 0) / simActual; }
 
                 if (1000 <= i * 10000 & i * 10000 < 2000) { p2 = (p2 * simAnterior + 1) / simActual; }
@@ -92,7 +92,18 @@ namespace TP1.Mvvm
             array.Add(Math.Round(p9, 4, MidpointRounding.AwayFromZero));
             array.Add(Math.Round(p10, 4, MidpointRounding.AwayFromZero));
 
+            //Console.WriteLine(array.Sum());
+
             return array; // esto habria que mostrar u de ultima para cada pN dentro de un label entonces el return seria cada probabilidad y no una lista
         }
+
+        public static List<decimal> obtenerLimites(List<decimal> conjuntoNumeros, int subintervalos)
+        {
+            return ChiCuadrado.limites(conjuntoNumeros, subintervalos);
+        }
+
+
+
     }
+
 }

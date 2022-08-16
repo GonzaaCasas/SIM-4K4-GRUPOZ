@@ -70,6 +70,9 @@ namespace TP1.Views
             mostrarVectorEstado(numeros_aleatorios);
            // Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
             activarBotones();
+
+            porcentajeIntervalos();
+
         }
 
         private void activarBotones()
@@ -105,6 +108,12 @@ namespace TP1.Views
 
             mostrarVectorEstado(numeros_aleatorios);
         }
+
+        private void porcentajeIntervalos()
+        {
+            Gestor.probabilidad(numeros_aleatorios);
+        }
+
 
         private void CreateLabelDynamically(string numero)
         {
