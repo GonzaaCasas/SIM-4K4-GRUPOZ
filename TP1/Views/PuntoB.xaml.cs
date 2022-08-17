@@ -38,6 +38,8 @@ namespace TP1.Views
         private Gestor gestor;
         private List<decimal> observados = new List<decimal>();
         private List<decimal> limites = new List<decimal>();
+        private List<decimal> resultadosTest = new List<decimal>();
+
 
 
         public PuntoB()
@@ -76,7 +78,9 @@ namespace TP1.Views
         private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
             dgvVectorEstado.Visibility = Visibility.Hidden;
-            observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
+            resultadosTest = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos); // devuelve el chi cuadrado obtenido y el tabulado
+            observados = Gestor.obtenerObservaciones(numeros_aleatorios, this.muestra, this.subintervalos);
+
             decimal esperado = muestra / subintervalos;
             limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
 

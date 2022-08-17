@@ -38,6 +38,12 @@ namespace TP1.Mvvm
 
         }
 
+        public static List<decimal> obtenerObservaciones(List<decimal> numeros_aleatorios, int muestra, int subintervalos) // cambiar a List<decimal>
+        {
+            return ChiCuadrado.freqAbsolutas(numeros_aleatorios, muestra, subintervalos);
+
+        }
+
         public static List<decimal> probabilidad(List<decimal> numeros_aleatorios)
         {
             List<decimal> array = new List<decimal>(); //aca se crea unna nueva lista donde contendra los valores de las probabilidades de cada intervalo
@@ -100,7 +106,7 @@ namespace TP1.Mvvm
             array.Add(Math.Round(p9, 4, MidpointRounding.AwayFromZero));
             array.Add(Math.Round(p10, 4, MidpointRounding.AwayFromZero));
 
-           // Console.WriteLine(array.Sum());
+            //Console.WriteLine(array.Sum());
 
             return array; // esto habria que mostrar u de ultima para cada pN dentro de un label entonces el return seria cada probabilidad y no una lista
         }

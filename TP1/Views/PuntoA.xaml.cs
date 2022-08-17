@@ -142,6 +142,8 @@ namespace TP1.Views
             Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
             mostrarVectorEstado(numeros_aleatorios);
+
+            porcentajes = porcentajeIntervalos();
         }
 
         private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios 
@@ -151,6 +153,8 @@ namespace TP1.Views
             Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
             mostrarVectorEstado(numeros_aleatorios);
+
+            porcentajes = porcentajeIntervalos();
         }
 
         private IEnumerable<decimal> porcentajeIntervalos()
