@@ -65,7 +65,7 @@ namespace TP1.Views
         }
         private bool ValidarCamposForm()
         {
-           if( !String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+           if( !String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text) && !String.IsNullOrEmpty(TxtMuestra.Text) && !String.IsNullOrEmpty(TxtSubintervalos.Text) && Int32.Parse(TxtSubintervalos.Text) > 0 && Int32.Parse(TxtMuestra.Text)>0)
             {
                 muestra = Int32.Parse(TxtMuestra.Text);
                 subintervalos = Int32.Parse(TxtSubintervalos.Text);
@@ -94,7 +94,7 @@ namespace TP1.Views
                 numeros_aleatorios.Clear(); // deja el vector estado vacio
                 numeros_aleatorios = Gestor.generar("Mixto", xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
                 mostrarVectorEstado(numeros_aleatorios);
-                
+                BtnTest.IsEnabled = true;
             }
             else
             {
