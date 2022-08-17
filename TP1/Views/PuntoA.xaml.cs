@@ -65,9 +65,9 @@ namespace TP1.Views
             return (multiplicador > 0 && multiplicador < modulo);
         }
 
-        private bool ValidarCIncremento(decimal multiplicador, decimal modulo)
+        private bool ValidarCIncremento(decimal incremento, decimal modulo)
         {
-            return (multiplicador > 0 && multiplicador < modulo);
+            return (incremento >= 0 && incremento < modulo);
         }
 
         private bool ValidarSemilla(decimal semilla, decimal modulo)
@@ -77,14 +77,39 @@ namespace TP1.Views
 
 
         private bool ValidarCamposForm()
-        {
-            decimal semilla = decimal.Parse(TxtSemilla.Text);
-            decimal modulo = decimal.Parse(TxtModulo.Text);
-            decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
-            decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
+        { if((bool)rbMixto.IsChecked)
+            {  if (!String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+                {
+                      decimal semilla = decimal.Parse(TxtSemilla.Text);
+                      decimal modulo = decimal.Parse(TxtModulo.Text);
+                      decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
+                      decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
+                      return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente,modulo));
+                } 
+                else
+                 {
+                    return false;
+                 }
+            }
+            else if((bool)rbMultiplicativo.IsChecked)
+            {
+                if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+                {
+                    decimal semilla = decimal.Parse(TxtSemilla.Text);
+                    decimal modulo = decimal.Parse(TxtModulo.Text);
+                    decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
 
-            //return (ValidarSemilla(semilla, modulo) && ValidarCMult(multiplicador, modulo) && ValidarCampo(TxtConstanteIndependiente.Text) && ValidarCampo(TxtModulo.Text));
-            return true;
+                    return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        else
+            {
+                return false;
+            }
         }
 
         private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
@@ -93,7 +118,7 @@ namespace TP1.Views
             if (ValidarCamposForm())
             {
                 xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
-                cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text);
+                if ((bool)rbMixto.IsChecked) { cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text); }
                 cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
                 modulo = decimal.Parse(TxtModulo.Text);
 
@@ -114,7 +139,7 @@ namespace TP1.Views
             }
             else
             {
-                MessageBox.Show("Intente escribir numeros enteros o decimales", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }
@@ -127,34 +152,50 @@ namespace TP1.Views
         }
 
         private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez 
-        {
-            muestra = 1;
+        { if (ValidarCamposForm())
+            {
+                muestra = 1;
 
-            Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
+                Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
-            mostrarVectorEstado(numeros_aleatorios);
+                mostrarVectorEstado(numeros_aleatorios);
+            }
+            else
+            {
+                MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas 
         {
-            muestra = 20;
+            if (ValidarCamposForm())
+            {
+                muestra = 20;
 
-            Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
+                Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
-            mostrarVectorEstado(numeros_aleatorios);
-
-            porcentajes = porcentajeIntervalos();
+                mostrarVectorEstado(numeros_aleatorios);
+            }
+            else
+            {
+                MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios 
         {
-            muestra = 10000 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
+            if (ValidarCamposForm())
+            {
+                muestra = 10000 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
 
-            Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+                Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
-            mostrarVectorEstado(numeros_aleatorios);
-
-            porcentajes = porcentajeIntervalos();
+                mostrarVectorEstado(numeros_aleatorios);
+            }
+            else
+            {
+                MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private IEnumerable<decimal> porcentajeIntervalos()
