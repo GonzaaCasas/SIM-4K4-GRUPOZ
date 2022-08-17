@@ -11,6 +11,7 @@ namespace TP1.Models
        
 
         private static List<decimal> acumuladoChi = new List<decimal>();
+        private static List<decimal> chis = new List<decimal>();
         public static List<decimal> testChiCuadrado(List<decimal> numeros_aleatorios, int muestra, int subintervalos)
         {
             acumuladoChi.Clear();
@@ -22,10 +23,7 @@ namespace TP1.Models
 
 
 
-            observados = freqRelativas(numeros_aleatorios, subintervalos, muestra);
-            observados = observados.ConvertAll(obs => (obs * muestra));  /// para tener las freq absolutas
-            observados = observados.ConvertAll(obs => (Math.Round(obs, 4, MidpointRounding.AwayFromZero)));
-
+            observados = freqAbsolutas(numeros_aleatorios, subintervalos, muestra);
 
 
 
@@ -37,25 +35,24 @@ namespace TP1.Models
             }
 
             decimal chiCuadrado = acumuladoChi.Sum();
+            chis.Add(chiCuadrado);
+
 
             double gradosLibertad = subintervalos - 1;
             double alfa = 0.05; // nivel de significación 95 %
 
             decimal chiSquareTeorico = (decimal)MathNet.Numerics.Distributions.ChiSquared.InvCDF(gradosLibertad, 1 - alfa);
+            chis.Add(chiSquareTeorico);
 
-            if (chiCuadrado < chiSquareTeorico)
-            {
-                // se acepta la hipotesis nula  caso contrario se la rechaza
-            } 
 
-            return observados;
+            return chis;
 
         }
 
+     
 
 
-
-        public  static List<decimal> freqRelativas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
+        public  static List<decimal> freqAbsolutas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
         {
             decimal[] arr = new decimal[subintervalos];
             List<decimal> array = new List<decimal>(arr); //cada indice de la lista corresponde a la freq relativa de un intervalo
@@ -101,7 +98,8 @@ namespace TP1.Models
                 
             }
 
-            return array;
+
+            return array.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ;
 
         }
 
