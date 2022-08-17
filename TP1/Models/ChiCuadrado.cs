@@ -24,9 +24,6 @@ namespace TP1.Models
 
 
             observados = freqAbsolutas(numeros_aleatorios, subintervalos, muestra);
-            //observados = observados.ConvertAll(obs => (obs * muestra));  /// para tener las freq absolutas
-            //observados = observados.ConvertAll(obs => (Math.Round(obs, 4, MidpointRounding.AwayFromZero)));
-
 
 
 
@@ -101,9 +98,8 @@ namespace TP1.Models
                 
             }
 
-            array = array.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero)));
 
-            return array;
+            return array.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ;
 
         }
 

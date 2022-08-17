@@ -11,6 +11,7 @@ namespace TP1.Mvvm
     internal class Gestor
     {
         private ArrayList numeros_aleatorios = new ArrayList();
+        private static List<decimal> observaciones;
 
 
 
@@ -40,7 +41,7 @@ namespace TP1.Mvvm
 
         public static List<decimal> obtenerObservaciones(List<decimal> numeros_aleatorios, int muestra, int subintervalos) // cambiar a List<decimal>
         {
-            return ChiCuadrado.freqAbsolutas(numeros_aleatorios, muestra, subintervalos);
+            return ChiCuadrado.freqAbsolutas(numeros_aleatorios, subintervalos, muestra);
 
         }
 

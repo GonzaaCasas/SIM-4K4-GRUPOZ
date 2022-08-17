@@ -109,6 +109,7 @@ namespace TP1.Views
         {
             resultadosTest = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos); // devuelve el chi cuadrado obtenido y el tabulado
             observados = Gestor.obtenerObservaciones(numeros_aleatorios, this.muestra, this.subintervalos);
+            
 
             decimal esperado = muestra / subintervalos;
             limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);

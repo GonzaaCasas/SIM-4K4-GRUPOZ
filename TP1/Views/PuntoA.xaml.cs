@@ -159,6 +159,8 @@ namespace TP1.Views
                 Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
                 mostrarVectorEstado(numeros_aleatorios);
+
+                porcentajes = porcentajeIntervalos();
             }
             else
             {
@@ -175,6 +177,8 @@ namespace TP1.Views
                 Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
                 mostrarVectorEstado(numeros_aleatorios);
+
+                porcentajes = porcentajeIntervalos();
             }
             else
             {
@@ -191,6 +195,9 @@ namespace TP1.Views
                 Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
                 mostrarVectorEstado(numeros_aleatorios);
+
+                porcentajes = porcentajeIntervalos();
+               
             }
             else
             {
