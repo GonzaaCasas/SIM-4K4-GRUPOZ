@@ -38,7 +38,8 @@
                 <TextBox x:Name="TxtSubintervalos" 
                 PreviewTextInput="NumberValidationTextBox" 
                 MaxHeight="26" MaxWidth="175" 
-                MinWidth="150"  Text="10"/>
+                MinWidth="150"  Text="10"
+                TextChanged="Txt_TextChanged"/>
             </StackPanel>
 
             <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,10" HorizontalAlignment="Center" >
@@ -46,7 +47,8 @@
                 <TextBox x:Name="TxtMuestra" 
                 PreviewTextInput="NumberValidationTextBox" 
                 MaxHeight="26" MaxWidth="175" 
-                MinWidth="150" Text="20"/>
+                MinWidth="150" Text="20"
+                TextChanged="Txt_TextChanged"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"   Margin="0,0,0,0">
@@ -114,9 +116,9 @@
                 </DataGrid>
             </DockPanel>
             <StackPanel Grid.Row="2" Grid.Column="2">
-                <Label x:Name="lblJiObtenida" FontSize="14" ></Label>
-                <Label x:Name="lblJiTabulada" FontSize="14" ></Label>
-                <Label x:Name="lblAprobacion" FontSize="14" ></Label>
+                <Label x:Name="lblJiObtenida" FontSize="18" ></Label>
+                <Label x:Name="lblJiTabulada" FontSize="18" ></Label>
+                <Label x:Name="lblAprobacion" FontSize="18" ></Label>
             </StackPanel>
 
         </Grid>

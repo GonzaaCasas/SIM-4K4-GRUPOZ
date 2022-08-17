@@ -39,6 +39,7 @@ namespace TP1.Views
         private List<decimal> observados = new List<decimal>();
         private List<decimal> limites = new List<decimal>();
         private List<decimal> resultadosTest = new List<decimal>();
+        bool cargado = false;
 
 
 
@@ -46,12 +47,13 @@ namespace TP1.Views
         {
             InitializeComponent();
             gestor = new Gestor();
+            cargado = true;
 
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9,]+");
+            Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
@@ -93,33 +95,51 @@ namespace TP1.Views
                 {
 
                 
-                        dgvVectorEstado.Visibility = Visibility.Hidden;
-                        observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
-                        decimal esperado = muestra / subintervalos;
-                        limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
+                    dgvVectorEstado.Visibility = Visibility.Hidden;
+                    resultadosTest.Clear();
+                    resultadosTest = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos); // devuelve el chi cuadrado obtenido y el tabulado
+                    observados = Gestor.obtenerObservaciones(numeros_aleatorios, this.muestra, this.subintervalos);
+                    decimal esperado = muestra / subintervalos;
+                    limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
 
-                        string[] labels = new string[subintervalos];
-                        decimal anterior = limites[0];
-                        for (int i = 1; i < subintervalos + 1; i++)
-                        {
-                            labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString()
-                             + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
-                            anterior = limites[i];
-                        }
+                    string[] labels = new string[subintervalos];
+                    decimal anterior = limites[0];
+                    for (int i = 1; i < subintervalos + 1; i++)
+                    {
+                        labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString()
+                            + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
+                        anterior = limites[i];
+                    }
 
-                        decimal[] vectorEsperado = new decimal[subintervalos];
+                    decimal[] vectorEsperado = new decimal[subintervalos];
 
-                        for (int i = 0; i < subintervalos; i++)
-                        {
-                            vectorEsperado[i] = esperado;
-                        }
+                    for (int i = 0; i < subintervalos; i++)
+                    {
+                        vectorEsperado[i] = esperado;
+                    }
 
-                        decimal[] vectorObservados = observados.ToArray();
-                        GraficoB.Reset(); //funciona dudoso
-                        GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
-                        GraficoB.AgregarColeccion(vectorObservados, "Observados");
-                        GraficoB.AgregarIntervalos(labels);
-                        GraficoB.Visible();
+                    decimal[] vectorObservados = observados.ToArray();
+                    
+                    GraficoB.Reset(); //funciona dudoso
+                    GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
+                    GraficoB.AgregarColeccion(vectorObservados, "Observados");
+                    GraficoB.AgregarIntervalos(labels);
+                    GraficoB.Visible();
+                    
+
+                    lblJiObtenida.Content = "Ji Obtenido \n" + Math.Round(resultadosTest[0], 4, MidpointRounding.AwayFromZero).ToString();
+                    lblJiTabulada.Content = "Ji Tabulado \n" + Math.Round(resultadosTest[1], 4, MidpointRounding.AwayFromZero).ToString();
+
+                    if (resultadosTest[0] < resultadosTest[1])
+                    {
+                        lblAprobacion.Content = "H0 Aceptada";
+                        lblAprobacion.Foreground = Brushes.DarkGreen;
+                    }
+                    else
+                    {
+                        lblAprobacion.Content = "H0 Rechazada";
+                        lblAprobacion.Foreground = Brushes.Red;
+                    }
                 }// ver si sacar esta parte dependiendo como se habilita los botones
                 else
                 {
@@ -163,6 +183,19 @@ namespace TP1.Views
             }
         }
 
+        private void Txt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (cargado)
+            {
+                estadoBotones(false);
+
+            }
+        }
+
+        private void estadoBotones(bool estado)
+        {
+            BtnTest.IsEnabled = estado;
+        }
     }
 
 

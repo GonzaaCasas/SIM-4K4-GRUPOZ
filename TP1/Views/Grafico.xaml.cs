@@ -81,7 +81,7 @@ namespace TP1.Views
         public void Reset()
         {
             SeriesCollection.Clear();
-            Labels = new string[] { };
+            Labels = new string[0];
             Visibility = Visibility.Hidden;
 
         }
