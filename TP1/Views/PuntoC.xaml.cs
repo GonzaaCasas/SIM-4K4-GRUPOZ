@@ -33,6 +33,8 @@ namespace TP1.Views
         private Gestor gestor;
         private List<decimal> observados = new List<decimal>();
         private List<decimal> limites = new List<decimal>();
+        private List<decimal> resultadosTest = new List<decimal>();
+
 
         public PuntoC()
         {
@@ -65,7 +67,7 @@ namespace TP1.Views
         }
         private bool ValidarCamposForm()
         {
-           if( !String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+           if( !String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text) && !String.IsNullOrEmpty(TxtMuestra.Text) && !String.IsNullOrEmpty(TxtSubintervalos.Text) && Int32.Parse(TxtSubintervalos.Text) > 0 && Int32.Parse(TxtMuestra.Text)>0)
             {
                 muestra = Int32.Parse(TxtMuestra.Text);
                 subintervalos = Int32.Parse(TxtSubintervalos.Text);
@@ -94,7 +96,7 @@ namespace TP1.Views
                 numeros_aleatorios.Clear(); // deja el vector estado vacio
                 numeros_aleatorios = Gestor.generar("Mixto", xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
                 mostrarVectorEstado(numeros_aleatorios);
-                
+                BtnTest.IsEnabled = true;
             }
             else
             {
@@ -105,10 +107,12 @@ namespace TP1.Views
 
         private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
-            observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
+            resultadosTest = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos); // devuelve el chi cuadrado obtenido y el tabulado
+            observados = Gestor.obtenerObservaciones(numeros_aleatorios, this.muestra, this.subintervalos);
+            
+
             decimal esperado = muestra / subintervalos;
             limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
-           
 
 
         }

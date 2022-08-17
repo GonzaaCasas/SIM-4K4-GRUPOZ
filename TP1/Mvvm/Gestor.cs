@@ -11,6 +11,7 @@ namespace TP1.Mvvm
     internal class Gestor
     {
         private ArrayList numeros_aleatorios = new ArrayList();
+        private static List<decimal> observaciones;
 
 
 
@@ -35,6 +36,12 @@ namespace TP1.Mvvm
         public static List<decimal> test(List<decimal> numeros_aleatorios, int muestra, int subintervalos) // cambiar a List<decimal>
         {
             return ChiCuadrado.testChiCuadrado(numeros_aleatorios, muestra, subintervalos);
+
+        }
+
+        public static List<decimal> obtenerObservaciones(List<decimal> numeros_aleatorios, int muestra, int subintervalos) // cambiar a List<decimal>
+        {
+            return ChiCuadrado.freqAbsolutas(numeros_aleatorios, subintervalos, muestra);
 
         }
 
@@ -100,7 +107,7 @@ namespace TP1.Mvvm
             array.Add(Math.Round(p9, 4, MidpointRounding.AwayFromZero));
             array.Add(Math.Round(p10, 4, MidpointRounding.AwayFromZero));
 
-           // Console.WriteLine(array.Sum());
+            //Console.WriteLine(array.Sum());
 
             return array; // esto habria que mostrar u de ultima para cada pN dentro de un label entonces el return seria cada probabilidad y no una lista
         }

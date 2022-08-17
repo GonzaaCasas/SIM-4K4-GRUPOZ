@@ -38,6 +38,8 @@ namespace TP1.Views
         private Gestor gestor;
         private List<decimal> observados = new List<decimal>();
         private List<decimal> limites = new List<decimal>();
+        private List<decimal> resultadosTest = new List<decimal>();
+
 
 
         public PuntoB()
@@ -58,16 +60,23 @@ namespace TP1.Views
         {
             if (validarCampos())
             {
-                
-                GraficoB.Reset();
-                muestra = Int32.Parse(TxtMuestra.Text);
-                subintervalos = Int32.Parse(TxtSubintervalos.Text);
-                numeros_aleatorios.Clear(); // deja el vector estado vacio
-                numeros_aleatorios = Gestor.generadorRandomPuntoB(muestra);
-                mostrarVectorEstado(numeros_aleatorios);
-                // Gestor.probabilidad(numeros_aleatorios);
-                BtnTest.IsEnabled = true;
-                dgvVectorEstado.Visibility = Visibility.Visible;
+                if (Int32.Parse(TxtSubintervalos.Text) > 0)
+                {
+
+                    GraficoB.Reset();
+                    muestra = Int32.Parse(TxtMuestra.Text);
+                    subintervalos = Int32.Parse(TxtSubintervalos.Text);
+                    numeros_aleatorios.Clear(); // deja el vector estado vacio
+                    numeros_aleatorios = Gestor.generadorRandomPuntoB(muestra);
+                    mostrarVectorEstado(numeros_aleatorios);
+                    // Gestor.probabilidad(numeros_aleatorios);
+                    BtnTest.IsEnabled = true;
+                    dgvVectorEstado.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    MessageBox.Show("El Sub Intervalo debe ser mayor a 0", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
@@ -80,33 +89,42 @@ namespace TP1.Views
         {
             if (validarCampos())
             {
-                dgvVectorEstado.Visibility = Visibility.Hidden;
-                observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
-                decimal esperado = muestra / subintervalos;
-                limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
-
-                string[] labels = new string[subintervalos];
-                decimal anterior = limites[0];
-                for (int i = 1; i < subintervalos + 1; i++)
+                if (Int32.Parse(TxtSubintervalos.Text) > 0)
                 {
-                   labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString() 
-                    + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
-                   anterior = limites[i];
-                }
 
-                decimal[] vectorEsperado = new decimal[subintervalos];
+                
+                        dgvVectorEstado.Visibility = Visibility.Hidden;
+                        observados = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos);
+                        decimal esperado = muestra / subintervalos;
+                        limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
 
-                for (int i = 0; i < subintervalos; i++)
+                        string[] labels = new string[subintervalos];
+                        decimal anterior = limites[0];
+                        for (int i = 1; i < subintervalos + 1; i++)
+                        {
+                            labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString()
+                             + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
+                            anterior = limites[i];
+                        }
+
+                        decimal[] vectorEsperado = new decimal[subintervalos];
+
+                        for (int i = 0; i < subintervalos; i++)
+                        {
+                            vectorEsperado[i] = esperado;
+                        }
+
+                        decimal[] vectorObservados = observados.ToArray();
+                        GraficoB.Reset(); //funciona dudoso
+                        GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
+                        GraficoB.AgregarColeccion(vectorObservados, "Observados");
+                        GraficoB.AgregarIntervalos(labels);
+                        GraficoB.Visible();
+                }// ver si sacar esta parte dependiendo como se habilita los botones
+                else
                 {
-                   vectorEsperado[i] = esperado;
+                    MessageBox.Show("El Sub Intervalo debe ser mayor a 0", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
-                decimal[] vectorObservados = observados.ToArray();
-                GraficoB.Reset(); //funciona dudoso
-                GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
-                GraficoB.AgregarColeccion(vectorObservados, "Observados");
-                GraficoB.AgregarIntervalos(labels);
-                GraficoB.Visible();
             }
             else
             {
