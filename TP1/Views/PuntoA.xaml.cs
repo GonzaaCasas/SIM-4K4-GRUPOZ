@@ -136,6 +136,8 @@ namespace TP1.Views
                 activarBotones();
 
                 porcentajes = porcentajeIntervalos();
+
+                mostrarIntervalos(porcentajes);
             }
             else
             {
@@ -159,6 +161,8 @@ namespace TP1.Views
                 Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
                 mostrarVectorEstado(numeros_aleatorios);
+                porcentajes = porcentajeIntervalos();
+                mostrarIntervalos(porcentajes);
             }
             else
             {
@@ -175,6 +179,9 @@ namespace TP1.Views
                 Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
                 mostrarVectorEstado(numeros_aleatorios);
+
+                porcentajes = porcentajeIntervalos();
+                mostrarIntervalos(porcentajes);
             }
             else
             {
@@ -191,6 +198,9 @@ namespace TP1.Views
                 Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
                 mostrarVectorEstado(numeros_aleatorios);
+                porcentajes = porcentajeIntervalos();
+                mostrarIntervalos(porcentajes);
+
             }
             else
             {
@@ -206,36 +216,62 @@ namespace TP1.Views
         }
 
 
-        private void CreateLabelDynamically(string numero)
-        {
-            Label dynamicLabel = new Label();
-            dynamicLabel.Width = 240;
+        //private void CreateLabelDynamically(string numero)
+        //{
+        //    Label dynamicLabel = new Label();
+        //    dynamicLabel.Width = 240;
 
-            dynamicLabel.Height = 30;
+        //    dynamicLabel.Height = 30;
 
-            dynamicLabel.Content = numero;
+        //    dynamicLabel.Content = numero;
 
-            stckEstado.Children.Add(dynamicLabel);
+        //    stckEstado.Children.Add(dynamicLabel);
 
-        }
+        //}
 
 
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
-            DataTable tablaNumero = new DataTable();
-            tablaNumero.Columns.Add("num");
-            tablaNumero.Columns.Add("valor");
+            //DataTable tablaNumero = new DataTable();
+            //tablaNumero.Columns.Add("num");
+            //tablaNumero.Columns.Add("valor");
 
-            foreach (var item in vectorEstado)
+            //foreach (var item in vectorEstado)
+            //{
+            //   // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+            //    DataRow _row = tablaNumero.NewRow();
+            //    _row[0] = tablaNumero.Rows.Count +1;
+            //    //  _row[1] = item.ToString();
+            //    _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+            //    tablaNumero.Rows.Add(_row);
+            //}
+
+            dgvVectorEstado.DataContext = generarTabla(vectorEstado, "num", "valor");
+            
+        }
+
+        private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
+        {
+            DataTable tabla = new DataTable();
+            tabla.Columns.Add(strCol1);
+            tabla.Columns.Add(strCol2);
+
+            foreach (var item in lista)
             {
-               // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
-                DataRow _row = tablaNumero.NewRow();
-                _row[0] = tablaNumero.Rows.Count +1;
+                // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+                DataRow _row = tabla.NewRow();
+                _row[0] = tabla.Rows.Count + 1;
                 //  _row[1] = item.ToString();
                 _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
-                tablaNumero.Rows.Add(_row);
+                tabla.Rows.Add(_row);
             }
-            dgvVectorEstado.DataContext = tablaNumero;
+
+            return tabla;
+        }
+
+        private void mostrarIntervalos(IEnumerable<decimal> vectorIntervalos)
+        {
+            dgvIntervalos.DataContext = generarTabla(vectorIntervalos.ToList(), "nIntervalo", "porcentaje");
 
         }
 
