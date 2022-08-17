@@ -60,7 +60,8 @@ namespace TP1.Views
         {
             if (validarCampos())
             {
-                //GraficoB.Reset();
+                
+                GraficoB.Reset();
                 muestra = Int32.Parse(TxtMuestra.Text);
                 subintervalos = Int32.Parse(TxtSubintervalos.Text);
                 numeros_aleatorios.Clear(); // deja el vector estado vacio
