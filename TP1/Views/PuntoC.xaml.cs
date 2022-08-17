@@ -69,11 +69,11 @@ namespace TP1.Views
             {
                 muestra = Int32.Parse(TxtMuestra.Text);
                 subintervalos = Int32.Parse(TxtSubintervalos.Text);
-                xi_1 = Int32.Parse(TxtSemilla.Text);
-                cIndependiente = Int32.Parse(TxtConstanteIndependiente.Text);
-                cMultiplicadora = Int32.Parse(TxtConstanteMultiplicadora.Text);
-                modulo = Int32.Parse(TxtModulo.Text);
-                return (ValidarSemilla(xi_1, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente, modulo));
+                decimal semilla = decimal.Parse(TxtSemilla.Text);
+                decimal cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text);
+                decimal cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
+                decimal modulo = decimal.Parse(TxtModulo.Text);
+                return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(cMultiplicadora, modulo) && ValidarModulo(modulo) && ValidarCIncremento(cIndependiente, modulo));
             }
             else
             {
