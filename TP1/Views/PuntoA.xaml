@@ -46,7 +46,8 @@
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150" 
                          HorizontalAlignment="Left"
-                         Text="37"/>
+                         Text="37"
+                         TextChanged="Txt_TextChanged"/>
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
                 <Label Content="Constante Independiente" FontSize="14"/>
@@ -55,7 +56,8 @@
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150" 
                          HorizontalAlignment="Left"
-                         Text="7"/>
+                         Text="7"
+                         TextChanged="Txt_TextChanged"/>
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="2" Margin="10,10,10,10">
                 <Label Content="Constante Multiplicadora" FontSize="14"/>
@@ -64,7 +66,8 @@
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150" 
                          HorizontalAlignment="Left"
-                         Text="19"/>
+                         Text="19"
+                         TextChanged="Txt_TextChanged"/>
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10">
                 <Label Content="Modulo" FontSize="14"/>
@@ -73,10 +76,17 @@
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150"
                          HorizontalAlignment="Left"
-                         Text="53"/>
+                         Text="53"
+                         TextChanged="Txt_TextChanged"/>
             </StackPanel>
-            <DockPanel Grid.Column="0" Grid.Row="1" Name="stckEstado" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="10,10,10,10">
+            <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-200,0,0,0" FontSize="16">Valores</Label>
+                <DockPanel Width="40"></DockPanel>
+                <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16" Margin="0,0,-40,0"> Porcentajes</Label>
+            </StackPanel>
+            <DockPanel Grid.Column="0" Grid.Row="1" Name="stckEstado" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="10,30,10,10">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal" >
+                    
                     <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False">
                         <DataGrid.CellStyle>
                             <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
@@ -100,7 +110,7 @@
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment"
-                                                        Value="Center" />
+                                                                Value="Center" />
 
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
@@ -132,7 +142,7 @@
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment"
-                                                        Value="Center" />
+                                                                Value="Center" />
 
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
@@ -140,8 +150,6 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
-
                 </StackPanel>
             </DockPanel>
 
@@ -156,6 +164,7 @@
                         Grid.Column="3" 
                         Grid.Row="1" 
                         IsDefault="True" 
+                        MaxWidth="100"
                         Height="30" 
                         Click="BtnGenerar_Click"
                         Command="{Binding generarCommand}" Margin="47,10,48,0"

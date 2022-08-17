@@ -113,6 +113,11 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>
+            <StackPanel Grid.Row="2" Grid.Column="2">
+                <Label x:Name="lblJiObtenida" FontSize="14" ></Label>
+                <Label x:Name="lblJiTabulada" FontSize="14" ></Label>
+                <Label x:Name="lblAprobacion" FontSize="14" ></Label>
+            </StackPanel>
 
         </Grid>
     </Grid>

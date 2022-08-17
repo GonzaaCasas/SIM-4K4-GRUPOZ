@@ -15,8 +15,8 @@
         <TextBlock Margin="0"
                    HorizontalAlignment="Center"
                    FontSize="48"
-                   Text="Trabajo Practico Número 1" />
-        
+                   Text="Trabajo Práctico Número 1" />
+        <DockPanel Height="60"></DockPanel>
         <TextBlock Margin="4"
                    HorizontalAlignment="Left"
                    FontSize="36"
@@ -28,7 +28,7 @@
         <TextBlock Margin="4"
                    HorizontalAlignment="Left"
                    FontSize="24"
-                   Text="Hidalgo Nicolas - 78934" />
+                   Text="Hidalgo Nicolás - 78934" />
         <TextBlock Margin="4"
                    HorizontalAlignment="Left"
                    FontSize="24"
@@ -36,11 +36,17 @@
         <TextBlock Margin="4"
                    HorizontalAlignment="Left"
                    FontSize="24"
-                   Text="Quinteros, Damian - 82599" />
-
-        <TextBlock Margin="24"
+                   Text="Quinteros, Damián - 82599" />
+        <DockPanel Height="60"></DockPanel>
+        <TextBlock Margin="4"
                    HorizontalAlignment="Center"
-                   FontSize="48"
-                   Text="UTN - FRC" />
+                   FontSize="36"
+                   Text="SIMULACION - 4k4" />
+
+        <Image Width="300">
+            <Image.Source>
+                <BitmapImage DecodePixelWidth="300" UriSource="/Imagenes/logo_utn.png"></BitmapImage>
+            </Image.Source>
+        </Image>
     </StackPanel>
 </Page>

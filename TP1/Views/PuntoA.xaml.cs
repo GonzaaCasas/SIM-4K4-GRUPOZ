@@ -36,6 +36,7 @@ namespace TP1.Views
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private List<decimal> frecuencia_nroaleatorios = new List<decimal>();
         private IEnumerable<decimal> porcentajes;
+        bool cargado = false;
 
 
         //PuntoAVM numeros_aleatorios = new PuntoAVM();
@@ -45,6 +46,7 @@ namespace TP1.Views
         public PuntoA()
         {
             InitializeComponent();
+            cargado = true;
 
         }
 
@@ -133,7 +135,7 @@ namespace TP1.Views
 
                 mostrarVectorEstado(numeros_aleatorios);
                 // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
-                activarBotones();
+                estadoBotones(true);
 
                 porcentajes = porcentajeIntervalos();
 
@@ -146,11 +148,11 @@ namespace TP1.Views
 
         }
 
-        private void activarBotones()
+        private void estadoBotones(bool estado)
         {
-            BtnGenerarProximo.IsEnabled = true;
-            BtnGenerarVeinte.IsEnabled = true;
-            BtnGenerarDiezMil.IsEnabled = true;
+            BtnGenerarProximo.IsEnabled = estado;
+            BtnGenerarVeinte.IsEnabled = estado;
+            BtnGenerarDiezMil.IsEnabled = estado;
         }
 
         private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez 
@@ -158,7 +160,7 @@ namespace TP1.Views
             {
                 muestra = 1;
 
-                Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
+                numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
                 mostrarVectorEstado(numeros_aleatorios);
                 porcentajes = porcentajeIntervalos();
@@ -176,7 +178,7 @@ namespace TP1.Views
             {
                 muestra = 20;
 
-                Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
+                numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
                 mostrarVectorEstado(numeros_aleatorios);
 
@@ -193,11 +195,11 @@ namespace TP1.Views
         {
             if (ValidarCamposForm())
             {
-                muestra = 10000 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
+                muestra = 10001 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
 
-                Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+                numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
-                mostrarVectorEstado(numeros_aleatorios);
+                mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
                 porcentajes = porcentajeIntervalos();
                 mostrarIntervalos(porcentajes);
 
@@ -232,19 +234,6 @@ namespace TP1.Views
 
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
-            //DataTable tablaNumero = new DataTable();
-            //tablaNumero.Columns.Add("num");
-            //tablaNumero.Columns.Add("valor");
-
-            //foreach (var item in vectorEstado)
-            //{
-            //   // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
-            //    DataRow _row = tablaNumero.NewRow();
-            //    _row[0] = tablaNumero.Rows.Count +1;
-            //    //  _row[1] = item.ToString();
-            //    _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
-            //    tablaNumero.Rows.Add(_row);
-            //}
 
             dgvVectorEstado.DataContext = generarTabla(vectorEstado, "num", "valor");
             
@@ -288,6 +277,16 @@ namespace TP1.Views
             var boton = sender as RadioButton;
 
             TxtConstanteIndependiente.IsEnabled = false;
+        }
+
+        private void Txt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (cargado)
+            {
+             estadoBotones(false);
+
+            }
+
         }
     }
 }
