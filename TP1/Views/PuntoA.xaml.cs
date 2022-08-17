@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Text.RegularExpressions;
-using System.Collections;
 using TP1.Mvvm;
-using TP1.ViewModels;
-using System.Data;
 
 namespace TP1.Views
 {
@@ -79,21 +69,23 @@ namespace TP1.Views
 
 
         private bool ValidarCamposForm()
-        { if((bool)rbMixto.IsChecked)
-            {  if (!String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+        {
+            if ((bool)rbMixto.IsChecked)
+            {
+                if (!String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
                 {
-                      decimal semilla = decimal.Parse(TxtSemilla.Text);
-                      decimal modulo = decimal.Parse(TxtModulo.Text);
-                      decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
-                      decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
-                      return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente,modulo));
-                } 
+                    decimal semilla = decimal.Parse(TxtSemilla.Text);
+                    decimal modulo = decimal.Parse(TxtModulo.Text);
+                    decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
+                    decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
+                    return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente, modulo));
+                }
                 else
-                 {
+                {
                     return false;
-                 }
+                }
             }
-            else if((bool)rbMultiplicativo.IsChecked)
+            else if ((bool)rbMultiplicativo.IsChecked)
             {
                 if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
                 {
@@ -108,7 +100,7 @@ namespace TP1.Views
                     return false;
                 }
             }
-        else
+            else
             {
                 return false;
             }
@@ -127,7 +119,7 @@ namespace TP1.Views
                 metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : "Mixto";
                 muestra = 20;
 
-                
+
 
                 numeros_aleatorios.Clear(); // deja el vector estado vacio
 
@@ -156,7 +148,8 @@ namespace TP1.Views
         }
 
         private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez 
-        { if (ValidarCamposForm())
+        {
+            if (ValidarCamposForm())
             {
                 muestra = 1;
 
@@ -213,8 +206,8 @@ namespace TP1.Views
         private IEnumerable<decimal> porcentajeIntervalos()
         {
 
-            return porcentajes =  Gestor.probabilidad(numeros_aleatorios).Select(x => x* 100).ToList();
-         
+            return porcentajes = Gestor.probabilidad(numeros_aleatorios).Select(x => x * 100).ToList();
+
         }
 
 
@@ -236,7 +229,7 @@ namespace TP1.Views
         {
 
             dgvVectorEstado.DataContext = generarTabla(vectorEstado, "num", "valor");
-            
+
         }
 
         private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
@@ -283,7 +276,7 @@ namespace TP1.Views
         {
             if (cargado)
             {
-             estadoBotones(false);
+                estadoBotones(false);
 
             }
 

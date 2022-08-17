@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TP1.Models
 {
     internal class ChiCuadrado
     {
-       
+
 
         private static List<decimal> acumuladoChi = new List<decimal>();
         private static List<decimal> chis = new List<decimal>();
@@ -49,10 +47,10 @@ namespace TP1.Models
 
         }
 
-     
 
 
-        public  static List<decimal> freqAbsolutas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
+
+        public static List<decimal> freqAbsolutas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
         {
             decimal[] arr = new decimal[subintervalos];
             List<decimal> array = new List<decimal>(arr); //cada indice de la lista corresponde a la freq relativa de un intervalo
@@ -61,7 +59,7 @@ namespace TP1.Models
             decimal min = numeros_aleatorios.Min();
             decimal max = numeros_aleatorios.Max();
 
-          
+
             decimal paso = (max - min) / subintervalos;
 
             decimal lim_inferior = min;
@@ -70,7 +68,7 @@ namespace TP1.Models
             int simActual = 1;
             int simAnterior = 0;
 
-           
+
 
             foreach (var random in numeros_aleatorios)
             {
@@ -88,14 +86,14 @@ namespace TP1.Models
                     lim_inferior = lim_superior;
                     lim_superior = lim_inferior + paso;
 
-                    
+
                 }
 
-                 simAnterior = simActual;
-                 simActual++;
-                 lim_inferior = min;
-                 lim_superior = lim_inferior + paso;
-                
+                simAnterior = simActual;
+                simActual++;
+                lim_inferior = min;
+                lim_superior = lim_inferior + paso;
+
             }
 
 
@@ -120,7 +118,7 @@ namespace TP1.Models
             for (int i = 0; i < subintervalos - 1; i++)
             {
 
-               // List<decimal> limites = new List<decimal>();
+                // List<decimal> limites = new List<decimal>();
 
 
                 array.Add(lim_superior);
