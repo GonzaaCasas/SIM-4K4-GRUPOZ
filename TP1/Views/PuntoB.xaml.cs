@@ -62,7 +62,7 @@ namespace TP1.Views
         {
             if (validarCampos())
             {
-                if (Int32.Parse(TxtSubintervalos.Text) > 0)
+                if (Int32.Parse(TxtSubintervalos.Text) > 1)
                 {
 
                     GraficoB.Reset();
@@ -77,7 +77,7 @@ namespace TP1.Views
                 }
                 else
                 {
-                    MessageBox.Show("El Sub Intervalo debe ser mayor a 0", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El Sub Intervalo debe ser mayor a 1", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else

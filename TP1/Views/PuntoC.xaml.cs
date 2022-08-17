@@ -70,7 +70,7 @@ namespace TP1.Views
         }
         private bool ValidarCamposForm()
         {
-           if( !String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text) && !String.IsNullOrEmpty(TxtMuestra.Text) && !String.IsNullOrEmpty(TxtSubintervalos.Text) && Int32.Parse(TxtSubintervalos.Text) > 0 && Int32.Parse(TxtMuestra.Text)>0)
+           if( !String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text) && !String.IsNullOrEmpty(TxtMuestra.Text) && !String.IsNullOrEmpty(TxtSubintervalos.Text) && Int32.Parse(TxtSubintervalos.Text) > 1 && Int32.Parse(TxtMuestra.Text)>0)
             {
                 muestra = Int32.Parse(TxtMuestra.Text);
                 subintervalos = Int32.Parse(TxtSubintervalos.Text);
