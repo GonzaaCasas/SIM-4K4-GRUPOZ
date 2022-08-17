@@ -41,7 +41,7 @@
         <TextBlock Margin="4"
                    HorizontalAlignment="Center"
                    FontSize="36"
-                   Text="SIMULACION - 4k4" />
+                   Text="SIMULACIóN - 4k4" />
 
         <Image Width="300">
             <Image.Source>
