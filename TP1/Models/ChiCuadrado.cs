@@ -13,11 +13,11 @@ namespace TP1.Models
         public static List<decimal> testChiCuadrado(List<decimal> numeros_aleatorios, int muestra, int subintervalos)
         {
             acumuladoChi.Clear();
-
+            chis.Clear();
 
             List<decimal> observados = new List<decimal>();
 
-            decimal esperado = muestra / subintervalos;
+            decimal esperado = (decimal)muestra / (decimal)subintervalos;
 
 
 

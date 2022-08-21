@@ -14,7 +14,8 @@ namespace TP1.Models
         public static List<decimal> generar(string metodo, decimal xi, decimal c, decimal a, decimal modulo, int muestra)
 
         {
-
+            numeros_aleatorios.Clear();
+          
             for (int i = 0; i < muestra; i++)
             {
                 switch (metodo)
