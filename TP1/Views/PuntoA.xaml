@@ -159,7 +159,7 @@
                 </Label>
                 <RadioButton x:Name="rbMixto" Checked="rbMixto_Checked" Background="#cce4f7" IsChecked="True" Content="Mixto"></RadioButton>
                 <RadioButton x:Name="rbMultiplicativo" Checked="rbMultiplicativo_Checked" Background="#cce4f7" Content="Multiplicativo"></RadioButton>
-<!--                <RadioButton x:Name="rbAditivo" Background="#cce4f7" Content="Aditivo"></RadioButton> -->
+                <RadioButton x:Name="rbAditivo" Background="#cce4f7" Content="Aditivo"></RadioButton> 
                 <Button x:Name="BtnGenerar" 
                         Grid.Column="3" 
                         Grid.Row="1" 

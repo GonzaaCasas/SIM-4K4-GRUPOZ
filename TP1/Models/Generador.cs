@@ -11,12 +11,13 @@ namespace TP1.Models
     internal class Generador
     {
         private static List<decimal> numeros_aleatorios = new List<decimal>();
-        private static decimal xi_1 = 0;
+        private static decimal xn = 0;
+        private static decimal xn_1;  // este es solo para el metodo aditivo
 
-        // public static List<decimal> generar(string metodo, decimal xi, decimal c, decimal a, decimal modulo, int muestra)
         public static List<decimal> generar(string metodo, decimal xi,decimal c, decimal a, decimal modulo, int muestra)
           
         {
+            xn_1 = 0; // aca iria el input de la segunda semilla
             numeros_aleatorios.Clear();
           
             for (int i = 0; i < muestra; i++)
@@ -29,14 +30,16 @@ namespace TP1.Models
                     case "Mixto":
                         xi = generadorCongruenteMixto(xi, a, c, modulo);
                         break;
+                    case "Aditivo":
+                        (xi, xn_1) = (generadorCongruenteAditivo(xn_1, xi, modulo), xi); // para que quede guardado el xni anterior para seguir usando solo en el metodo aditivo 
+                        break;
                 }
 
-                // decimal rnd = Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero);
                 decimal rnd = (xi / modulo);
 
                 numeros_aleatorios.Add(rnd); // agrega los random
             }
-            xi_1 = xi;
+            xn = xi; // para que quede guardado el xi  para seguir usando en la funcion generarSiguientes
 
             return numeros_aleatorios;
         }
@@ -49,15 +52,17 @@ namespace TP1.Models
                 switch (metodo)
                 {
                     case "Multiplicativo":
-                        xi_1 = generadorCongruenteMultiplicativo(xi_1, a, modulo);
+                        xn = generadorCongruenteMultiplicativo(xn, a, modulo);
                         break;
                     case "Mixto":
-                        xi_1 = generadorCongruenteMixto(xi_1, a, c, modulo);
+                        xn = generadorCongruenteMixto(xn, a, c, modulo);
+                        break;
+                    case "Aditivo":
+                        (xn, xn_1) = (generadorCongruenteAditivo(xn_1, xn, modulo), xn); // lo segundo que se devuelve es el xn para que se guarde como xn_1 para seguir usando solo en el metodo aditivo 
                         break;
                 }
 
-                // decimal rnd = Math.Round((xi / modulo), 4, MidpointRounding.AwayFromZero);
-                decimal rnd = (xi_1 / modulo);
+                decimal rnd = (xn / modulo);
 
                 numeros_aleatorios.Add(rnd); // agrega los random
             }
@@ -76,10 +81,10 @@ namespace TP1.Models
             return (a * xi) % m;
         }
 
-//        private static decimal generadorCongruenteAditivo(decimal xi_1, decimal xi_0, decimal m)
-//        {
-//            return (xi_1 + xi_0) % m;
-//        }
+        private static decimal generadorCongruenteAditivo(decimal xi_1, decimal xi_0, decimal m)
+        {
+            return (xi_1 + xi_0) % m;
+        }
 
         public static List<decimal> generarRandomcSharp(int muestra)
         {
