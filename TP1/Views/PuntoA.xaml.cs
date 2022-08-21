@@ -100,6 +100,22 @@ namespace TP1.Views
                     return false;
                 }
             }
+            else if ((bool)rbAditivo.IsChecked)
+            {
+                if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+                {
+                    decimal semilla = decimal.Parse(TxtSemilla.Text);
+                    decimal modulo = decimal.Parse(TxtModulo.Text);
+                    decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
+
+                    return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             else
             {
                 return false;
@@ -116,7 +132,7 @@ namespace TP1.Views
                 cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
                 modulo = decimal.Parse(TxtModulo.Text);
 
-                metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : "Mixto";
+                metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : (bool)rbMixto.IsChecked ?  "Mixto" : "Aditivo";
                 muestra = 20;
 
 
