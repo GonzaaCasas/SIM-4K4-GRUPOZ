@@ -7,7 +7,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TP1.Mvvm;
-
+using System.Threading;
+using System.ComponentModel;
+using Ookii.Dialogs.Wpf;
 
 namespace TP1.Views
 {
@@ -27,8 +29,7 @@ namespace TP1.Views
         private List<decimal> limites = new List<decimal>();
         private List<decimal> resultadosTest = new List<decimal>();
         bool cargado = false;
-
-
+        DataTable tablaExcel;
 
         public PuntoB()
         {
@@ -57,10 +58,10 @@ namespace TP1.Views
                     subintervalos = Int32.Parse(TxtSubintervalos.Text);
                     numeros_aleatorios.Clear(); // deja el vector estado vacio
                     numeros_aleatorios = Gestor.generadorRandomPuntoB(muestra);
-                    mostrarVectorEstado(numeros_aleatorios);
+                    tablaExcel = mostrarVectorEstado(numeros_aleatorios);
                     // Gestor.probabilidad(numeros_aleatorios);
-                    BtnTest.IsEnabled = true;
-                    dgvVectorEstado.Visibility = Visibility.Visible;
+                    estadoBotones(true);
+
                 }
                 else
                 {
@@ -114,8 +115,8 @@ namespace TP1.Views
                     GraficoB.Visible();
 
 
-                    lblJiObtenida.Content = "Ji Obtenido \n" + Math.Round(resultadosTest[0], 4, MidpointRounding.AwayFromZero).ToString();
-                    lblJiTabulada.Content = "Ji Tabulado \n" + Math.Round(resultadosTest[1], 4, MidpointRounding.AwayFromZero).ToString();
+                    lblJiObtenida.Content = "Chi Obtenido \n" + Math.Round(resultadosTest[0], 4, MidpointRounding.AwayFromZero).ToString();
+                    lblJiTabulada.Content = "Chi Tabulado \n" + Math.Round(resultadosTest[1], 4, MidpointRounding.AwayFromZero).ToString();
 
                     if (resultadosTest[0] < resultadosTest[1])
                     {
@@ -141,7 +142,7 @@ namespace TP1.Views
         }
 
 
-        private void mostrarVectorEstado(List<decimal> vectorEstado)
+        private DataTable mostrarVectorEstado(List<decimal> vectorEstado)
         {
             DataTable tablaNumero = new DataTable();
             tablaNumero.Columns.Add("num");
@@ -156,8 +157,12 @@ namespace TP1.Views
                 _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
                 tablaNumero.Rows.Add(_row);
             }
+
             dgvVectorEstado.DataContext = tablaNumero;
+            dgvVectorEstado.Visibility = Visibility.Visible;
+            return tablaNumero;
         }
+
         private bool validarCampos()
         {
             if (!String.IsNullOrEmpty(TxtMuestra.Text) && !String.IsNullOrEmpty(TxtSubintervalos.Text))
@@ -182,6 +187,28 @@ namespace TP1.Views
         private void estadoBotones(bool estado)
         {
             BtnTest.IsEnabled = estado;
+            BtnExportar.IsEnabled = estado;
+        }
+
+        private void BtnExportar_OnClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new VistaFolderBrowserDialog();
+            dialog.Description = "Elija una carpeta para exportar la serie generada";
+            dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
+
+            if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
+            {
+                MessageBox.Show("Because you are not using Windows Vista or later, the regular folder browser dialog will be used. Please use Windows Vista to see the new dialog.", "Sample folder browser dialog");
+            }
+
+            if ((bool)dialog.ShowDialog())
+            {
+                //MessageBox.Show($"The selected folder was:{Environment.NewLine}{dialog.SelectedPath}", "Sample folder browser dialog");
+                Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel);
+            }
+
+            
+
         }
     }
 

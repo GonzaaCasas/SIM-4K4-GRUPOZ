@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using TP1.Models;
+using TP1.ViewModels;
 
 namespace TP1.Mvvm
 {
@@ -114,6 +116,11 @@ namespace TP1.Mvvm
             return ChiCuadrado.limites(conjuntoNumeros, subintervalos);
         }
 
+
+        public static bool ExportarExcel(string ruta, DataTable tabla)
+        {
+            return ExportadorExcel.ExportarExcel(ruta, tabla);
+        }
 
 
     }
