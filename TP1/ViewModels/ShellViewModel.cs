@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MahApps.Metro.IconPacks;
+using System;
 using System.Collections.ObjectModel;
-using MahApps.Metro.IconPacks;
 using TP1.Mvvm;
 using TP1.Views;
 

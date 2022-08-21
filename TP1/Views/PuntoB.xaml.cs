@@ -1,26 +1,13 @@
-﻿using MathNet.Numerics.Random;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TP1.Mvvm;
-using ScottPlot;
-using MathNet.Numerics;
-using LiveCharts.Wpf;
-using LiveCharts;
+
 
 namespace TP1.Views
 {
@@ -94,7 +81,7 @@ namespace TP1.Views
                 if (Int32.Parse(TxtSubintervalos.Text) > 0)
                 {
 
-                
+
                     dgvVectorEstado.Visibility = Visibility.Hidden;
                     resultadosTest.Clear();
                     resultadosTest = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos); // devuelve el chi cuadrado obtenido y el tabulado
@@ -119,13 +106,13 @@ namespace TP1.Views
                     }
 
                     decimal[] vectorObservados = observados.ToArray();
-                    
+
                     GraficoB.Reset(); //funciona dudoso
                     GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
                     GraficoB.AgregarColeccion(vectorObservados, "Observados");
                     GraficoB.AgregarIntervalos(labels);
                     GraficoB.Visible();
-                    
+
 
                     lblJiObtenida.Content = "Ji Obtenido \n" + Math.Round(resultadosTest[0], 4, MidpointRounding.AwayFromZero).ToString();
                     lblJiTabulada.Content = "Ji Tabulado \n" + Math.Round(resultadosTest[1], 4, MidpointRounding.AwayFromZero).ToString();
@@ -153,7 +140,7 @@ namespace TP1.Views
 
         }
 
-       
+
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
             DataTable tablaNumero = new DataTable();
@@ -173,7 +160,7 @@ namespace TP1.Views
         }
         private bool validarCampos()
         {
-            if(!String.IsNullOrEmpty(TxtMuestra.Text) && !String.IsNullOrEmpty(TxtSubintervalos.Text))
+            if (!String.IsNullOrEmpty(TxtMuestra.Text) && !String.IsNullOrEmpty(TxtSubintervalos.Text))
             {
                 return true;
             }

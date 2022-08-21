@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace TP1.ViewModels
@@ -16,7 +11,8 @@ namespace TP1.ViewModels
         {
             get { return _vectorEstado; }
 
-            set { 
+            set
+            {
                 _vectorEstado = value;
                 OnPropertyChanged(nameof(vectorEstado));
             }
