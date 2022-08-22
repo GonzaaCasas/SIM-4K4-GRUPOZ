@@ -91,7 +91,7 @@
                 Command="{Binding generarCommand}"
                 Content="Generar"
                         />
-                <StackPanel Height="50"></StackPanel>
+                <StackPanel Height="10"></StackPanel>
                 <Button x:Name="BtnTest" 
                 IsDefault="True" 
                 Width="100" 
@@ -102,6 +102,17 @@
                 Content="test"
                 IsEnabled="False"
                         />
+                <StackPanel Height="10"></StackPanel>
+                <Button x:Name="BtnExportar"
+                        Width="100"
+                        Height="30"
+                        IsEnabled="False"
+                        Click="BtnExportar_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconFileIcons HorizontalAlignment="Left" Width="15" Height="15" Kind="Excel" />
+                        <TextBlock Text="  Exportar" ></TextBlock>
+                    </StackPanel>
+                </Button>
             </StackPanel>
             <DockPanel x:Name="stackPlot"
                         Grid.Column="0"

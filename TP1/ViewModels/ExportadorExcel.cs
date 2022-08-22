@@ -20,7 +20,9 @@ namespace TP1.ViewModels
             var wb = new XLWorkbook();
 
             // Add a DataTable as a worksheet
-            wb.Worksheets.Add(dataTable,"Serie Generada");
+            var ws = wb.Worksheets.Add(dataTable,"Serie Generada");
+            ws.Cell("A1").Value = "Nº";
+            ws.Cell("B1").Value = "Valor";
 
             wb.SaveAs( ruta + "\\Serie generada.xlsx");
             return true;

@@ -9,6 +9,7 @@ using System.Windows.Media;
 using TP1.Mvvm;
 using System.Threading;
 using System.ComponentModel;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Ookii.Dialogs.Wpf;
 
 namespace TP1.Views
@@ -205,9 +206,9 @@ namespace TP1.Views
             {
                 //MessageBox.Show($"The selected folder was:{Environment.NewLine}{dialog.SelectedPath}", "Sample folder browser dialog");
                 Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel);
+                MessageBox.Show("La serie de numeros generada se ha exportado en " + dialog.SelectedPath,
+                    "Exportacion exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-
-            
 
         }
     }

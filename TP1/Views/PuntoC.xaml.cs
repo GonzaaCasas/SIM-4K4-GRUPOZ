@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Ookii.Dialogs.Wpf;
 using TP1.Mvvm;
 
 namespace TP1.Views
@@ -28,6 +29,7 @@ namespace TP1.Views
         private List<decimal> limites = new List<decimal>();
         private List<decimal> resultadosTest = new List<decimal>();
         bool cargado = false;
+        DataTable tablaExcel;
 
 
         public PuntoC()
@@ -90,9 +92,8 @@ namespace TP1.Views
                 modulo = Int32.Parse(TxtModulo.Text);
                 numeros_aleatorios.Clear(); // deja el vector estado vacio
                 numeros_aleatorios = Gestor.generar("Mixto", xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
-                mostrarVectorEstado(numeros_aleatorios);
-                BtnTest.IsEnabled = true;
-                dgvVectorEstado.Visibility = Visibility.Visible;
+                tablaExcel = mostrarVectorEstado(numeros_aleatorios);
+                estadoBotones(true);
             }
             else
             {
@@ -152,7 +153,7 @@ namespace TP1.Views
             }
 
         }
-        private void mostrarVectorEstado(List<decimal> vectorEstado)
+        private DataTable mostrarVectorEstado(List<decimal> vectorEstado)
         {
             DataTable tablaNumero = new DataTable();
             tablaNumero.Columns.Add("num");
@@ -168,6 +169,8 @@ namespace TP1.Views
                 tablaNumero.Rows.Add(_row);
             }
             dgvVectorEstado.DataContext = tablaNumero;
+            dgvVectorEstado.Visibility = Visibility.Visible;
+            return tablaNumero;
 
         }
 
@@ -183,8 +186,28 @@ namespace TP1.Views
         private void estadoBotones(bool estado)
         {
             BtnTest.IsEnabled = estado;
+            BtnExportar.IsEnabled = estado;
         }
 
 
+        private void BtnExportar_OnClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new VistaFolderBrowserDialog();
+            dialog.Description = "Elija una carpeta para exportar la serie generada";
+            dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
+
+            if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
+            {
+                MessageBox.Show("Because you are not using Windows Vista or later, the regular folder browser dialog will be used. Please use Windows Vista to see the new dialog.", "Sample folder browser dialog");
+            }
+
+            if ((bool)dialog.ShowDialog())
+            {
+                //MessageBox.Show($"The selected folder was:{Environment.NewLine}{dialog.SelectedPath}", "Sample folder browser dialog");
+                Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel);
+                MessageBox.Show("La serie de numeros generada se ha exportado en " + dialog.SelectedPath,
+                    "Exportacion exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
     }
 }
