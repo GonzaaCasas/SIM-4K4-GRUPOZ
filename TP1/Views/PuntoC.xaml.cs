@@ -204,7 +204,7 @@ namespace TP1.Views
             if ((bool)dialog.ShowDialog())
             {
                 //MessageBox.Show($"The selected folder was:{Environment.NewLine}{dialog.SelectedPath}", "Sample folder browser dialog");
-                Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel);
+                Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel, "Serie generada punto C");
                 MessageBox.Show("La serie de numeros generada se ha exportado en " + dialog.SelectedPath,
                     "Exportacion exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
             }

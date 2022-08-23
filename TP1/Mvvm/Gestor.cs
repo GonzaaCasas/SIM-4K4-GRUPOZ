@@ -117,9 +117,9 @@ namespace TP1.Mvvm
         }
 
 
-        public static bool ExportarExcel(string ruta, DataTable tabla)
+        public static bool ExportarExcel(string ruta, DataTable tabla, string nombreArchivo)
         {
-            return ExportadorExcel.ExportarExcel(ruta, tabla);
+            return ExportadorExcel.ExportarExcel(ruta, tabla, nombreArchivo);
         }
 
 

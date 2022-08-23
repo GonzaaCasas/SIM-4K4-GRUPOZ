@@ -15,7 +15,7 @@ namespace TP1.ViewModels
     internal class ExportadorExcel
     {
         
-        public static bool ExportarExcel(string ruta, DataTable dataTable)
+        public static bool ExportarExcel(string ruta, DataTable dataTable, string nombreArchivo)
         {
             var wb = new XLWorkbook();
 
@@ -24,7 +24,7 @@ namespace TP1.ViewModels
             ws.Cell("A1").Value = "Nº";
             ws.Cell("B1").Value = "Valor";
 
-            wb.SaveAs( ruta + "\\Serie generada.xlsx");
+            wb.SaveAs( ruta + "\\" + nombreArchivo +".xlsx");
             return true;
 
         }
