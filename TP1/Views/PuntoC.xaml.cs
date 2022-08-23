@@ -30,6 +30,7 @@ namespace TP1.Views
         private List<decimal> resultadosTest = new List<decimal>();
         bool cargado = false;
         DataTable tablaExcel;
+        private Grafico grafico = null;
 
 
         public PuntoC()
@@ -83,7 +84,7 @@ namespace TP1.Views
         {
             if (ValidarCamposForm())
             {
-                GraficoB.Reset();
+                dockPlot.Children.Remove(grafico);
                 muestra = Int32.Parse(TxtMuestra.Text);
                 subintervalos = Int32.Parse(TxtSubintervalos.Text);
                 xi_1 = Int32.Parse(TxtSemilla.Text);
@@ -131,11 +132,12 @@ namespace TP1.Views
 
             decimal[] vectorObservados = observados.ToArray();
 
-            GraficoB.Reset(); //funciona dudoso
-            GraficoB.AgregarColeccion(vectorEsperado, "Esperado");
-            GraficoB.AgregarColeccion(vectorObservados, "Observados");
-            GraficoB.AgregarIntervalos(labels);
-            GraficoB.Visible();
+            grafico = new Grafico();
+            dockPlot.Children.Add(grafico);
+            grafico.AgregarColeccion(vectorEsperado, "Esperado");
+            grafico.AgregarColeccion(vectorObservados, "Observados");
+            grafico.AgregarIntervalos(labels);
+            grafico.Visible(true);
 
 
             lblJiObtenida.Content = "Ji Obtenido \n" + Math.Round(resultadosTest[0], 4, MidpointRounding.AwayFromZero).ToString();

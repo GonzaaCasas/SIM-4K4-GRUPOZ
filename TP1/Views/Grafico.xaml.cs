@@ -62,19 +62,18 @@ namespace TP1.Views
             Labels = labels;
         }
 
-        public void Visible()
+        public void Visible(bool visible)
         {
-            Visibility = Visibility.Visible;
+            if (visible)
+            {
+                Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Visibility = Visibility.Hidden;
+            }
+            
         }
-
-        public void Reset()
-        {
-            SeriesCollection.Clear();
-            Labels = new string[0];
-            Visibility = Visibility.Hidden;
-
-        }
-
 
     }
 }
