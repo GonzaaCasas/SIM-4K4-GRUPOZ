@@ -171,7 +171,7 @@ namespace TP1.Views
 
                 numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
-                mostrarVectorEstado(numeros_aleatorios);
+                mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
                 porcentajes = porcentajeIntervalos();
                 mostrarIntervalos(porcentajes);
             }
@@ -189,7 +189,7 @@ namespace TP1.Views
 
                 numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
-                mostrarVectorEstado(numeros_aleatorios);
+                mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
 
                 porcentajes = porcentajeIntervalos();
                 mostrarIntervalos(porcentajes);
