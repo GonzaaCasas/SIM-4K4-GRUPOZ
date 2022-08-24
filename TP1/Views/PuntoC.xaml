@@ -117,7 +117,7 @@
             <DockPanel x:Name="dockPlot"
                         Grid.Column="0"
                         Grid.Row="1" 
-                        Grid.ColumnSpan="2" 
+                        Grid.ColumnSpan="3" 
                         Grid.RowSpan="2" 
                         Margin="0,30,0,30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <local:Grafico x:Name="GraficoB" ></local:Grafico>

@@ -11,10 +11,10 @@ namespace TP1.Models
         private static decimal xn = 0;
         private static decimal xn_1;  // este es solo para el metodo aditivo
 
-        public static List<decimal> generar(string metodo, decimal xi,decimal c, decimal a, decimal modulo, int muestra)
+        public static List<decimal> generar(string metodo, decimal xi,decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
           
         {
-            xn_1 = 0; // aca iria el input de la segunda semilla
+            xn_1 = semilla2; //  segunda semilla para el metodo aditivo
             numeros_aleatorios.Clear();
           
             for (int i = 0; i < muestra; i++)

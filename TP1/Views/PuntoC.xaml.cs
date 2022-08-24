@@ -92,7 +92,7 @@ namespace TP1.Views
                 cMultiplicadora = Int32.Parse(TxtConstanteMultiplicadora.Text);
                 modulo = Int32.Parse(TxtModulo.Text);
                 numeros_aleatorios.Clear(); // deja el vector estado vacio
-                numeros_aleatorios = Gestor.generar("Mixto", xi_1, cIndependiente, cMultiplicadora, modulo, muestra);
+                numeros_aleatorios = Gestor.generar("Mixto", xi_1, cIndependiente, cMultiplicadora, modulo, muestra, 0);
                 tablaExcel = mostrarVectorEstado(numeros_aleatorios);
                 estadoBotones(true);
             }

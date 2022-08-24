@@ -10,14 +10,14 @@ namespace TP1.Mvvm
     internal class Gestor
     {
         private ArrayList numeros_aleatorios = new ArrayList();
-        private static List<decimal> observaciones;
 
 
 
-        public static List<decimal> generar(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra)
+
+        public static List<decimal> generar(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
 
         {
-            return Generador.generar(metodo, xi_1, c, a, modulo, muestra);
+            return Generador.generar(metodo, xi_1, c, a, modulo, muestra, semilla2);
         }
 
         public static List<decimal> generarSiguientes(string metodo, decimal c, decimal a, decimal modulo, int muestra)

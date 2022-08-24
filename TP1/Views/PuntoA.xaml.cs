@@ -18,6 +18,7 @@ namespace TP1.Views
     public partial class PuntoA : Page
     {
         private decimal xi_1;
+        private decimal xi_2; //segund semilla
         private decimal cIndependiente;
         private decimal cMultiplicadora;
         private decimal modulo;
@@ -128,6 +129,7 @@ namespace TP1.Views
             if (ValidarCamposForm())
             {
                 xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
+                xi_2 = decimal.Parse(TxtSemilla2.Text);
                 if ((bool)rbMixto.IsChecked) { cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text); }
                 cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
                 modulo = decimal.Parse(TxtModulo.Text);
@@ -139,7 +141,7 @@ namespace TP1.Views
 
                 numeros_aleatorios.Clear(); // deja el vector estado vacio
 
-                numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra); // le pongo -1 pq ya agregue al array el random de la semilla
+                numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra, xi_2); // le pongo -1 pq ya agregue al array el random de la semilla
 
                 mostrarVectorEstado(numeros_aleatorios);
                 // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
