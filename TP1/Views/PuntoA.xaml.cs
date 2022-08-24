@@ -277,7 +277,12 @@ namespace TP1.Views
         {
             var boton = sender as RadioButton;
 
-            TxtConstanteIndependiente.IsEnabled = true;
+            LblSemilla2.Visibility = Visibility.Hidden;
+            TxtSemilla2.Visibility = Visibility.Hidden;
+            LblCInd.Visibility = Visibility.Visible;
+            TxtConstanteIndependiente.Visibility = Visibility.Visible;
+            LblCMult.Visibility = Visibility.Visible;
+            TxtConstanteMultiplicadora.Visibility = Visibility.Visible;
         }
 
         private void rbMultiplicativo_Checked(object sender, RoutedEventArgs e)
@@ -285,7 +290,12 @@ namespace TP1.Views
 
             var boton = sender as RadioButton;
 
-            TxtConstanteIndependiente.IsEnabled = false;
+            LblCInd.Visibility = Visibility.Hidden;
+            TxtConstanteIndependiente.Visibility = Visibility.Hidden;
+            LblSemilla2.Visibility = Visibility.Hidden;
+            TxtSemilla2.Visibility = Visibility.Hidden;
+            LblCMult.Visibility = Visibility.Visible;
+            TxtConstanteMultiplicadora.Visibility = Visibility.Visible;
         }
 
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
@@ -295,6 +305,19 @@ namespace TP1.Views
                 estadoBotones(false);
 
             }
+
+        }
+
+        private void RbAditivo_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var boton = sender as RadioButton;
+
+            LblCInd.Visibility = Visibility.Hidden;
+            TxtConstanteIndependiente.Visibility = Visibility.Hidden;
+            LblCMult.Visibility = Visibility.Hidden;
+            TxtConstanteMultiplicadora.Visibility = Visibility.Hidden;
+            LblSemilla2.Visibility = Visibility.Visible;
+            TxtSemilla2.Visibility = Visibility.Visible;
 
         }
     }
