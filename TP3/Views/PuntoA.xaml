@@ -69,16 +69,16 @@
                          Text="19"
                          TextChanged="Txt_TextChanged"/>
             </StackPanel>
-            <!--<StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10">
-                <Label Content="Modulo" FontSize="14"/>
-                <TextBox x:Name="TxtModulo" 
+            <StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10">
+                <Label Content="Cantidad de valores" FontSize="14"/>
+                <TextBox x:Name="TxtCantidad" 
                          PreviewTextInput="NumberValidationTextBox" 
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150"
                          HorizontalAlignment="Left"
                          Text="53"
                          TextChanged="Txt_TextChanged"/>
-            </StackPanel>-->
+            </StackPanel>
             <!--<StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-200,0,0,0" FontSize="16">Valores</Label>
                 <DockPanel Width="40"></DockPanel>

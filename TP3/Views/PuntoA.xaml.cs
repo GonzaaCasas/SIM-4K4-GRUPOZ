@@ -25,7 +25,9 @@ namespace TP3.Views
         private decimal media;
         private decimal DE;
         private decimal lambda;
+        private int cantidad;
         private int muestra;
+
         private string metodo = "";
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private List<decimal> frecuencia_nroaleatorios = new List<decimal>();
@@ -138,9 +140,12 @@ namespace TP3.Views
 
                 //metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : (bool)rbMixto.IsChecked ?  "Mixto" : "Aditivo";
                 //muestra = 20;
-
-
-
+                cantidad = int.Parse(TxtCantidad.Text);
+                lambda = decimal.Parse(TxtLambda.Text);
+                media = decimal.Parse(TxtMedia.Text);
+                DE = decimal.Parse(TxtDE.Text);
+                //CONEXION AL BACKEND PARA PRUEBAS ACA
+                //CONEXION AL BACKEND PARA PRUEBAS ACA
                 //CONEXION AL BACKEND PARA PRUEBAS ACA
 
                 //numeros_aleatorios.Clear(); // deja el vector estado vacio
