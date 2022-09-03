@@ -17,22 +17,20 @@ namespace TP3.Views
 
     public partial class PuntoA : Page
     {
-        private decimal xi_1;
-        private decimal xi_2; //segund semilla
-        private decimal cIndependiente;
-        private decimal cMultiplicadora;
-        private decimal modulo;
+        //private decimal xi_1;
+        //private decimal xi_2; //segund semilla
+        //private decimal cIndependiente;
+        //private decimal cMultiplicadora;
+        //private decimal modulo;
+        private decimal media;
+        private decimal DE;
+        private decimal lambda;
         private int muestra;
         private string metodo = "";
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private List<decimal> frecuencia_nroaleatorios = new List<decimal>();
         private IEnumerable<decimal> porcentajes;
         bool cargado = false;
-
-
-        //PuntoAVM numeros_aleatorios = new PuntoAVM();
-
-
 
         public PuntoA()
         {
@@ -47,7 +45,7 @@ namespace TP3.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
-
+#pragma region validaciones
         private bool ValidarModulo(decimal modulo)
         {
             return (modulo > 0);
@@ -69,79 +67,85 @@ namespace TP3.Views
         }
 
 
+
         private bool ValidarCamposForm()
         {
-            if ((bool)rbMixto.IsChecked)
-            {
-                if (!String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
-                {
-                    decimal semilla = decimal.Parse(TxtSemilla.Text);
-                    decimal modulo = decimal.Parse(TxtModulo.Text);
-                    decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
-                    decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
-                    return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente, modulo));
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else if ((bool)rbMultiplicativo.IsChecked)
-            {
-                if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
-                {
-                    decimal semilla = decimal.Parse(TxtSemilla.Text);
-                    decimal modulo = decimal.Parse(TxtModulo.Text);
-                    decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
+            //if ((bool)rbMixto.IsChecked)
+            //{
+            //    if (!String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+            //    {
+            //        decimal semilla = decimal.Parse(TxtSemilla.Text);
+            //        decimal modulo = decimal.Parse(TxtModulo.Text);
+            //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
+            //        decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
+            //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente, modulo));
+            //    }
+            //    else
+            //    {
+            //        return false;
+            //    }
+            //}
+            //else if ((bool)rbMultiplicativo.IsChecked)
+            //{
+            //    if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+            //    {
+            //        decimal semilla = decimal.Parse(TxtSemilla.Text);
+            //        decimal modulo = decimal.Parse(TxtModulo.Text);
+            //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
 
-                    return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else if ((bool)rbAditivo.IsChecked)
-            {
-                if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
-                {
-                    decimal semilla = decimal.Parse(TxtSemilla.Text);
-                    decimal modulo = decimal.Parse(TxtModulo.Text);
-                    decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
+            //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
+            //    }
+            //    else
+            //    {
+            //        return false;
+            //    }
+            //}
+            //else if ((bool)rbAditivo.IsChecked)
+            //{
+            //    if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+            //    {
+            //        decimal semilla = decimal.Parse(TxtSemilla.Text);
+            //        decimal modulo = decimal.Parse(TxtModulo.Text);
+            //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
 
-                    return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
+            //    }
+            //    else
+            //    {
+            //        return false;
+            //    }
+            //}
 
-            else
-            {
-                return false;
-            }
+            //else
+            //{
+            //    return false;
+            //}
+            return true;
         }
+
+#pragma endregion validaciones
 
         private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
         {
 
             if (ValidarCamposForm())
             {
-                xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
-                xi_2 = decimal.Parse(TxtSemilla2.Text);
-                if ((bool)rbMixto.IsChecked) { cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text); }
-                cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
-                modulo = decimal.Parse(TxtModulo.Text);
+                //xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
+                //xi_2 = decimal.Parse(TxtSemilla2.Text);
+                //if ((bool)rbMixto.IsChecked) { cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text); }
+                //cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
+                //modulo = decimal.Parse(TxtModulo.Text);
 
-                metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : (bool)rbMixto.IsChecked ?  "Mixto" : "Aditivo";
-                muestra = 20;
+                //metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : (bool)rbMixto.IsChecked ?  "Mixto" : "Aditivo";
+                //muestra = 20;
 
 
 
-                numeros_aleatorios.Clear(); // deja el vector estado vacio
+                //CONEXION AL BACKEND PARA PRUEBAS ACA
 
-                numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra, xi_2); // le pongo -1 pq ya agregue al array el random de la semilla
+                //numeros_aleatorios.Clear(); // deja el vector estado vacio
+
+                //numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra, xi_2); // le pongo -1 pq ya agregue al array el random de la semilla
 
                 mostrarVectorEstado(numeros_aleatorios);
                 // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
@@ -160,66 +164,66 @@ namespace TP3.Views
 
         private void estadoBotones(bool estado)
         {
-            BtnGenerarProximo.IsEnabled = estado;
-            BtnGenerarVeinte.IsEnabled = estado;
-            BtnGenerarDiezMil.IsEnabled = estado;
+            //BtnGenerarProximo.IsEnabled = estado;
+            //BtnGenerarVeinte.IsEnabled = estado;
+            //BtnGenerarDiezMil.IsEnabled = estado;
         }
 
-        private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez 
-        {
-            if (ValidarCamposForm())
-            {
-                muestra = 1;
+        //private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez 
+        //{
+        //    if (ValidarCamposForm())
+        //    {
+        //        muestra = 1;
 
-                numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
+        //        numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
-                mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
-                porcentajes = porcentajeIntervalos();
-                mostrarIntervalos(porcentajes);
-            }
-            else
-            {
-                MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //        mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
+        //        porcentajes = porcentajeIntervalos();
+        //        mostrarIntervalos(porcentajes);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
-        private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas 
-        {
-            if (ValidarCamposForm())
-            {
-                muestra = 20;
+        //private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas 
+        //{
+        //    if (ValidarCamposForm())
+        //    {
+        //        muestra = 20;
 
-                numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
+        //        numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
 
-                mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
+        //        mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
 
-                porcentajes = porcentajeIntervalos();
-                mostrarIntervalos(porcentajes);
-            }
-            else
-            {
-                MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //        porcentajes = porcentajeIntervalos();
+        //        mostrarIntervalos(porcentajes);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
-        private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios 
-        {
-            if (ValidarCamposForm())
-            {
-                muestra = 10001 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
+        //private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios 
+        //{
+        //    if (ValidarCamposForm())
+        //    {
+        //        muestra = 10001 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
 
-                numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
+        //        numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
 
-                mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
-                porcentajes = porcentajeIntervalos();
-                mostrarIntervalos(porcentajes);
+        //        mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
+        //        porcentajes = porcentajeIntervalos();
+        //        mostrarIntervalos(porcentajes);
 
-            }
-            else
-            {
-                MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
         private IEnumerable<decimal> porcentajeIntervalos()
         {
@@ -227,21 +231,6 @@ namespace TP3.Views
             return porcentajes = Gestor.probabilidad(numeros_aleatorios).Select(x => x * 100).ToList();
 
         }
-
-
-        //private void CreateLabelDynamically(string numero)
-        //{
-        //    Label dynamicLabel = new Label();
-        //    dynamicLabel.Width = 240;
-
-        //    dynamicLabel.Height = 30;
-
-        //    dynamicLabel.Content = numero;
-
-        //    stckEstado.Children.Add(dynamicLabel);
-
-        //}
-
 
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
@@ -275,31 +264,6 @@ namespace TP3.Views
 
         }
 
-        private void rbMixto_Checked(object sender, RoutedEventArgs e)
-        {
-            var boton = sender as RadioButton;
-
-            LblSemilla2.Visibility = Visibility.Hidden;
-            TxtSemilla2.Visibility = Visibility.Hidden;
-            LblCInd.Visibility = Visibility.Visible;
-            TxtConstanteIndependiente.Visibility = Visibility.Visible;
-            LblCMult.Visibility = Visibility.Visible;
-            TxtConstanteMultiplicadora.Visibility = Visibility.Visible;
-        }
-
-        private void rbMultiplicativo_Checked(object sender, RoutedEventArgs e)
-        {
-
-            var boton = sender as RadioButton;
-
-            LblCInd.Visibility = Visibility.Hidden;
-            TxtConstanteIndependiente.Visibility = Visibility.Hidden;
-            LblSemilla2.Visibility = Visibility.Hidden;
-            TxtSemilla2.Visibility = Visibility.Hidden;
-            LblCMult.Visibility = Visibility.Visible;
-            TxtConstanteMultiplicadora.Visibility = Visibility.Visible;
-        }
-
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (cargado)
@@ -310,17 +274,18 @@ namespace TP3.Views
 
         }
 
-        private void RbAditivo_OnChecked(object sender, RoutedEventArgs e)
+        private void rbExponencial_Checked(object sender, RoutedEventArgs e) //para exponencial y para poisson
         {
-            var boton = sender as RadioButton;
+            TxtLambda.IsEnabled = true;
+            TxtDE.IsEnabled = false;
+            TxtMedia.IsEnabled = false;
+        }
 
-            LblCInd.Visibility = Visibility.Hidden;
-            TxtConstanteIndependiente.Visibility = Visibility.Hidden;
-            LblCMult.Visibility = Visibility.Hidden;
-            TxtConstanteMultiplicadora.Visibility = Visibility.Hidden;
-            LblSemilla2.Visibility = Visibility.Visible;
-            TxtSemilla2.Visibility = Visibility.Visible;
-
+        private void rbNormal_Checked(object sender, RoutedEventArgs e)
+        {
+            TxtLambda.IsEnabled = false;
+            TxtDE.IsEnabled = true;
+            TxtMedia.IsEnabled = true;
         }
     }
 }

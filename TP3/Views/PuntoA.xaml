@@ -40,8 +40,8 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,10,10,10" >
-                <Label Content="Semilla" FontSize="14"/>
-                <TextBox x:Name="TxtSemilla" 
+                <Label Content="Media" FontSize="14"/>
+                <TextBox x:Name="TxtMedia" 
                          PreviewTextInput="NumberValidationTextBox" 
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150" 
@@ -50,28 +50,18 @@
                          TextChanged="Txt_TextChanged"/>
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
-                <Label Name="LblCInd" Content="Constante Independiente" FontSize="14"/>
-                <TextBox x:Name="TxtConstanteIndependiente" 
+                <Label Name="LblDE" Content="Desviacion estandar" FontSize="14"/>
+                <TextBox x:Name="TxtDE" 
                          PreviewTextInput="NumberValidationTextBox" 
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150" 
                          HorizontalAlignment="Left"
                          Text="7"
                          TextChanged="Txt_TextChanged"/>
-
-                <Label Name="LblSemilla2" Content="Semilla 2" FontSize="14" Visibility="Hidden" Margin="0,-55,0,0"/>
-                <TextBox x:Name="TxtSemilla2" 
-                         PreviewTextInput="NumberValidationTextBox" 
-                         MaxHeight="26" MaxWidth="175" 
-                         MinWidth="150" 
-                         HorizontalAlignment="Left"
-                         Text="0"
-                         TextChanged="Txt_TextChanged"
-                         Visibility="Hidden" Margin="0,-30,0,0"/>
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="2" Margin="10,10,10,10">
-                <Label Name="LblCMult" Content="Constante Multiplicadora" FontSize="14"/>
-                <TextBox x:Name="TxtConstanteMultiplicadora" 
+                <Label Name="LblLambda" Content="Lambda (λ)" FontSize="14"/>
+                <TextBox x:Name="TxtLambda" 
                          PreviewTextInput="NumberValidationTextBox" 
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150" 
@@ -79,7 +69,7 @@
                          Text="19"
                          TextChanged="Txt_TextChanged"/>
             </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10">
+            <!--<StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10">
                 <Label Content="Modulo" FontSize="14"/>
                 <TextBox x:Name="TxtModulo" 
                          PreviewTextInput="NumberValidationTextBox" 
@@ -88,15 +78,15 @@
                          HorizontalAlignment="Left"
                          Text="53"
                          TextChanged="Txt_TextChanged"/>
-            </StackPanel>
-            <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            </StackPanel>-->
+            <!--<StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-200,0,0,0" FontSize="16">Valores</Label>
                 <DockPanel Width="40"></DockPanel>
                 <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16" Margin="0,0,-40,0"> Porcentajes</Label>
-            </StackPanel>
+            </StackPanel>-->
             <DockPanel Grid.Column="0" Grid.Row="1" Name="stckEstado" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="10,30,10,10">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal" >
-                    
+
                     <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False">
                         <DataGrid.CellStyle>
                             <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
@@ -167,9 +157,9 @@
                 <Label>
                     Elija un Método
                 </Label>
-                <RadioButton x:Name="rbMixto" Checked="rbMixto_Checked" Background="#cce4f7" IsChecked="True" Content="Mixto"></RadioButton>
-                <RadioButton x:Name="rbMultiplicativo" Checked="rbMultiplicativo_Checked" Background="#cce4f7" Content="Multiplicativo"></RadioButton>
-                <RadioButton x:Name="rbAditivo" Checked="RbAditivo_OnChecked" Background="#cce4f7" Content="Aditivo"></RadioButton> 
+                <RadioButton x:Name="rbExponencial" Checked="rbExponencial_Checked" Background="#cce4f7" Content="Exponencial"></RadioButton>
+                <RadioButton x:Name="rbPoisson" Checked="rbExponencial_Checked" Background="#cce4f7" Content="Poisson"></RadioButton>
+                <RadioButton x:Name="rbNormal" Checked="rbNormal_Checked" Background="#cce4f7" IsChecked="True" Content="Normal"></RadioButton>
                 <Button x:Name="BtnGenerar" 
                         Grid.Column="3" 
                         Grid.Row="1" 
@@ -180,7 +170,7 @@
                         Command="{Binding generarCommand}" Margin="47,10,48,0"
                         >Generar</Button>
             </StackPanel>
-            <StackPanel
+            <!--<StackPanel
                 Grid.Row="2" Grid.Column="3" Margin="10,10,10,10">
                 <Button x:Name="BtnGenerarProximo" 
                 Grid.Column="3" 
@@ -208,12 +198,8 @@
                         VerticalAlignment="Top"
                         Click="BtnGenerarDiezMil_Click" Content="Generar 10000" Margin="0,5,0,0"/>
 
-            </StackPanel>
-
-
+            </StackPanel>-->
 
         </Grid>
-
-
     </Grid>
 </Page>
