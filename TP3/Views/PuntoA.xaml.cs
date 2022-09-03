@@ -144,6 +144,7 @@ namespace TP3.Views
                 lambda = decimal.Parse(TxtLambda.Text);
                 media = decimal.Parse(TxtMedia.Text);
                 DE = decimal.Parse(TxtDE.Text);
+
                 //CONEXION AL BACKEND PARA PRUEBAS ACA
                 //CONEXION AL BACKEND PARA PRUEBAS ACA
                 //CONEXION AL BACKEND PARA PRUEBAS ACA
