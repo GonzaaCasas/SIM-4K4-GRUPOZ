@@ -67,6 +67,10 @@ namespace TP1.Views
         {
             return (semilla >= 0 && semilla < modulo);
         }
+        private bool ValidarSemilla2(decimal semilla2, decimal semilla, decimal modulo)
+        {
+            return (semilla2 < semilla  && semilla2 < modulo);
+        }
 
 
         private bool ValidarCamposForm()
@@ -103,13 +107,14 @@ namespace TP1.Views
             }
             else if ((bool)rbAditivo.IsChecked)
             {
-                if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
+                if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtSemilla2.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
                 {
                     decimal semilla = decimal.Parse(TxtSemilla.Text);
+                    decimal semilla2 = decimal.Parse(TxtSemilla2.Text);
                     decimal modulo = decimal.Parse(TxtModulo.Text);
                     decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
 
-                    return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
+                    return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarSemilla2(semilla2, semilla, modulo));
                 }
                 else
                 {

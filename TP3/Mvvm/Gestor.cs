@@ -11,13 +11,17 @@ namespace TP3.Mvvm
     {
         private ArrayList numeros_aleatorios = new ArrayList();
 
-
-
-
-        public static List<decimal> generar(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
+        public static List<decimal> generarVariablesAleatorias(string metodo, decimal media, decimal ds, decimal lambda,  int muestra)
 
         {
-            return Generador.generar(metodo, xi_1, c, a, modulo, muestra, semilla2);
+            return Generador.generarVariables(metodo, media, ds, lambda, muestra);
+        }
+
+
+        public static List<decimal> generarRandoms(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
+
+        {
+            return Generador.generarRandoms(metodo, xi_1, c, a, modulo, muestra, semilla2);
         }
 
         public static List<decimal> generarSiguientes(string metodo, decimal c, decimal a, decimal modulo, int muestra)

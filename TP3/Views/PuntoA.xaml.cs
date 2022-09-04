@@ -34,6 +34,9 @@ namespace TP3.Views
         private IEnumerable<decimal> porcentajes;
         bool cargado = false;
 
+        private List<decimal> numeros_variableAleatoria = new List<decimal>();
+
+
         public PuntoA()
         {
             InitializeComponent();
@@ -127,6 +130,8 @@ namespace TP3.Views
 
 #pragma endregion validaciones
 
+
+
         private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
         {
 
@@ -138,22 +143,27 @@ namespace TP3.Views
                 //cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
                 //modulo = decimal.Parse(TxtModulo.Text);
 
-                //metodo = (bool)rbMultiplicativo.IsChecked ? "Multiplicativo" : (bool)rbMixto.IsChecked ?  "Mixto" : "Aditivo";
+                metodo = (bool)rbExponencial.IsChecked ? "Exponencial" : (bool)rbPoisson.IsChecked ?  "Poisson" : "Normal";
                 //muestra = 20;
                 cantidad = int.Parse(TxtCantidad.Text);
                 lambda = decimal.Parse(TxtLambda.Text);
                 media = decimal.Parse(TxtMedia.Text);
                 DE = decimal.Parse(TxtDE.Text);
 
+
                 //CONEXION AL BACKEND PARA PRUEBAS ACA
                 //CONEXION AL BACKEND PARA PRUEBAS ACA
                 //CONEXION AL BACKEND PARA PRUEBAS ACA
+
+
+                numeros_variableAleatoria = Gestor.generarVariablesAleatorias(metodo, media, DE, lambda, cantidad);
+                Console.WriteLine("hola");
 
                 //numeros_aleatorios.Clear(); // deja el vector estado vacio
 
                 //numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra, xi_2); // le pongo -1 pq ya agregue al array el random de la semilla
 
-                mostrarVectorEstado(numeros_aleatorios);
+                mostrarVectorEstado(numeros_variableAleatoria);
                 // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
                 estadoBotones(true);
 
@@ -167,6 +177,9 @@ namespace TP3.Views
             }
 
         }
+
+
+
 
         private void estadoBotones(bool estado)
         {

@@ -7,11 +7,55 @@ namespace TP3.Models
 {
     internal class Generador
     {
-        private static List<decimal> numeros_aleatorios = new List<decimal>();
+        // variables para generar randoms
+        private static List<decimal> numeros_aleatorios = new List<decimal>();  
+
         private static decimal xn = 0;
         private static decimal xn_1;  // este es solo para el metodo aditivo
 
-        public static List<decimal> generar(string metodo, decimal xi,decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
+        // variables para generar valores de variable aleatorias
+        private static List<decimal> valores_variableAleatoria = new List<decimal>();
+        private static decimal xi;
+        // -------------------------------------
+
+        public static List<decimal> generarVariables(string metodo, decimal media, decimal desviacion, decimal lambda, int muestra)
+
+        {
+            numeros_aleatorios.Clear();
+            valores_variableAleatoria.Clear();
+            numeros_aleatorios = generarRandoms("Mixto", 37, 7, 19, 53, muestra + 1, 38);  // por defecto al conjunto de randoms lo generamos con el metodo Mixto  pq no aclara el enunciado con cual
+
+            // En vez de hacerlo con mixto lo podemos cambiar por randoms generados por el lenguaje si pinta 
+
+            // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto
+
+
+            for (int i = 0; i < muestra; i++)
+            {
+                switch (metodo)
+                {
+                    case "Exponencial": // validar antes que lambda sea positva
+                        xi = Distribucion.DistExpNegativa(lambda, numeros_aleatorios[i]);
+                        break;
+                    case "Poisson":
+                        xi = Distribucion.DistPoisson(lambda, numeros_aleatorios[i]);
+                        break;
+                    case "Normal": // validar antes que la desviacion sea mayor o igual a cero
+                        xi = Distribucion.DistNormal(media, desviacion, numeros_aleatorios[i], numeros_aleatorios[i + 1]);
+                        break;
+                }
+
+
+                valores_variableAleatoria.Add(xi); // agrega los valores de la variable aleatoria
+            }
+
+
+            return valores_variableAleatoria;
+        }
+
+
+
+        public static List<decimal> generarRandoms(string metodo, decimal xi,decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
           
         {
             xn_1 = semilla2; //  segunda semilla para el metodo aditivo
