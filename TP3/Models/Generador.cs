@@ -35,9 +35,9 @@ namespace TP3.Models
             // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto, pero el resto de las distribuciones no usan ese random extra
 
             // validar antes que lambda sea positva
-            valores_variableAleatoriaExpNeg = Distribucion.DistExpNegativa(lambda, numeros_aleatorios);
-            valores_variableAleatoriaPoisson = Distribucion.DistPoisson(lambda, numeros_aleatorios);
-            valores_variableAleatoriaNormal = Distribucion.DistNormal(media, desviacion, numeros_aleatorios);
+            valores_variableAleatoriaExpNeg = Distribucion.GenerarVariableExpNegativa(lambda, numeros_aleatorios);
+            valores_variableAleatoriaPoisson = Distribucion.GenerarVariablePoisson(lambda, numeros_aleatorios);
+            valores_variableAleatoriaNormal = Distribucion.GenerarVariableNormal(media, desviacion, numeros_aleatorios);
 
             return (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal);
 

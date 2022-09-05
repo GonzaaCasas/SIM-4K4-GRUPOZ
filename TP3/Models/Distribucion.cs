@@ -8,13 +8,31 @@ namespace TP3.Models
 {
     internal class Distribucion
     {
-        //private static decimal lambda;
-        //private static decimal media;
-        //private static decimal desviacion;
-        private static double z;
+        // variables para Uniforme
+        private static List<decimal> esperadosUniforme = new List<decimal>();
+
+
+        // Variables para Exponencial
+        private static List<decimal> esperadosExponencial = new List<decimal>();
+
+
+
+
+        // variables para Poisson
         private static List<double> p_acumulada = new List<double>();
         private static double fx;
         private static double Fx;
+        private static List<decimal> esperadosPoisson = new List<decimal>();
+
+
+
+        // variables para Normal
+        private static double z;
+        private static List<decimal> esperadosNormal = new List<decimal>();
+
+
+        // ---------------------------
+
         private static List<decimal> VariableExp = new List<decimal>();
         private static List<decimal> VariablePoisson = new List<decimal>();
         private static List<decimal> VariableNormal = new List<decimal>();
@@ -23,7 +41,7 @@ namespace TP3.Models
 
 
 
-        public static List<decimal> DistExpNegativa(decimal lambda, List<decimal> numeros_aleatorios)
+        public static List<decimal> GenerarVariableExpNegativa(decimal lambda, List<decimal> numeros_aleatorios)
         {
             VariableExp.Clear();
 
@@ -36,7 +54,7 @@ namespace TP3.Models
             return VariableExp;
         }
 
-        public static List<decimal> DistPoisson(decimal lambda, List<decimal> numeros_aleatorios)
+        public static List<decimal> GenerarVariablePoisson(decimal lambda, List<decimal> numeros_aleatorios)
         {
             VariablePoisson.Clear();
             p_acumulada.Clear();
@@ -73,7 +91,7 @@ namespace TP3.Models
             return VariablePoisson;
         }
 
-        public static List<decimal> DistNormal(decimal media, decimal desviacion, List<decimal> numeros_aleatorios)
+        public static List<decimal> GenerarVariableNormal(decimal media, decimal desviacion, List<decimal> numeros_aleatorios)
         {
             VariableNormal.Clear();
 
@@ -87,6 +105,55 @@ namespace TP3.Models
             }
 
             return VariableNormal;
+        }
+
+
+        public static List<decimal> obtenerEsperadosUniforme(int muestra, int intervalos)
+        {
+            esperadosUniforme.Clear();
+            for (int i = 0; i < muestra; i++)
+            {
+                esperadosUniforme.Add(muestra / intervalos);
+            }
+
+            return esperadosUniforme;
+
+        }
+
+
+        public static List<decimal> obtenerEsperadosExponencial(int muestra, int intervalos)
+        {
+            esperadosExponencial.Clear();
+            for (int i = 0; i < muestra; i++)
+            {
+                esperadosExponencial.Add(muestra / intervalos);
+            }
+
+            return esperadosExponencial;
+
+        }
+
+        public static List<decimal> obtenerEsperadosPoisson(int muestra, int intervalos)
+        {
+            esperadosPoisson.Clear();
+            for (int i = 0; i < muestra; i++)
+            {
+                esperadosPoisson.Add(muestra / intervalos);
+            }
+
+            return esperadosPoisson;
+
+        }
+        public static List<decimal> obtenerEsperadosNormal(int muestra, int intervalos)
+        {
+            esperadosNormal.Clear();
+            for (int i = 0; i < muestra; i++)
+            {
+                esperadosNormal.Add(muestra / intervalos);
+            }
+
+            return esperadosNormal;
+
         }
 
     }

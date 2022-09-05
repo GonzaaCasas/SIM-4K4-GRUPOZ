@@ -13,13 +13,14 @@ namespace TP3.Mvvm
         private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
+        private static int _muestra;
 
         public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda,  int muestra)
 
         {
-            numeros_aleatorios.Clear();
+            _muestra = muestra;
             numeros_aleatorios = generarRandoms("Mixto", 37, 7, 19, 53, muestra + 1, 38);   // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto
-            (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Generador.generarVariables(numeros_aleatorios, media, ds, lambda, muestra);
+            (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Generador.generarVariables(numeros_aleatorios, media, ds, lambda, _muestra);
 
         }
 
@@ -49,17 +50,31 @@ namespace TP3.Mvvm
             return Generador.generarRandomcSharp(muestra);
         }
 
-        public static List<decimal> test(List<decimal> numeros_aleatorios, int muestra, int subintervalos) // cambiar a List<decimal>
+        public static List<decimal> test(int subintervalos) // cambiar a List<decimal>
         {
-            return ChiCuadrado.testChiCuadrado(numeros_aleatorios, muestra, subintervalos);
+            return ChiCuadrado.testChiCuadrado(numeros_aleatorios, _muestra, subintervalos);
 
         }
 
-        public static List<decimal> obtenerObservaciones(List<decimal> numeros_aleatorios, int muestra, int subintervalos) // cambiar a List<decimal>
+        public static List<decimal> obtenerObservaciones() 
         {
-            return ChiCuadrado.freqAbsolutas(numeros_aleatorios, subintervalos, muestra);
+            return ChiCuadrado.obtenerFreqAbsolutas();
 
         }
+
+        public static (List<decimal>, List<decimal>, List<decimal>, List<decimal>) obtenerEsperados()
+        {
+            return (ChiCuadrado.obtenerEsperadoUniforme(), ChiCuadrado.obtenerEsperadoExponencial(), ChiCuadrado.obtenerEsperadoPoisson(), ChiCuadrado.obtenerEsperadoNormal());
+
+        }
+
+        public static List<decimal> obtenerConjuntoRandomGenerado()
+        {
+            return numeros_aleatorios;  
+
+        }
+
+
 
         public static List<decimal> probabilidad(List<decimal> numeros_aleatorios)
         {
@@ -128,9 +143,9 @@ namespace TP3.Mvvm
             return array; // esto habria que mostrar u de ultima para cada pN dentro de un label entonces el return seria cada probabilidad y no una lista
         }
 
-        public static List<decimal> obtenerLimites(List<decimal> conjuntoNumeros, int subintervalos)
+        public static List<decimal> obtenerMedioIntervalos(int subintervalos)
         {
-            return ChiCuadrado.limites(conjuntoNumeros, subintervalos);
+            return ChiCuadrado.obtenerMedios(numeros_aleatorios, subintervalos);
         }
 
 

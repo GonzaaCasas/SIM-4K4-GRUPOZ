@@ -147,24 +147,19 @@ namespace TP3.Views
                 DE = decimal.Parse(TxtDE.Text);
 
 
-                //CONEXION AL BACKEND PARA PRUEBAS ACA
-                //CONEXION AL BACKEND PARA PRUEBAS ACA
-                //CONEXION AL BACKEND PARA PRUEBAS ACA
-
-
                 Gestor.generarVariablesAleatorias(media, DE, lambda, cantidad);
 
                 (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Gestor.obtenerVariablesAleatorias();
 
           
 
-                mostrarVectorEstado(valores_variableAleatoriaExpNeg); //Falta agregar para que tmb se pueda pasar por parametro y muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
+                mostrarVectorEstado(valores_variableAleatoriaExpNeg); //Falta agregar para que tmb muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
 
                 estadoBotones(true);
 
-                porcentajes = porcentajeIntervalos();
+                //porcentajes = porcentajeIntervalos();
 
-                mostrarIntervalos(porcentajes);
+                //mostrarIntervalos(porcentajes);
             }
             else
             {
@@ -239,12 +234,12 @@ namespace TP3.Views
         //    }
         //}
 
-        private IEnumerable<decimal> porcentajeIntervalos()
-        {
+        //private IEnumerable<decimal> porcentajeIntervalos()
+        //{
 
-            return porcentajes = Gestor.probabilidad(numeros_aleatorios).Select(x => x * 100).ToList();
+        //    return porcentajes = Gestor.probabilidad(numeros_aleatorios).Select(x => x * 100).ToList();
 
-        }
+        //}
 
         private void mostrarVectorEstado(List<decimal> vectorEstado)
         {
@@ -272,11 +267,11 @@ namespace TP3.Views
             return tabla;
         }
 
-        private void mostrarIntervalos(IEnumerable<decimal> vectorIntervalos)
-        {
-            dgvIntervalos.DataContext = generarTabla(vectorIntervalos.ToList(), "nIntervalo", "porcentaje");
+        //private void mostrarIntervalos(IEnumerable<decimal> vectorIntervalos)
+        //{
+        //    dgvIntervalos.DataContext = generarTabla(vectorIntervalos.ToList(), "nIntervalo", "porcentaje");
 
-        }
+        //}
 
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
         {

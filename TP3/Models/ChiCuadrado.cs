@@ -10,50 +10,106 @@ namespace TP3.Models
 
         private static List<decimal> acumuladoChi = new List<decimal>();
         private static List<decimal> chis = new List<decimal>();
+        private static List<decimal> observados = new List<decimal>();
+        private static List<decimal> esperadosUniforme = new List<decimal>();
+        private static List<decimal> esperadosExponencial = new List<decimal>();
+        private static List<decimal> esperadosPoisson = new List<decimal>();
+        private static List<decimal> esperadosNormal = new List<decimal>();
+        private static decimal chiCuadradoObtenido;
+        private static List<decimal> valoresMediosIntervalos = new List<decimal>();
+
+
+
+
+
         public static List<decimal> testChiCuadrado(List<decimal> numeros_aleatorios, int muestra, int subintervalos)
         {
-            acumuladoChi.Clear();
+            
             chis.Clear();
+            observados.Clear();
+            esperadosUniforme.Clear();
+            esperadosExponencial.Clear();
+            esperadosPoisson.Clear();
+            esperadosNormal.Clear();
 
-            List<decimal> observados = new List<decimal>();
-
-            decimal esperado = (decimal)muestra / (decimal)subintervalos;
-
+            CalcularfreqAbsolutas(numeros_aleatorios, subintervalos, muestra);
+            calcularEsperados(subintervalos, muestra);
 
 
-            observados = freqAbsolutas(numeros_aleatorios, subintervalos, muestra);
-
-
-
+            // calculo de chi para distribucion Uniforme
+            acumuladoChi.Clear();
             for (int i = 0; i < observados.Count(); i++)
             {
-                double e_o = (double)(esperado - observados[i]);
-                decimal e_oExpDos = (decimal)Math.Pow(e_o, 2);  // lo puse en  varios paso para q se entienda al leerlo 
-                acumuladoChi.Add(e_oExpDos / esperado);
+                double e_o = (double)(esperadosUniforme[i] - observados[i]);
+                decimal e_oExpDos = (decimal)Math.Pow(e_o, 2);  
+                acumuladoChi.Add(e_oExpDos / esperadosUniforme[i]);
+            }
+            chiCuadradoObtenido = acumuladoChi.Sum();
+            chis.Add(chiCuadradoObtenido);
+
+            // calculo de chi para distribucion Exponencial
+            acumuladoChi.Clear();
+            for (int i = 0; i < observados.Count(); i++)
+            {
+                double e_o = (double)(esperadosUniforme[i] - observados[i]);
+                decimal e_oExpDos = (decimal)Math.Pow(e_o, 2);
+                acumuladoChi.Add(e_oExpDos / esperadosUniforme[i]);
+            }
+            chiCuadradoObtenido = acumuladoChi.Sum();
+            chis.Add(chiCuadradoObtenido);
+
+            // calculo de chi para distribucion Poisson
+            acumuladoChi.Clear();
+            for (int i = 0; i < observados.Count(); i++)
+            {
+                double e_o = (double)(esperadosUniforme[i] - observados[i]);
+                decimal e_oExpDos = (decimal)Math.Pow(e_o, 2);
+                acumuladoChi.Add(e_oExpDos / esperadosUniforme[i]);
+            }
+            chiCuadradoObtenido = acumuladoChi.Sum();
+            chis.Add(chiCuadradoObtenido);
+
+            // calculo de chi para distribucion Normal
+            acumuladoChi.Clear();
+            for (int i = 0; i < observados.Count(); i++)
+            {
+                double e_o = (double)(esperadosUniforme[i] - observados[i]);
+                decimal e_oExpDos = (decimal)Math.Pow(e_o, 2);
+                acumuladoChi.Add(e_oExpDos / esperadosUniforme[i]);
             }
 
-            decimal chiCuadrado = acumuladoChi.Sum();
-            chis.Add(chiCuadrado);
+            chiCuadradoObtenido = acumuladoChi.Sum();
+            chis.Add(chiCuadradoObtenido);
 
+            // calculo de chi Tabulado
 
             double gradosLibertad = subintervalos - 1;
             double alfa = 0.05; // nivel de significación 95 %
 
             decimal chiSquareTeorico = (decimal)MathNet.Numerics.Distributions.ChiSquared.InvCDF(gradosLibertad, 1 - alfa);
-            chis.Add(chiSquareTeorico);
+            chis.Add(chiSquareTeorico); 
 
 
-            return chis;
+            return chis; // indice cero corresponde al chi uniforme y el ultimo indice al chi tabulado
+
+        }
+
+        public static void calcularEsperados(int subintervalos, int muestra)
+        {
+            esperadosUniforme = Distribucion.obtenerEsperadosUniforme(muestra, subintervalos);
+            esperadosExponencial = Distribucion.obtenerEsperadosPoisson(muestra, subintervalos);
+            esperadosPoisson = Distribucion.obtenerEsperadosPoisson(muestra, subintervalos);
+            esperadosNormal = Distribucion.obtenerEsperadosPoisson(muestra, subintervalos);
 
         }
 
 
 
 
-        public static List<decimal> freqAbsolutas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
+        public static void CalcularfreqAbsolutas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
         {
             decimal[] arr = new decimal[subintervalos];
-            List<decimal> array = new List<decimal>(arr); //cada indice de la lista corresponde a la freq relativa de un intervalo
+            List<decimal> frequencias = new List<decimal>(arr); 
 
 
             decimal min = numeros_aleatorios.Min();
@@ -76,11 +132,11 @@ namespace TP3.Models
                 {
                     if (random >= lim_inferior && random <= lim_superior)
                     {
-                        array[i] = (array[i] * simAnterior + 1) / simActual; // observados
+                        frequencias[i] = (frequencias[i] * simAnterior + 1) / simActual; // observados
                     }
                     else
                     {
-                        array[i] = (array[i] * simAnterior + 0) / simActual;
+                        frequencias[i] = (frequencias[i] * simAnterior + 0) / simActual;
                     }
 
                     lim_inferior = lim_superior;
@@ -97,11 +153,47 @@ namespace TP3.Models
             }
 
 
-            return array.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ;
+            observados = frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
 
         }
 
-        public static List<decimal> limites(List<decimal> conjuntoNumeros, int subintervalos)
+        public static List<decimal> obtenerFreqAbsolutas()
+        {
+            return observados;
+        }
+        public static List<decimal> obtenerEsperadoUniforme()
+        {
+            return esperadosUniforme;
+        }
+        public static List<decimal> obtenerEsperadoExponencial()
+        {
+            return esperadosExponencial;
+        }
+        public static List<decimal> obtenerEsperadoPoisson()
+        {
+            return esperadosPoisson;
+        }
+        public static List<decimal> obtenerEsperadoNormal()
+        {
+            return esperadosNormal;
+        }
+
+        public static List<decimal> obtenerMedios(List<decimal> conjuntoNumeros, int intervalos)
+        {
+            // 0 - 1 , 1 - 5, 5, 9
+            valoresMediosIntervalos.Clear();
+            List<decimal> limites = calcularLimites(conjuntoNumeros, intervalos);
+
+            for (int i = 0; i < limites.Count() - 1; i++)
+            {
+                valoresMediosIntervalos.Add((limites[i] + limites[i + 1]) / 2); // (limite inferior + limite superior) / 2
+            }
+
+            return valoresMediosIntervalos;
+        }
+
+
+        public static List<decimal> calcularLimites(List<decimal> conjuntoNumeros, int subintervalos)
         {
             decimal min = conjuntoNumeros.Min();
             decimal max = conjuntoNumeros.Max();

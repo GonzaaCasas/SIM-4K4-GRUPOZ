@@ -26,7 +26,17 @@ namespace TP3.Views
         int subintervalos;
         private List<decimal> numeros_aleatorios = new List<decimal>();
         private Gestor gestor;
+
+        private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
+
         private List<decimal> observados = new List<decimal>();
+        private List<decimal> esperadosUniforme = new List<decimal>();
+        private List<decimal> esperadosExponencial = new List<decimal>();
+        private List<decimal> esperadosPoisson = new List<decimal>();
+        private List<decimal> esperadosNormal = new List<decimal>();
+
         private List<decimal> limites = new List<decimal>();
         private List<decimal> resultadosTest = new List<decimal>();
         bool cargado = false;
@@ -48,7 +58,7 @@ namespace TP3.Views
         }
 
 
-        private void BtnGenerar_B_Click(object sender, RoutedEventArgs e)
+        private void BtnGenerar_B_Click(object sender, RoutedEventArgs e) // EL BOTON GENERAR DEL PUNTO B DEBERIA HABILITARSE SOLO CUANDO YA SE USO EL PUNTO A
         {
             if (validarCampos())
             {
@@ -58,8 +68,9 @@ namespace TP3.Views
                     muestra = Int32.Parse(TxtMuestra.Text);
                     subintervalos = Int32.Parse(TxtSubintervalos.Text);
                     numeros_aleatorios.Clear(); // deja el vector estado vacio
-                    numeros_aleatorios = Gestor.generadorRandomPuntoB(muestra);
-                    tablaExcel = mostrarVectorEstado(numeros_aleatorios);
+                    (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Gestor.obtenerVariablesAleatorias(); 
+                    tablaExcel = mostrarVectorEstado(valores_variableAleatoriaExpNeg);   //Falta agregar para que tmb muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
+
                     // Gestor.probabilidad(numeros_aleatorios);
                     estadoBotones(true);
 
@@ -76,46 +87,48 @@ namespace TP3.Views
 
         }
 
-        private void BtnTest_Click(object sender, RoutedEventArgs e)
+        private void BtnTest_Click(object sender, RoutedEventArgs e)  // EL TEST DEBERIA HABILITARSE SOLO CUANDO YA SE USO EL PUNTO A 
         {
             if (validarCampos())
             {
                 if (Int32.Parse(TxtSubintervalos.Text) > 0)
                 {
-
+                    
 
                     dgvVectorEstado.Visibility = Visibility.Hidden;
                     resultadosTest.Clear();
-                    resultadosTest = Gestor.test(numeros_aleatorios, this.muestra, this.subintervalos); // devuelve el chi cuadrado obtenido y el tabulado
-                    observados = Gestor.obtenerObservaciones(numeros_aleatorios, this.muestra, this.subintervalos);
-                    decimal esperado = muestra / subintervalos;
-                    limites = Gestor.obtenerLimites(numeros_aleatorios, subintervalos);
+                    resultadosTest = Gestor.test(this.subintervalos); // devuelve los chi cuadrado obtenidos, el primer indice es de la distribucion uniforme, despues es exponencial, poisson, normal y el ultmo es el tabulado teorico
+                    observados = Gestor.obtenerObservaciones();
+                    (esperadosUniforme, esperadosExponencial, esperadosPoisson, esperadosNormal) = Gestor.obtenerEsperados();
+                    //decimal esperado = muestra / subintervalos; // no hace falta mas esto, los esperados ahora estan guardados arriba, te devuelve tmb el uniforme aunque no hace falta
 
-                    string[] labels = new string[subintervalos];
-                    decimal anterior = limites[0];
-                    for (int i = 1; i < subintervalos + 1; i++)
-                    {
-                        labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString()
-                            + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
-                        anterior = limites[i];
-                    }
+                    limites = Gestor.obtenerMedioIntervalos(subintervalos); // para tener el valor medio de cada intervalo q va en el grafico, aca habria  que cambiar de nombre la variable limites por medio (?
 
-                    decimal[] vectorEsperado = new decimal[subintervalos];
+                    //string[] labels = new string[subintervalos];
+                    //decimal anterior = limites[0];
+                    //for (int i = 1; i < subintervalos + 1; i++)
+                    //torE{
+                    //    labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString()
+                    //        + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
+                    //    anterior = limites[i];
+                    //}
 
-                    for (int i = 0; i < subintervalos; i++)
-                    {
-                        vectorEsperado[i] = esperado;
-                    }
+                    //decimal[] vectorEsperado = new decimal[subintervalos];
 
-                    decimal[] vectorObservados = observados.ToArray();
+                    //for (int i = 0; i < subintervalos; i++)
+                    //{
+                    //    vecsperado[i] = esperado;
+                    //}
+
+                    //decimal[] vectorObservados = observados.ToArray();
 
 
-                    grafico = new Grafico();
-                    dockPlot.Children.Add(grafico);
-                    grafico.AgregarColeccion(vectorEsperado, "Esperado");
-                    grafico.AgregarColeccion(vectorObservados, "Observados");
-                    grafico.AgregarIntervalos(labels);
-                    grafico.Visible(true);
+                    //grafico = new Grafico();
+                    //dockPlot.Children.Add(grafico);
+                    //grafico.AgregarColeccion(vectorEsperado, "Esperado");
+                    //grafico.AgregarColeccion(vectorObservados, "Observados");
+                    //grafico.AgregarIntervalos(labels);
+                    //grafico.Visible(true);
                     
 
 
