@@ -9,12 +9,18 @@ namespace TP3.Mvvm
 {
     internal class Gestor
     {
-        private ArrayList numeros_aleatorios = new ArrayList();
+        private static List<decimal> numeros_aleatorios = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
 
-        public static List<decimal> generarVariablesAleatorias(string metodo, decimal media, decimal ds, decimal lambda,  int muestra)
+        public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda,  int muestra)
 
         {
-            return Generador.generarVariables(metodo, media, ds, lambda, muestra);
+            numeros_aleatorios.Clear();
+            numeros_aleatorios = generarRandoms("Mixto", 37, 7, 19, 53, muestra + 1, 38);   // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto
+            (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Generador.generarVariables(numeros_aleatorios, media, ds, lambda, muestra);
+
         }
 
 
@@ -23,6 +29,13 @@ namespace TP3.Mvvm
         {
             return Generador.generarRandoms(metodo, xi_1, c, a, modulo, muestra, semilla2);
         }
+
+        public static (List<decimal>, List<decimal>, List<decimal>) obtenerVariablesAleatorias()
+        {
+            return (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal);
+        }
+
+
 
         public static List<decimal> generarSiguientes(string metodo, decimal c, decimal a, decimal modulo, int muestra)
 

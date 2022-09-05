@@ -35,6 +35,9 @@ namespace TP3.Views
         bool cargado = false;
 
         private List<decimal> numeros_variableAleatoria = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
 
 
         public PuntoA()
@@ -137,14 +140,7 @@ namespace TP3.Views
 
             if (ValidarCamposForm())
             {
-                //xi_1 = decimal.Parse(TxtSemilla.Text); // semilla
-                //xi_2 = decimal.Parse(TxtSemilla2.Text);
-                //if ((bool)rbMixto.IsChecked) { cIndependiente = decimal.Parse(TxtConstanteIndependiente.Text); }
-                //cMultiplicadora = decimal.Parse(TxtConstanteMultiplicadora.Text);
-                //modulo = decimal.Parse(TxtModulo.Text);
-
-                metodo = (bool)rbExponencial.IsChecked ? "Exponencial" : (bool)rbPoisson.IsChecked ?  "Poisson" : "Normal";
-                //muestra = 20;
+             
                 cantidad = int.Parse(TxtCantidad.Text);
                 lambda = decimal.Parse(TxtLambda.Text);
                 media = decimal.Parse(TxtMedia.Text);
@@ -156,15 +152,14 @@ namespace TP3.Views
                 //CONEXION AL BACKEND PARA PRUEBAS ACA
 
 
-                numeros_variableAleatoria = Gestor.generarVariablesAleatorias(metodo, media, DE, lambda, cantidad);
-                Console.WriteLine("hola");
+                Gestor.generarVariablesAleatorias(media, DE, lambda, cantidad);
 
-                //numeros_aleatorios.Clear(); // deja el vector estado vacio
+                (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Gestor.obtenerVariablesAleatorias();
 
-                //numeros_aleatorios = Gestor.generar(metodo, xi_1, cIndependiente, cMultiplicadora, modulo, muestra, xi_2); // le pongo -1 pq ya agregue al array el random de la semilla
+          
 
-                mostrarVectorEstado(numeros_variableAleatoria);
-                // frecuencia_nroaleatorios= Gestor.probabilidad(numeros_aleatorios); lo comento para despues chequear cuando esté la grafica
+                mostrarVectorEstado(valores_variableAleatoriaExpNeg); //Falta agregar para que tmb se pueda pasar por parametro y muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
+
                 estadoBotones(true);
 
                 porcentajes = porcentajeIntervalos();
