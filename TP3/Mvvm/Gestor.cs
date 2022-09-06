@@ -14,12 +14,16 @@ namespace TP3.Mvvm
         private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
         private static int _muestra;
+        private static decimal _lambda;
+        private static decimal _lambdaExp;
         private static List<decimal> chis = new List<decimal>();
 
 
         public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda, decimal lambdaExp , int muestra)
 
         {
+            _lambda = lambda;
+            _lambdaExp = lambdaExp;
             _muestra = muestra;
             generarRandoms("Mixto", 37, 7, 19, 53, muestra + 1, 38);   // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto
           Generador.generarVariables(media, ds, lambda, lambdaExp);
@@ -64,7 +68,8 @@ namespace TP3.Mvvm
 
             chis.Clear();
 
-            decimal chiExpoencial = Distribucion.obtenerChiExponencial(_muestra, subintervalos);
+            List<decimal> limites = ChiCuadrado.calcularLimites(valores_variableAleatoriaExpNeg, subintervalos);
+            decimal chiExpoencial = Distribucion.obtenerChiExponencial(_lambda, limites, _muestra, subintervalos);
             chis.Add(chiExpoencial);
 
             decimal chiPoissoon = Distribucion.obtenerChiPoisson(_muestra, subintervalos);

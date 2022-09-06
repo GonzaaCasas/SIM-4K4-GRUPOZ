@@ -163,9 +163,9 @@ namespace TP3.Models
 
         }
 
-        public static decimal obtenerChiExponencial(int muestra, int intervalos)
+        public static decimal obtenerChiExponencial(decimal lambda, List<decimal> limites, int muestra, int intervalos)
         {
-            calcularEsperadosExponencial(muestra, intervalos);
+            calcularEsperadosExponencial(lambda, limites);
             observadosExponencial = CalcularfreqAbsolutas(VariableExp, intervalos, muestra);
             return ChiCuadrado.testChiCuadrado(VariableExp, observadosExponencial, esperadosExponencial, muestra, intervalos);
 
@@ -173,12 +173,13 @@ namespace TP3.Models
 
 
 
-        public static void calcularEsperadosExponencial(int muestra, int intervalos)
+        public static void calcularEsperadosExponencial(decimal lambda, List <decimal> limites)
         {
             esperadosExponencial.Clear();
-            for (int i = 0; i < intervalos; i++)
+            for (int i = 1; i < limites.Count() ; i++)
             {
-                esperadosExponencial.Add(muestra / intervalos);
+               esperadosExponencial.Add( (decimal) (MathNet.Numerics.Distributions.Exponential.CDF( (double) lambda, (double) limites[i]) -
+                 MathNet.Numerics.Distributions.Exponential.CDF((double)lambda, (double)limites[i-1])));
             }
 
         }
