@@ -165,7 +165,7 @@ namespace TP3.Models
 
         public static decimal obtenerChiExponencial(decimal lambdaExp, List<decimal> limites, int muestra, int intervalos)
         {
-            calcularEsperadosExponencial(lambdaExp, limites);
+            calcularEsperadosExponencial(lambdaExp, limites, muestra);
             observadosExponencial = CalcularfreqAbsolutas(VariableExp, intervalos, muestra);
             return ChiCuadrado.testChiCuadrado(VariableExp, observadosExponencial, esperadosExponencial, muestra, intervalos);
 
@@ -173,13 +173,13 @@ namespace TP3.Models
 
 
 
-        public static void calcularEsperadosExponencial(decimal lambdaExp, List <decimal> limites)
+        public static void calcularEsperadosExponencial(decimal lambdaExp, List <decimal> limites, int muestra)
         {
             esperadosExponencial.Clear();
             for (int i = 1; i < limites.Count() ; i++)
             {
                esperadosExponencial.Add( (decimal) (MathNet.Numerics.Distributions.Exponential.CDF( (double)lambdaExp, (double) limites[i]) -
-                 MathNet.Numerics.Distributions.Exponential.CDF((double)lambdaExp, (double)limites[i-1])));
+                 MathNet.Numerics.Distributions.Exponential.CDF((double)lambdaExp, (double)limites[i-1])) * muestra);
             }
 
         }
@@ -201,19 +201,19 @@ namespace TP3.Models
 
         public static decimal obtenerChiPoisson(decimal lambda, List<decimal> limites, int muestra, int intervalos)
         {
-            calcularEsperadosPoisson(lambda, limites);
+            calcularEsperadosPoisson(lambda, limites, muestra);
             observadosPoisson = CalcularfreqAbsolutas(VariablePoisson, intervalos, muestra);
             return ChiCuadrado.testChiCuadrado(VariablePoisson, observadosPoisson, esperadosPoisson, muestra, intervalos);
 
         }
 
-        public static void calcularEsperadosPoisson(decimal lambda, List<decimal> limites)
+        public static void calcularEsperadosPoisson(decimal lambda, List<decimal> limites, int muestra)
         {
             esperadosPoisson.Clear();
             for (int i = 1; i < limites.Count(); i++)
             {
                 esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i]) -
-                  MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i - 1])));
+                  MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i - 1])) *  muestra);
             }
 
 
@@ -235,19 +235,19 @@ namespace TP3.Models
 
         public static decimal obtenerChiNormal(decimal media, decimal ds ,List<decimal> limites, int muestra, int intervalos)
         {
-            calcularEsperadosNormal(media, ds, limites);
+            calcularEsperadosNormal(media, ds, limites, muestra);
             observadosNormal = CalcularfreqAbsolutas(VariableNormal, intervalos, muestra);
             return ChiCuadrado.testChiCuadrado(VariableNormal, observadosNormal, esperadosNormal, muestra, intervalos);
 
         }
 
-        public static void calcularEsperadosNormal(decimal media, decimal ds ,List<decimal> limites)
+        public static void calcularEsperadosNormal(decimal media, decimal ds ,List<decimal> limites, int muestra)
         {
             esperadosNormal.Clear();
             for (int i = 1; i < limites.Count(); i++)
             {
                 esperadosNormal.Add((decimal)(MathNet.Numerics.Distributions.Normal.CDF((double)media, (double)ds, (double)limites[i]) -
-                  MathNet.Numerics.Distributions.Normal.CDF((double)media, (double)ds, (double)limites[i - 1])));
+                  MathNet.Numerics.Distributions.Normal.CDF((double)media, (double)ds, (double)limites[i - 1])) * muestra);
             }
 
 
