@@ -32,7 +32,6 @@ namespace TP3.Models
 
             // calculo de chi 
             acumuladoChi.Clear();
-            esperados = esperados;
 
             for (int i = 0; i < observados.Count(); i++)
             {

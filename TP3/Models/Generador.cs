@@ -20,7 +20,7 @@ namespace TP3.Models
 
         // -------------------------------------
 
-        public static (List<decimal> , List<decimal> , List<decimal> ) generarVariables(decimal media, decimal desviacion, decimal lambda, int muestra)
+        public static (List<decimal> , List<decimal> , List<decimal> ) generarVariables(decimal media, decimal desviacion, decimal lambda, decimal lambdaExp)
 
         {
            
@@ -35,7 +35,7 @@ namespace TP3.Models
             // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto, pero el resto de las distribuciones no usan ese random extra
 
             // validar antes que lambda sea positva
-             Distribucion.GenerarVariableExpNegativa(lambda, numeros_aleatorios);
+             Distribucion.GenerarVariableExpNegativa(lambdaExp, numeros_aleatorios);
              Distribucion.GenerarVariablePoisson(lambda, numeros_aleatorios);
             Distribucion.GenerarVariableNormal(media, desviacion, numeros_aleatorios);
 

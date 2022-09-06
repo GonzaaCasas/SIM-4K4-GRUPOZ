@@ -106,7 +106,7 @@ namespace TP3.Views
                 DE = decimal.Parse(TxtDE.Text);
 
 
-                Gestor.generarVariablesAleatorias( media, DE, lambda, cantidad);
+                Gestor.generarVariablesAleatorias( media, DE, lambda, lambdaExp, cantidad);
 
                 (valores_variableAleatoriaExp, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Gestor.obtenerVariablesAleatorias();
 

@@ -20,12 +20,12 @@ namespace TP3.Mvvm
 
 
 
-        public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda,  int muestra)
+        public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda, decimal lambdaExp , int muestra)
 
         {
             _muestra = muestra;
             generarRandoms("Mixto", 37, 7, 19, 53, muestra + 1, 38);   // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto
-          Generador.generarVariables(media, ds, lambda, _muestra);
+          Generador.generarVariables(media, ds, lambda, lambdaExp);
 
         }
         public static (List<decimal>, List<decimal>, List<decimal>) obtenerVariablesAleatorias()
