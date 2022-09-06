@@ -153,7 +153,7 @@ namespace TP3.Views
             {
                 // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
                 DataRow _row = tabla.NewRow();
-                _row[0] = tabla.Rows.Count + 1;
+                _row[0] = (tabla.Rows.Count + 1).ToString();
                 //  _row[1] = item.ToString();
                 _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
                 tabla.Rows.Add(_row);

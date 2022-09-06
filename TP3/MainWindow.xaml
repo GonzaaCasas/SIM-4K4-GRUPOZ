@@ -10,7 +10,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Trabajo Practico 3 - Variables aleatorias continuas" Height="450" Width="800">
+        Title="Trabajo Practico 3 - Variables aleatorias continuas" Height="650" Width="1000">
     <mah:MetroWindow.DataContext>
         <viewModels:ShellViewModel/>
     </mah:MetroWindow.DataContext>
