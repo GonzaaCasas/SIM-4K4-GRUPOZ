@@ -46,9 +46,7 @@ namespace TP3.Mvvm
             Generador.generarRandoms(metodo, xi_1, c, a, modulo, muestra, semilla2);
         }
 
-      
-
-
+     
 
         public static List<decimal> generarSiguientes(string metodo, decimal c, decimal a, decimal modulo, int muestra)
 
