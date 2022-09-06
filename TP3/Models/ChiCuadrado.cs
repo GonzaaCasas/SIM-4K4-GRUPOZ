@@ -99,7 +99,7 @@ namespace TP3.Models
             esperadosUniforme = Distribucion.obtenerEsperadosUniforme(muestra, subintervalos);
             esperadosExponencial = Distribucion.obtenerEsperadosPoisson(muestra, subintervalos);
             esperadosPoisson = Distribucion.obtenerEsperadosPoisson(muestra, subintervalos);
-            esperadosNormal = Distribucion.obtenerEsperadosPoisson(muestra, subintervalos);
+            esperadosNormal = Distribucion.obtenerEsperadosNormal(muestra, subintervalos);
 
         }
 
