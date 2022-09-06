@@ -39,9 +39,9 @@ namespace TP3.Views
         private static List<decimal> esperadosExponencial = new List<decimal>();
         private static List<decimal> esperadosPoisson = new List<decimal>();
         private static List<decimal> esperadosNormal = new List<decimal>();
-        private static List<decimal> mediosExponencial = new List<decimal>();
-        private static List<decimal> mediosPoisson = new List<decimal>();
-        private static List<decimal> mediosNormal = new List<decimal>();
+        private static List<string> mediosExponencial = new List<string>();
+        private static List<string> mediosPoisson = new List<string>();
+        private static List<string> mediosNormal = new List<string>();
 
         private List<decimal> limites = new List<decimal>();
         private List<decimal> resultadosTest = new List<decimal>();
@@ -63,156 +63,19 @@ namespace TP3.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
-
-        private void BtnGenerar_B_Click(object sender, RoutedEventArgs e) // EL BOTON GENERAR DEL PUNTO B DEBERIA HABILITARSE SOLO CUANDO YA SE USO EL PUNTO A
-        {
-            if (validarCampos())
-            {
-                if (Int32.Parse(TxtSubintervalos.Text) > 1)
-                {
-                    dockPlot.Children.Remove(grafico);
-                    muestra = Int32.Parse(TxtMuestra.Text);
-                    subintervalos = Int32.Parse(TxtSubintervalos.Text);
-                    numeros_aleatorios.Clear(); // deja el vector estado vacio
-                    (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Gestor.obtenerVariablesAleatorias(); 
-                    tablaExcel = mostrarVectorEstado(valores_variableAleatoriaExpNeg);   //Falta agregar para que tmb muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
-
-                    // Gestor.probabilidad(numeros_aleatorios);
-                    estadoBotones(true);
-
-                }
-                else
-                {
-                    MessageBox.Show("El Sub Intervalo debe ser mayor a 1", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Falta Ingresar datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-        }
-
-        private void BtnTest_Click(object sender, RoutedEventArgs e)  // EL TEST DEBERIA HABILITARSE SOLO CUANDO YA SE USO EL PUNTO A 
-        {
-            if (validarCampos())
-            {
-                if (Int32.Parse(TxtSubintervalos.Text) > 0)
-                {
-                    
-
-                    dgvVectorEstado.Visibility = Visibility.Hidden;
-                    resultadosTest.Clear();
-                    resultadosTest = Gestor.test(this.subintervalos); // devuelve los chi cuadrado obtenidos, el primer indice es de la distribucion uniforme, despues es exponencial, poisson, normal y el ultmo es el tabulado teorico
-                    (observadosExponencial, observadosPoisson, observadosNormal ) = Gestor.obtenerObservaciones();
-                    ( esperadosExponencial, esperadosPoisson, esperadosNormal) = Gestor.obtenerEsperados();
-
-                    //decimal esperado = muestra / subintervalos; // no hace falta mas esto, los esperados ahora estan guardados arriba, te devuelve tmb el uniforme aunque no hace falta
-
-                    (mediosExponencial, mediosPoisson, mediosNormal) = Gestor.obtenerMedioIntervalos(subintervalos); // para tener el valor medio de cada intervalo q va en el grafico, aca habria  que cambiar de nombre la variable limites por medio (?
-
-                    //string[] labels = new string[subintervalos];
-                    //decimal anterior = limites[0];
-                    //for (int i = 1; i < subintervalos + 1; i++)
-                    //torE{
-                    //    labels[i - 1] = i.ToString() + "\n" + Math.Round(anterior, 4, MidpointRounding.AwayFromZero).ToString()
-                    //        + " - " + Math.Round(limites[i], 4, MidpointRounding.AwayFromZero);
-                    //    anterior = limites[i];
-                    //}
-
-                    //decimal[] vectorEsperado = new decimal[subintervalos];
-
-                    //for (int i = 0; i < subintervalos; i++)
-                    //{
-                    //    vecsperado[i] = esperado;
-                    //}
-
-                    //decimal[] vectorObservados = observados.ToArray();
-
-
-                    //grafico = new Grafico();
-                    //dockPlot.Children.Add(grafico);
-                    //grafico.AgregarColeccion(vectorEsperado, "Esperado");
-                    //grafico.AgregarColeccion(vectorObservados, "Observados");
-                    //grafico.AgregarIntervalos(labels);
-                    //grafico.Visible(true);
-                    
-
-
-                    lblJiObtenida.Content = "Chi Obtenido \n" + Math.Round(resultadosTest[0], 4, MidpointRounding.AwayFromZero).ToString();
-                    lblJiTabulada.Content = "Chi Tabulado \n" + Math.Round(resultadosTest[1], 4, MidpointRounding.AwayFromZero).ToString();
-
-                    if (resultadosTest[0] < resultadosTest[1])
-                    {
-                        lblAprobacion.Content = "H0 Aceptada";
-                        lblAprobacion.Foreground = Brushes.DarkGreen;
-                    }
-                    else
-                    {
-                        lblAprobacion.Content = "H0 Rechazada";
-                        lblAprobacion.Foreground = Brushes.Red;
-                    }
-                }// ver si sacar esta parte dependiendo como se habilita los botones
-                else
-                {
-                    MessageBox.Show("El Sub Intervalo debe ser mayor a 0", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Falta Ingresar datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-        }
-
-
-        private DataTable mostrarVectorEstado(List<decimal> vectorEstado)
-        {
-            DataTable tablaNumero = new DataTable();
-            tablaNumero.Columns.Add("num");
-            tablaNumero.Columns.Add("valor");
-
-            foreach (var item in vectorEstado)
-            {
-                // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
-                DataRow _row = tablaNumero.NewRow();
-                _row[0] = tablaNumero.Rows.Count + 1;
-                //  _row[1] = item.ToString();
-                _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
-                tablaNumero.Rows.Add(_row);
-            }
-
-            dgvVectorEstado.DataContext = tablaNumero;
-            dgvVectorEstado.Visibility = Visibility.Visible;
-            return tablaNumero;
-        }
-
         private bool validarCampos()
         {
-            if (!String.IsNullOrEmpty(TxtMuestra.Text) && !String.IsNullOrEmpty(TxtSubintervalos.Text))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (cargado)
             {
-                estadoBotones(false);
-
+                //lo dejo por las dudas
             }
         }
 
-        private void estadoBotones(bool estado)
-        {
-            BtnTest.IsEnabled = estado;
-            BtnExportar.IsEnabled = estado;
-        }
 
         private void BtnExportar_OnClick(object sender, RoutedEventArgs e)
         {
@@ -233,6 +96,79 @@ namespace TP3.Views
                     "Exportacion exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
+        }
+
+        #region botones para mostrar distribuciones
+
+        private void BtnExp_OnClick(object sender, RoutedEventArgs e)
+        {
+            subintervalos = int.Parse(TxtSubintervalos.Text);
+            if (validarCampos())
+            {
+                (observadosExponencial, esperadosExponencial, mediosExponencial) = Gestor.obtenerTodoExp(subintervalos);
+                construirGrafico(observadosExponencial, esperadosExponencial, mediosExponencial.ToArray());
+                ejecutarTestChi(2);
+            }
+        }
+
+        private void BtnPoisson_OnClick(object sender, RoutedEventArgs e)
+        {
+            subintervalos = int.Parse(TxtSubintervalos.Text);
+            if (validarCampos())
+            {
+                (observadosPoisson, esperadosPoisson, mediosPoisson) = Gestor.obtenerTodoPoisson(subintervalos);
+                construirGrafico(observadosPoisson, esperadosPoisson, mediosPoisson.ToArray());
+                ejecutarTestChi(1);
+            }
+        }
+
+        private void BtnNormal_OnClick(object sender, RoutedEventArgs e)
+        {
+            subintervalos = int.Parse(TxtSubintervalos.Text);
+            if (validarCampos())
+            {
+                (observadosNormal, esperadosNormal, mediosNormal) = Gestor.obtenerTodoNormal(subintervalos);
+                construirGrafico(observadosNormal, esperadosNormal, mediosNormal.ToArray());
+                ejecutarTestChi(0);
+            }
+        }
+
+        #endregion
+
+        private void ejecutarTestChi(int indice)
+        {
+            resultadosTest.Clear();
+            resultadosTest = Gestor.test(this.subintervalos); // 0: normal | 1: poisson | 2: exp | 3: teorico
+
+
+            lblJiObtenida.Content = "Chi Obtenido \n" + Math.Round(resultadosTest[indice], 4, MidpointRounding.AwayFromZero).ToString();
+            lblJiTabulada.Content = "Chi Tabulado \n" + Math.Round(resultadosTest[3], 4, MidpointRounding.AwayFromZero).ToString();
+
+            lblJiObtenida.Visibility = Visibility.Visible;
+            lblJiTabulada.Visibility = Visibility.Visible;
+            if (resultadosTest[indice] < resultadosTest[3])
+            {
+                lblAprobacion.Content = "H0 Aceptada";
+                lblAprobacion.Foreground = Brushes.DarkGreen;
+            }
+            else
+            {
+                lblAprobacion.Content = "H0 Rechazada";
+                lblAprobacion.Foreground = Brushes.Red;
+            }
+            lblAprobacion.Visibility = Visibility.Visible;
+        }
+
+        private void construirGrafico(List<decimal> observado, List<decimal> esperado, string[] intervalos)
+        {
+            grafico = new Grafico();
+            dockPlot.Children.Clear();
+            dockPlot.Children.Add(grafico);
+            grafico.AgregarColeccion(esperado.ToArray(), "Esperado");
+            grafico.AgregarColeccion(observado.ToArray(), "Observados");
+
+            grafico.AgregarIntervalos(intervalos);
+            grafico.Visible(true);
         }
     }
 

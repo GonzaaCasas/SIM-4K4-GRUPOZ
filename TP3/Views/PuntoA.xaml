@@ -39,23 +39,60 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             
-            <GroupBox Grid.Row="0" Grid.Column="0" Header="Normal" Margin="5,0,5,0">
-                <StackPanel Margin="0,0,0,0" >
-                    <Label Content="Media" FontSize="14"/>
+            <GroupBox Grid.Row="0" Grid.Column="0" Header="Normal" Margin="5,0,5,0" Grid.RowSpan="3">
+                <DockPanel Margin="10,0,6,0" >
+                    <Label Content="Media" FontSize="14" DockPanel.Dock="Top"/>
                     <TextBox x:Name="TxtMedia" 
                              PreviewTextInput="NumberValidationTextBox" 
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
                              HorizontalAlignment="Left"
-                             Text="37"/>
-                    <Label Name="LblDE" Content="Desviacion estandar" FontSize="14"/>
+                             Text="37"
+                             DockPanel.Dock="Top"/>
+                    <Label Name="LblDE" Content="Desviacion estandar" FontSize="14" DockPanel.Dock="Top"/>
                     <TextBox x:Name="TxtDE" 
                              PreviewTextInput="NumberValidationTextBox" 
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
                              HorizontalAlignment="Left"
-                             Text="7"/>
-                </StackPanel>
+                             Text="7"
+                             DockPanel.Dock="Top"/>
+                    <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
+                        <DataGrid.Style>
+                            <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                                <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                            </Style>
+                        </DataGrid.Style>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="Background" Value="LightBlue"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nº" Binding="{Binding num}">
+
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                        Value="Center" />
+
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
             </GroupBox>
 
             <GroupBox Grid.Row="0" Grid.Column="1" Header="Poisson" Margin="5,0,5,0">
@@ -97,9 +134,13 @@
                 <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16" Margin="0,0,-40,0"> Porcentajes</Label>
             </StackPanel>-->
 
-            <DockPanel Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,30,30">
-                <Label  Content="Normal" FontSize="14" DockPanel.Dock="Top"/>
+            <!--<DockPanel Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,30,30">
                 <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True">
+                    <DataGrid.Style>
+                        <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                            <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                        </Style>
+                    </DataGrid.Style>
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
                             <Style.Triggers>
@@ -108,7 +149,6 @@
                                     <Setter Property="Background" Value="LightBlue"/>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Violet"/>
                                     <Setter Property="Foreground" Value="Black"/>
                                 </Trigger>
                             </Style.Triggers>
@@ -130,11 +170,16 @@
                         </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-            </DockPanel>
+            </DockPanel>-->
 
-            <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,30,30">
+            <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,30,30" VerticalAlignment="Stretch">
                 <Label  Content="Poisson" FontSize="14" DockPanel.Dock="Top"/>
                 <DataGrid x:Name="dgvVectorEstado2" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True">
+                    <DataGrid.Style>
+                        <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                            <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                        </Style>
+                    </DataGrid.Style>
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
                             <Style.Triggers>
@@ -143,7 +188,6 @@
                                     <Setter Property="Background" Value="LightBlue"/>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Violet"/>
                                     <Setter Property="Foreground" Value="Black"/>
                                 </Trigger>
                             </Style.Triggers>
@@ -170,6 +214,11 @@
             <DockPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,30,36">
                 <Label  Content="Exponencial" FontSize="14" DockPanel.Dock="Top"/>
                 <DataGrid x:Name="dgvVectorEstado3" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True">
+                    <DataGrid.Style>
+                        <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                            <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                        </Style>
+                    </DataGrid.Style>
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
                             <Style.Triggers>
@@ -178,7 +227,6 @@
                                     <Setter Property="Background" Value="LightBlue"/>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Violet"/>
                                     <Setter Property="Foreground" Value="Black"/>
                                 </Trigger>
                             </Style.Triggers>

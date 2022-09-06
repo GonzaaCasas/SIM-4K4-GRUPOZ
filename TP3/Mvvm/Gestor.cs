@@ -67,14 +67,14 @@ namespace TP3.Mvvm
 
             chis.Clear();
 
-            decimal chiExpoencial = Distribucion.obtenerChiExponencial(_muestra, subintervalos);
-            chis.Add(chiExpoencial);
+            decimal chiNormal = Distribucion.obtenerChiNormal(_muestra, subintervalos);
+            chis.Add(chiNormal);
 
             decimal chiPoissoon = Distribucion.obtenerChiPoisson(_muestra, subintervalos);
             chis.Add(chiPoissoon);
 
-            decimal chiNormal = Distribucion.obtenerChiNormal(_muestra, subintervalos);
-            chis.Add(chiNormal);
+            decimal chiExpoencial = Distribucion.obtenerChiExponencial(_muestra, subintervalos);
+            chis.Add(chiExpoencial);
 
             decimal chitabulado = ChiCuadrado.obtenerChitabulado(subintervalos);
             chis.Add(chitabulado);
@@ -93,6 +93,24 @@ namespace TP3.Mvvm
         {
             return (Distribucion.obtenerEsperadosExponencial(), Distribucion.obtenerEsperadosPoisson(), Distribucion.obtenerEsperadosNormal());
         }
+
+
+
+        public static (List<decimal>, List<decimal>, List<string>) obtenerTodoNormal(int subintervalos)
+        {
+            return (Distribucion.obtenerObservacionesNormal(), Distribucion.obtenerEsperadosNormal(), ChiCuadrado.obtenerMedios(valores_variableAleatoriaNormal, subintervalos));
+        }
+
+        public static (List<decimal>, List<decimal>, List<string>) obtenerTodoPoisson(int subintervalos)
+        {
+            return (Distribucion.obtenerObservacionesPoisson(), Distribucion.obtenerEsperadosPoisson(), ChiCuadrado.obtenerMedios(valores_variableAleatoriaPoisson, subintervalos));
+        }
+        public static (List<decimal>, List<decimal>, List<string>) obtenerTodoExp(int subintervalos)
+        {
+            return (Distribucion.obtenerObservacionesExponencial(), Distribucion.obtenerEsperadosExponencial(), ChiCuadrado.obtenerMedios(valores_variableAleatoriaExpNeg, subintervalos));
+        }
+
+
 
         public static List<decimal> obtenerConjuntoRandomGenerado()
         {
@@ -168,7 +186,7 @@ namespace TP3.Mvvm
             return array; // esto habria que mostrar u de ultima para cada pN dentro de un label entonces el return seria cada probabilidad y no una lista
         }
 
-        public static (List<decimal>, List<decimal>, List<decimal>) obtenerMedioIntervalos(int subintervalos)
+        public static (List<string>, List<string>, List<string>) obtenerMedioIntervalos(int subintervalos)
         {
 
             return (ChiCuadrado.obtenerMedios(valores_variableAleatoriaExpNeg, subintervalos),
