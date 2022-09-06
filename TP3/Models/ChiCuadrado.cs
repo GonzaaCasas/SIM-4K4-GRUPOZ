@@ -78,9 +78,9 @@ namespace TP3.Models
 
             for (int i = 0; i < limites.Count() - 1; i++)
             {
-                valoresMediosIntervalos.Add(((limites[i] + limites[i + 1]) / 2).ToString()); // (limite inferior + limite superior) / 2
+                valoresMediosIntervalos.Add(Math.Round(((limites[i] + limites[i + 1]) / 2), 4, MidpointRounding.AwayFromZero).ToString()); // (limite inferior + limite superior) / 2
             }
-
+            
             return valoresMediosIntervalos;
         }
 
