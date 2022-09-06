@@ -20,7 +20,7 @@ namespace TP3.ViewModels
             var wb = new XLWorkbook();
 
             // Add a DataTable as a worksheet
-            var ws = wb.Worksheets.Add(dataTable,"Serie Generada");
+            var ws = wb.Worksheets.Add(dataTable, nombreArchivo);
             ws.Cell("A1").Value = "Nº";
             ws.Cell("B1").Value = "Valor";
 

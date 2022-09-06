@@ -46,7 +46,11 @@ namespace TP3.Views
         private List<decimal> limites = new List<decimal>();
         private List<decimal> resultadosTest = new List<decimal>();
         bool cargado = false;
+
+
         DataTable tablaExcel;
+
+
         private Grafico grafico = null;
 
         public PuntoB()
@@ -70,10 +74,10 @@ namespace TP3.Views
 
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (cargado)
-            {
-                //lo dejo por las dudas
-            }
+            //if (cargado)
+            //{
+            //    //lo dejo por las dudas
+            //}
         }
 
 
@@ -91,8 +95,8 @@ namespace TP3.Views
             if ((bool)dialog.ShowDialog())
             {
                 //MessageBox.Show($"The selected folder was:{Environment.NewLine}{dialog.SelectedPath}", "Sample folder browser dialog");
-                Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel, "Serie generada punto B");
-                MessageBox.Show("La serie de numeros generada se ha exportado en " + dialog.SelectedPath,
+                Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel, "Distribucion");
+                MessageBox.Show("La distribución generada se ha exportado en " + dialog.SelectedPath,
                     "Exportacion exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
@@ -105,9 +109,10 @@ namespace TP3.Views
             subintervalos = int.Parse(TxtSubintervalos.Text);
             if (validarCampos())
             {
+                ejecutarTestChi(2);
                 (observadosExponencial, esperadosExponencial, mediosExponencial) = Gestor.obtenerTodoExp(subintervalos);
                 construirGrafico(observadosExponencial, esperadosExponencial, mediosExponencial.ToArray());
-                ejecutarTestChi(2);
+                tablaExcel = construirTabla(observadosExponencial, esperadosExponencial);
             }
         }
 
@@ -116,9 +121,10 @@ namespace TP3.Views
             subintervalos = int.Parse(TxtSubintervalos.Text);
             if (validarCampos())
             {
+                ejecutarTestChi(1);
                 (observadosPoisson, esperadosPoisson, mediosPoisson) = Gestor.obtenerTodoPoisson(subintervalos);
                 construirGrafico(observadosPoisson, esperadosPoisson, mediosPoisson.ToArray());
-                ejecutarTestChi(1);
+                tablaExcel = construirTabla(observadosPoisson, esperadosPoisson);
             }
         }
 
@@ -127,9 +133,10 @@ namespace TP3.Views
             subintervalos = int.Parse(TxtSubintervalos.Text);
             if (validarCampos())
             {
+                ejecutarTestChi(0);
                 (observadosNormal, esperadosNormal, mediosNormal) = Gestor.obtenerTodoNormal(subintervalos);
                 construirGrafico(observadosNormal, esperadosNormal, mediosNormal.ToArray());
-                ejecutarTestChi(0);
+                tablaExcel = construirTabla(observadosNormal, esperadosNormal);
             }
         }
 
@@ -169,6 +176,23 @@ namespace TP3.Views
 
             grafico.AgregarIntervalos(intervalos);
             grafico.Visible(true);
+        }
+
+        private DataTable construirTabla( List<decimal> observada, List<decimal> esperada)
+        {
+            DataTable tablaNumero = new DataTable();
+            tablaNumero.Columns.Add("Observada");
+            tablaNumero.Columns.Add("Esperada");
+
+            for (int i = 0; i < observada.Count; i++)
+            {
+                DataRow _row = tablaNumero.NewRow();
+                _row[0] = Math.Round(observada[i], 4, MidpointRounding.AwayFromZero).ToString();
+                _row[1] = Math.Round(esperada[i], 4, MidpointRounding.AwayFromZero).ToString();
+                tablaNumero.Rows.Add(_row);
+            }
+
+            return tablaNumero;
         }
     }
 
