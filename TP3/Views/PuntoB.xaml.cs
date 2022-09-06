@@ -31,11 +31,17 @@ namespace TP3.Views
         private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
 
-        private List<decimal> observados = new List<decimal>();
-        private List<decimal> esperadosUniforme = new List<decimal>();
-        private List<decimal> esperadosExponencial = new List<decimal>();
-        private List<decimal> esperadosPoisson = new List<decimal>();
-        private List<decimal> esperadosNormal = new List<decimal>();
+        private static List<decimal> observadosUniforme = new List<decimal>();
+        private static List<decimal> observadosExponencial = new List<decimal>();
+        private static List<decimal> observadosPoisson = new List<decimal>();
+        private static List<decimal> observadosNormal = new List<decimal>();
+        private static List<decimal> esperadosUniforme = new List<decimal>();
+        private static List<decimal> esperadosExponencial = new List<decimal>();
+        private static List<decimal> esperadosPoisson = new List<decimal>();
+        private static List<decimal> esperadosNormal = new List<decimal>();
+        private static List<decimal> mediosExponencial = new List<decimal>();
+        private static List<decimal> mediosPoisson = new List<decimal>();
+        private static List<decimal> mediosNormal = new List<decimal>();
 
         private List<decimal> limites = new List<decimal>();
         private List<decimal> resultadosTest = new List<decimal>();
@@ -98,11 +104,12 @@ namespace TP3.Views
                     dgvVectorEstado.Visibility = Visibility.Hidden;
                     resultadosTest.Clear();
                     resultadosTest = Gestor.test(this.subintervalos); // devuelve los chi cuadrado obtenidos, el primer indice es de la distribucion uniforme, despues es exponencial, poisson, normal y el ultmo es el tabulado teorico
-                    observados = Gestor.obtenerObservaciones();
-                    (esperadosUniforme, esperadosExponencial, esperadosPoisson, esperadosNormal) = Gestor.obtenerEsperados();
+                    (observadosExponencial, observadosPoisson, observadosNormal ) = Gestor.obtenerObservaciones();
+                    ( esperadosExponencial, esperadosPoisson, esperadosNormal) = Gestor.obtenerEsperados();
+
                     //decimal esperado = muestra / subintervalos; // no hace falta mas esto, los esperados ahora estan guardados arriba, te devuelve tmb el uniforme aunque no hace falta
 
-                    limites = Gestor.obtenerMedioIntervalos(subintervalos); // para tener el valor medio de cada intervalo q va en el grafico, aca habria  que cambiar de nombre la variable limites por medio (?
+                    (mediosExponencial, mediosPoisson, mediosNormal) = Gestor.obtenerMedioIntervalos(subintervalos); // para tener el valor medio de cada intervalo q va en el grafico, aca habria  que cambiar de nombre la variable limites por medio (?
 
                     //string[] labels = new string[subintervalos];
                     //decimal anterior = limites[0];

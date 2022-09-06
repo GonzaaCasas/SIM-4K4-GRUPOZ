@@ -14,27 +14,39 @@ namespace TP3.Mvvm
         private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
         private static int _muestra;
+        private static List<decimal> chis = new List<decimal>();
+
+
+
+
 
         public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda,  int muestra)
 
         {
             _muestra = muestra;
-            numeros_aleatorios = generarRandoms("Mixto", 37, 7, 19, 53, muestra + 1, 38);   // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto
-            (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Generador.generarVariables(numeros_aleatorios, media, ds, lambda, _muestra);
+            generarRandoms("Mixto", 37, 7, 19, 53, muestra + 1, 38);   // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto
+          Generador.generarVariables(media, ds, lambda, _muestra);
 
         }
-
-
-        public static List<decimal> generarRandoms(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
-
-        {
-            return Generador.generarRandoms(metodo, xi_1, c, a, modulo, muestra, semilla2);
-        }
-
         public static (List<decimal>, List<decimal>, List<decimal>) obtenerVariablesAleatorias()
         {
+            valores_variableAleatoriaExpNeg = Distribucion.obtenerVariableExpNegativa();
+            valores_variableAleatoriaPoisson = Distribucion.obtenerVariablePoisson();
+            valores_variableAleatoriaNormal = Distribucion.obtenerVariableNormal();
+
             return (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal);
+
+
         }
+
+
+        public static void generarRandoms(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
+
+        {
+            Generador.generarRandoms(metodo, xi_1, c, a, modulo, muestra, semilla2);
+        }
+
+      
 
 
 
@@ -52,20 +64,36 @@ namespace TP3.Mvvm
 
         public static List<decimal> test(int subintervalos) // cambiar a List<decimal>
         {
-            return ChiCuadrado.testChiCuadrado(numeros_aleatorios, _muestra, subintervalos);
+            //decimal chiUniforme = Distribucion.obtenerChiUniforme(_muestra, subintervalos);
+            //chis.Add(chiUniforme);
+
+            chis.Clear();
+
+            decimal chiExpoencial = Distribucion.obtenerChiExponencial(_muestra, subintervalos);
+            chis.Add(chiExpoencial);
+
+            decimal chiPoissoon = Distribucion.obtenerChiPoisson(_muestra, subintervalos);
+            chis.Add(chiPoissoon);
+
+            decimal chiNormal = Distribucion.obtenerChiNormal(_muestra, subintervalos);
+            chis.Add(chiNormal);
+
+            decimal chitabulado = ChiCuadrado.obtenerChitabulado(subintervalos);
+            chis.Add(chitabulado);
+
+            return chis;
+        }
+
+        public static (List<decimal>, List<decimal>, List<decimal>) obtenerObservaciones()
+        {
+            
+            return (Distribucion.obtenerObservacionesExponencial(), Distribucion.obtenerObservacionesPoisson(), Distribucion.obtenerObservacionesNormal());
 
         }
 
-        public static List<decimal> obtenerObservaciones() 
+        public static (List<decimal>, List<decimal>, List<decimal>) obtenerEsperados()
         {
-            return ChiCuadrado.obtenerFreqAbsolutas();
-
-        }
-
-        public static (List<decimal>, List<decimal>, List<decimal>, List<decimal>) obtenerEsperados()
-        {
-            return (ChiCuadrado.obtenerEsperadoUniforme(), ChiCuadrado.obtenerEsperadoExponencial(), ChiCuadrado.obtenerEsperadoPoisson(), ChiCuadrado.obtenerEsperadoNormal());
-
+            return (Distribucion.obtenerEsperadosExponencial(), Distribucion.obtenerEsperadosPoisson(), Distribucion.obtenerEsperadosNormal());
         }
 
         public static List<decimal> obtenerConjuntoRandomGenerado()
@@ -73,7 +101,6 @@ namespace TP3.Mvvm
             return numeros_aleatorios;  
 
         }
-
 
 
         public static List<decimal> probabilidad(List<decimal> numeros_aleatorios)
@@ -143,9 +170,13 @@ namespace TP3.Mvvm
             return array; // esto habria que mostrar u de ultima para cada pN dentro de un label entonces el return seria cada probabilidad y no una lista
         }
 
-        public static List<decimal> obtenerMedioIntervalos(int subintervalos)
+        public static (List<decimal>, List<decimal>, List<decimal>) obtenerMedioIntervalos(int subintervalos)
         {
-            return ChiCuadrado.obtenerMedios(numeros_aleatorios, subintervalos);
+
+            return (ChiCuadrado.obtenerMedios(valores_variableAleatoriaExpNeg, subintervalos),
+            ChiCuadrado.obtenerMedios(valores_variableAleatoriaPoisson, subintervalos),
+            ChiCuadrado.obtenerMedios(valores_variableAleatoriaNormal, subintervalos));
+
         }
 
 

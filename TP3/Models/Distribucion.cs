@@ -10,11 +10,15 @@ namespace TP3.Models
     {
         // variables para Uniforme
         private static List<decimal> esperadosUniforme = new List<decimal>();
+        private static List<decimal> observadosUniforme = new List<decimal>();
 
 
         // Variables para Exponencial
         private static List<decimal> esperadosExponencial = new List<decimal>();
+        private static List<decimal> observadosExponencial = new List<decimal>();
 
+
+        private static List<decimal> observados = new List<decimal>();
 
 
 
@@ -23,16 +27,19 @@ namespace TP3.Models
         private static double fx;
         private static double Fx;
         private static List<decimal> esperadosPoisson = new List<decimal>();
+        private static List<decimal> observadosPoisson = new List<decimal>();
+
 
 
 
         // variables para Normal
         private static double z;
         private static List<decimal> esperadosNormal = new List<decimal>();
+        private static List<decimal> observadosNormal = new List<decimal>();
 
 
         // ---------------------------
-
+        private static List<decimal> VariableUniforme = new List<decimal>();
         private static List<decimal> VariableExp = new List<decimal>();
         private static List<decimal> VariablePoisson = new List<decimal>();
         private static List<decimal> VariableNormal = new List<decimal>();
@@ -41,7 +48,7 @@ namespace TP3.Models
 
 
 
-        public static List<decimal> GenerarVariableExpNegativa(decimal lambda, List<decimal> numeros_aleatorios)
+        public static void GenerarVariableExpNegativa(decimal lambda, List<decimal> numeros_aleatorios)
         {
             VariableExp.Clear();
 
@@ -50,11 +57,15 @@ namespace TP3.Models
             {
                 VariableExp.Add((-1 / lambda) * (decimal)Math.Log(1 - (double)numeros_aleatorios[i])); // (-1/lambda) * ln(1-random)
             }
+            
+        }
 
+        public static List<decimal> obtenerVariableExpNegativa()
+        {
             return VariableExp;
         }
 
-        public static List<decimal> GenerarVariablePoisson(decimal lambda, List<decimal> numeros_aleatorios)
+        public static void GenerarVariablePoisson(decimal lambda, List<decimal> numeros_aleatorios)
         {
             VariablePoisson.Clear();
             p_acumulada.Clear();
@@ -88,10 +99,15 @@ namespace TP3.Models
 
             }
 
+            
+        }
+
+        public static List<decimal> obtenerVariablePoisson()
+        {
             return VariablePoisson;
         }
 
-        public static List<decimal> GenerarVariableNormal(decimal media, decimal desviacion, List<decimal> numeros_aleatorios)
+        public static void GenerarVariableNormal(decimal media, decimal desviacion, List<decimal> numeros_aleatorios)
         {
             VariableNormal.Clear();
 
@@ -104,55 +120,200 @@ namespace TP3.Models
 
             }
 
+          
+        }
+
+        public static List<decimal> obtenerVariableNormal()
+        {
             return VariableNormal;
         }
 
+        public static decimal obtenerChiUniforme(int muestra, int intervalos)
+        {
+            calcularEsperadosUniforme(muestra, intervalos);
+            observadosUniforme = CalcularfreqAbsolutas(VariableUniforme, intervalos, muestra);
+           return ChiCuadrado.testChiCuadrado(VariableUniforme, observadosUniforme ,esperadosUniforme, muestra, intervalos);
 
-        public static List<decimal> obtenerEsperadosUniforme(int muestra, int intervalos)
+        }
+
+
+        private static void calcularEsperadosUniforme(int muestra, int intervalos)
         {
             esperadosUniforme.Clear();
-            for (int i = 0; i < muestra; i++)
+            for (int i = 0; i < intervalos; i++)
             {
                 esperadosUniforme.Add(muestra / intervalos);
             }
+
+
+        }
+
+        public static List<decimal> obtenerObservacionesUniforme()
+        {
+
+            return observadosUniforme;
+
+        }
+
+        public static List<decimal> obtenerEsperadosUniforme()
+        {
+
 
             return esperadosUniforme;
 
         }
 
+        public static decimal obtenerChiExponencial(int muestra, int intervalos)
+        {
+            calcularEsperadosExponencial(muestra, intervalos);
+            observadosExponencial = CalcularfreqAbsolutas(VariableExp, intervalos, muestra);
+            return ChiCuadrado.testChiCuadrado(VariableExp, observadosExponencial, esperadosExponencial, muestra, intervalos);
 
-        public static List<decimal> obtenerEsperadosExponencial(int muestra, int intervalos)
+        }
+
+
+
+        public static void calcularEsperadosExponencial(int muestra, int intervalos)
         {
             esperadosExponencial.Clear();
-            for (int i = 0; i < muestra; i++)
+            for (int i = 0; i < intervalos; i++)
             {
                 esperadosExponencial.Add(muestra / intervalos);
             }
+
+        }
+
+        public static List<decimal> obtenerObservacionesExponencial()
+        {
+
+            return observadosExponencial;
+
+        }
+
+        public static List<decimal> obtenerEsperadosExponencial()
+        {
+
 
             return esperadosExponencial;
 
         }
 
-        public static List<decimal> obtenerEsperadosPoisson(int muestra, int intervalos)
+        public static decimal obtenerChiPoisson(int muestra, int intervalos)
+        {
+            calcularEsperadosPoisson(muestra, intervalos);
+            observadosPoisson = CalcularfreqAbsolutas(VariablePoisson, intervalos, muestra);
+            return ChiCuadrado.testChiCuadrado(VariablePoisson, observadosPoisson, esperadosPoisson, muestra, intervalos);
+
+        }
+
+        public static void calcularEsperadosPoisson(int muestra, int intervalos)
         {
             esperadosPoisson.Clear();
-            for (int i = 0; i < muestra; i++)
+            for (int i = 0; i < intervalos; i++)
             {
                 esperadosPoisson.Add(muestra / intervalos);
             }
 
+
+        }
+
+        public static List<decimal> obtenerObservacionesPoisson()
+        {
+
+            return observadosPoisson;
+
+        }
+
+        public static List<decimal> obtenerEsperadosPoisson()
+        {
+
             return esperadosPoisson;
 
         }
-        public static List<decimal> obtenerEsperadosNormal(int muestra, int intervalos)
+
+        public static decimal obtenerChiNormal(int muestra, int intervalos)
+        {
+            calcularEsperadosNormal(muestra, intervalos);
+            observadosNormal = CalcularfreqAbsolutas(VariableNormal, intervalos, muestra);
+            return ChiCuadrado.testChiCuadrado(VariableNormal, observadosNormal, esperadosNormal, muestra, intervalos);
+
+        }
+
+        public static void calcularEsperadosNormal(int muestra, int intervalos)
         {
             esperadosNormal.Clear();
-            for (int i = 0; i < muestra; i++)
+            for (int i = 0; i < intervalos; i++)
             {
                 esperadosNormal.Add(muestra / intervalos);
             }
 
-            return esperadosNormal;
+
+        }
+
+        public static List<decimal> obtenerObservacionesNormal()
+        {
+
+            return observadosNormal;
+
+        }
+
+        public static List<decimal> obtenerEsperadosNormal()
+        {
+
+            return esperadosPoisson;
+
+        }
+
+        public static List<decimal> CalcularfreqAbsolutas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
+        {
+            observados.Clear();
+
+            decimal[] arr = new decimal[subintervalos];
+            List<decimal> frequencias = new List<decimal>(arr);
+
+
+            decimal min = numeros_aleatorios.Min();
+            decimal max = numeros_aleatorios.Max();
+
+
+            decimal paso = (max - min) / subintervalos;
+
+            decimal lim_inferior = min;
+            decimal lim_superior = lim_inferior + paso;
+
+            int simActual = 1;
+            int simAnterior = 0;
+
+
+
+            foreach (var random in numeros_aleatorios)
+            {
+                for (int i = 0; i < subintervalos; i++)
+                {
+                    if (random >= lim_inferior && random <= lim_superior)
+                    {
+                        frequencias[i] = (frequencias[i] * simAnterior + 1) / simActual; // observados
+                    }
+                    else
+                    {
+                        frequencias[i] = (frequencias[i] * simAnterior + 0) / simActual;
+                    }
+
+                    lim_inferior = lim_superior;
+                    lim_superior = lim_inferior + paso;
+
+
+                }
+
+                simAnterior = simActual;
+                simActual++;
+                lim_inferior = min;
+                lim_superior = lim_inferior + paso;
+
+            }
+
+
+          return observados = frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
 
         }
 

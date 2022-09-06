@@ -20,7 +20,7 @@ namespace TP3.Models
 
         // -------------------------------------
 
-        public static (List<decimal> , List<decimal> , List<decimal> ) generarVariables(List<decimal> numeros_aleatorios, decimal media, decimal desviacion, decimal lambda, int muestra)
+        public static (List<decimal> , List<decimal> , List<decimal> ) generarVariables(decimal media, decimal desviacion, decimal lambda, int muestra)
 
         {
            
@@ -35,9 +35,9 @@ namespace TP3.Models
             // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto, pero el resto de las distribuciones no usan ese random extra
 
             // validar antes que lambda sea positva
-            valores_variableAleatoriaExpNeg = Distribucion.GenerarVariableExpNegativa(lambda, numeros_aleatorios);
-            valores_variableAleatoriaPoisson = Distribucion.GenerarVariablePoisson(lambda, numeros_aleatorios);
-            valores_variableAleatoriaNormal = Distribucion.GenerarVariableNormal(media, desviacion, numeros_aleatorios);
+             Distribucion.GenerarVariableExpNegativa(lambda, numeros_aleatorios);
+             Distribucion.GenerarVariablePoisson(lambda, numeros_aleatorios);
+            Distribucion.GenerarVariableNormal(media, desviacion, numeros_aleatorios);
 
             return (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal);
 
@@ -45,7 +45,7 @@ namespace TP3.Models
 
 
 
-        public static List<decimal> generarRandoms(string metodo, decimal xi,decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
+        public static void generarRandoms(string metodo, decimal xi,decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
           
         {
             xn_1 = semilla2; //  segunda semilla para el metodo aditivo
@@ -71,8 +71,6 @@ namespace TP3.Models
                 numeros_aleatorios.Add(rnd); // agrega los random
             }
             xn = xi; // para que quede guardado el xi  para seguir usando en la funcion generarSiguientes
-
-            return numeros_aleatorios;
         }
 
         public static List<decimal> generarSiguientes(string metodo, decimal c, decimal a, decimal modulo, int muestra)
