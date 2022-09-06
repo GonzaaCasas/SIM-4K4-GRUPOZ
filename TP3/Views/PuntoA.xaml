@@ -19,7 +19,7 @@
             Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
             Kind= "AlphaABox" />
 
-        <Grid  Margin="10,30,10,10">
+        <Grid  Margin="10,10,10,10">
 
             <Grid.Resources >
                 <Style TargetType="StackPanel" >
@@ -34,192 +34,180 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"></RowDefinition>
+                <RowDefinition Height="150"></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
+            
+            <GroupBox Grid.Row="0" Grid.Column="0" Header="Normal" Margin="5,0,5,0">
+                <StackPanel Margin="0,0,0,0" >
+                    <Label Content="Media" FontSize="14"/>
+                    <TextBox x:Name="TxtMedia" 
+                             PreviewTextInput="NumberValidationTextBox" 
+                             MaxHeight="26" MaxWidth="175" 
+                             MinWidth="150" 
+                             HorizontalAlignment="Left"
+                             Text="37"
+                             TextChanged="Txt_TextChanged"/>
+                    <Label Name="LblDE" Content="Desviacion estandar" FontSize="14"/>
+                    <TextBox x:Name="TxtDE" 
+                             PreviewTextInput="NumberValidationTextBox" 
+                             MaxHeight="26" MaxWidth="175" 
+                             MinWidth="150" 
+                             HorizontalAlignment="Left"
+                             Text="7"
+                             TextChanged="Txt_TextChanged"/>
+                </StackPanel>
+            </GroupBox>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,10,10,10" >
-                <Label Content="Media" FontSize="14"/>
-                <TextBox x:Name="TxtMedia" 
-                         PreviewTextInput="NumberValidationTextBox" 
-                         MaxHeight="26" MaxWidth="175" 
-                         MinWidth="150" 
-                         HorizontalAlignment="Left"
-                         Text="37"
-                         TextChanged="Txt_TextChanged"/>
-            </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
-                <Label Name="LblDE" Content="Desviacion estandar" FontSize="14"/>
-                <TextBox x:Name="TxtDE" 
-                         PreviewTextInput="NumberValidationTextBox" 
-                         MaxHeight="26" MaxWidth="175" 
-                         MinWidth="150" 
-                         HorizontalAlignment="Left"
-                         Text="7"
-                         TextChanged="Txt_TextChanged"/>
-            </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="2" Margin="10,10,10,10">
-                <Label Name="LblLambda" Content="Lambda (λ)" FontSize="14"/>
-                <TextBox x:Name="TxtLambda" 
-                         PreviewTextInput="NumberValidationTextBox" 
-                         MaxHeight="26" MaxWidth="175" 
-                         MinWidth="150" 
-                         HorizontalAlignment="Left"
-                         Text="19"
-                         TextChanged="Txt_TextChanged"/>
-            </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10">
-                <Label Content="Cantidad de valores" FontSize="14"/>
+            <GroupBox Grid.Row="0" Grid.Column="1" Header="Poisson" Margin="5,0,5,0">
+                <StackPanel>
+                    <Label Name="LblLambda" Content="Lambda (λ)" FontSize="14"/>
+                    <TextBox x:Name="TxtLambda" 
+                             PreviewTextInput="NumberValidationTextBox" 
+                             MaxHeight="26" MaxWidth="175" 
+                             MinWidth="150" 
+                             HorizontalAlignment="Left"
+                             Text="19"
+                             TextChanged="Txt_TextChanged"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Grid.Row="0" Grid.Column="2" Header="Exponencial" Margin="5,0,5,0">
+                <StackPanel>
+                    <Label Name="LblLambdaExp" Content="Lambda (λ)" FontSize="14"/>
+                    <TextBox x:Name="TxtLambdaExp" 
+                             PreviewTextInput="NumberValidationTextBox" 
+                             MaxHeight="26" MaxWidth="175" 
+                             MinWidth="150" 
+                             HorizontalAlignment="Left"
+                             Text="19"
+                             TextChanged="Txt_TextChanged"/>
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Label Content="Cantidad de valores" FontSize="14" VerticalAlignment="Bottom"/>
                 <TextBox x:Name="TxtCantidad" 
                          PreviewTextInput="NumberValidationTextBox" 
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150"
                          HorizontalAlignment="Left"
                          Text="53"
-                         TextChanged="Txt_TextChanged"/>
+                         TextChanged="Txt_TextChanged" VerticalAlignment="Bottom"/>
             </StackPanel>
             <!--<StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-200,0,0,0" FontSize="16">Valores</Label>
                 <DockPanel Width="40"></DockPanel>
                 <Label VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16" Margin="0,0,-40,0"> Porcentajes</Label>
             </StackPanel>-->
-            
-            <DockPanel Grid.Column="0" Grid.Row="1" Name="stckEstado" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="10,30,10,10">
-                
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal" >
-                     
-                    <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False">
-                        <DataGrid.CellStyle>
-                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Foreground" Value="Black"/>
-                                        <Setter Property="Background" Value="LightBlue"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="Violet"/>
-                                        <Setter Property="Foreground" Value="Black"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.CellStyle>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nº" Binding="{Binding num}">
 
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment"
-                                                                Value="Center" />
+            <DockPanel Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,30,30">
+                <Label  Content="Normal" FontSize="14" DockPanel.Dock="Top"/>
+                <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="Background" Value="LightBlue"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Violet"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nº" Binding="{Binding num}">
 
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment"
+                                            Value="Center" />
 
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <DockPanel Width="40"></DockPanel>
-                    <DataGrid x:Name="dgvVectorEstado2" ItemsSource="{Binding}" AutoGenerateColumns="False">
-                        <DataGrid.CellStyle>
-                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Foreground" Value="Black"/>
-                                        <Setter Property="Background" Value="LightBlue"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="Violet"/>
-                                        <Setter Property="Foreground" Value="Black"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.CellStyle>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nº" Binding="{Binding num}">
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
 
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment"
-                                                                Value="Center" />
-
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <DockPanel Width="40"></DockPanel>
-
-                    <DataGrid x:Name="dgvVectorEstado3" ItemsSource="{Binding}" AutoGenerateColumns="False">
-                        <DataGrid.CellStyle>
-                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Foreground" Value="Black"/>
-                                        <Setter Property="Background" Value="LightBlue"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="Violet"/>
-                                        <Setter Property="Foreground" Value="Black"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.CellStyle>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nº" Binding="{Binding num}">
-
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment"
-                                                                Value="Center" />
-
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-
-
-                    <!--<DataGrid x:Name="dgvIntervalos" ItemsSource="{Binding}" AutoGenerateColumns="False">
-                        <DataGrid.CellStyle>
-                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Foreground" Value="Black"/>
-                                        <Setter Property="Background" Value="LightBlue"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="Violet"/>
-                                        <Setter Property="Foreground" Value="Black"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.CellStyle>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nº Intervalo" Binding="{Binding nIntervalo}">
-
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Porcentaje" Binding="{Binding porcentaje}"  MinWidth="100" CanUserResize="False">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment"
-                                                                Value="Center" />
-
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid> -->
-                </StackPanel>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </DockPanel>
+
+            <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,30,30">
+                <Label  Content="Poisson" FontSize="14" DockPanel.Dock="Top"/>
+                <DataGrid x:Name="dgvVectorEstado2" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="Background" Value="LightBlue"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Violet"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nº" Binding="{Binding num}">
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment"
+                                            Value="Center" />
+
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+            <DockPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,30,36">
+                <Label  Content="Exponencial" FontSize="14" DockPanel.Dock="Top"/>
+                <DataGrid x:Name="dgvVectorEstado3" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="Background" Value="LightBlue"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Violet"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nº" Binding="{Binding num}">
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Valor" Binding="{Binding valor}"  MinWidth="100" CanUserResize="False">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment"
+                                            Value="Center" />
+
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+
+
 
             <StackPanel Grid.Row="1" Grid.Column="3">
                 <!--<Label>

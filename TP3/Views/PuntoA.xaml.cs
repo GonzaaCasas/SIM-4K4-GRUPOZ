@@ -17,14 +17,10 @@ namespace TP3.Views
 
     public partial class PuntoA : Page
     {
-        //private decimal xi_1;
-        //private decimal xi_2; //segund semilla
-        //private decimal cIndependiente;
-        //private decimal cMultiplicadora;
-        //private decimal modulo;
         private decimal media;
         private decimal DE;
         private decimal lambda;
+        private decimal lambdaExp;
         private int cantidad;
         private int muestra;
 
@@ -53,7 +49,7 @@ namespace TP3.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
-#pragma region validaciones
+        #region validaciones
         private bool ValidarModulo(decimal modulo)
         {
             return (modulo > 0);
@@ -81,11 +77,6 @@ namespace TP3.Views
             
                 if (!String.IsNullOrEmpty(TxtLambda.Text) && decimal.Parse(TxtLambda.Text) > 0  && !String.IsNullOrEmpty(TxtCantidad.Text) && int.Parse(TxtCantidad.Text) > 1 && !String.IsNullOrEmpty(TxtMedia.Text) && !String.IsNullOrEmpty(TxtDE.Text))
                 {
-                    //        decimal semilla = decimal.Parse(TxtSemilla.Text);
-                    //        decimal modulo = decimal.Parse(TxtModulo.Text);
-                    //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
-                    //        decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
-                    //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente, modulo));
                     return true;
                 }
                 else
@@ -97,11 +88,11 @@ namespace TP3.Views
           
         }
 
-#pragma endregion validaciones
+        #endregion
 
 
 
-        private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
+        private void BtnGenerar_Click(object sender, RoutedEventArgs e) 
         {
             
 
@@ -110,6 +101,7 @@ namespace TP3.Views
              
                 cantidad = int.Parse(TxtCantidad.Text);
                 lambda = decimal.Parse(TxtLambda.Text);
+                lambdaExp = decimal.Parse(TxtLambdaExp.Text);
                 media = decimal.Parse(TxtMedia.Text);
                 DE = decimal.Parse(TxtDE.Text);
 
@@ -122,7 +114,6 @@ namespace TP3.Views
 
                 mostrarVectorEstado(valores_variableAleatoriaExp, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal); //Falta agregar para que tmb muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
 
-                estadoBotones(true);
 
                 //porcentajes = porcentajeIntervalos();
 
@@ -135,71 +126,6 @@ namespace TP3.Views
 
         }
 
-
-
-
-        private void estadoBotones(bool estado)
-        {
-            //BtnGenerarProximo.IsEnabled = estado;
-            //BtnGenerarVeinte.IsEnabled = estado;
-            //BtnGenerarDiezMil.IsEnabled = estado;
-        }
-
-        //private void BtnGenerarProximo_Click(object sender, RoutedEventArgs e)  // para seguir la serie de a un valor por vez 
-        //{
-        //    if (ValidarCamposForm())
-        //    {
-        //        muestra = 1;
-
-        //        numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
-
-        //        mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
-        //        porcentajes = porcentajeIntervalos();
-        //        mostrarIntervalos(porcentajes);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
-
-        //private void BtnGenerarVeinte_Click(object sender, RoutedEventArgs e)  // para generar nuevamente 20 randoms mas 
-        //{
-        //    if (ValidarCamposForm())
-        //    {
-        //        muestra = 20;
-
-        //        numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra);
-
-        //        mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
-
-        //        porcentajes = porcentajeIntervalos();
-        //        mostrarIntervalos(porcentajes);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
-
-        //private void BtnGenerarDiezMil_Click(object sender, RoutedEventArgs e)  // para simular hasta 10000 numeros aleatorios 
-        //{
-        //    if (ValidarCamposForm())
-        //    {
-        //        muestra = 10001 - numeros_aleatorios.Count(); // para simular hasta llegar 10000
-
-        //        numeros_aleatorios = Gestor.generarSiguientes(metodo, cIndependiente, cMultiplicadora, modulo, muestra - 1);
-
-        //        mostrarVectorEstado(numeros_aleatorios.Skip(Math.Max(0, numeros_aleatorios.Count() - 20)).ToList());
-        //        porcentajes = porcentajeIntervalos();
-        //        mostrarIntervalos(porcentajes);
-
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
 
         //private IEnumerable<decimal> porcentajeIntervalos()
         //{
@@ -242,15 +168,6 @@ namespace TP3.Views
 
         //}
 
-        private void Txt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (cargado)
-            {
-                estadoBotones(false);
-
-            }
-
-        }
 
       /*  private void rbExponencial_Checked(object sender, RoutedEventArgs e) //para exponencial y para poisson
         {
