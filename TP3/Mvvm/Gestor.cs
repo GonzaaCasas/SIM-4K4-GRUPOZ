@@ -16,12 +16,16 @@ namespace TP3.Mvvm
         private static int _muestra;
         private static decimal _lambda;
         private static decimal _lambdaExp;
+        private static decimal _media;
+        private static decimal _ds;
         private static List<decimal> chis = new List<decimal>();
 
 
         public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda, decimal lambdaExp , int muestra)
 
         {
+            _media = media;
+            _ds = ds;
             _lambda = lambda;
             _lambdaExp = lambdaExp;
             _muestra = muestra;
@@ -67,16 +71,18 @@ namespace TP3.Mvvm
             //chis.Add(chiUniforme);
 
             chis.Clear();
+            List<decimal> limites;
+            limites = ChiCuadrado.calcularLimites(valores_variableAleatoriaExpNeg, subintervalos);
+            decimal chiExponencial = Distribucion.obtenerChiExponencial(_lambdaExp, limites, _muestra, subintervalos);
+            chis.Add(chiExponencial);
 
-            List<decimal> limites = ChiCuadrado.calcularLimites(valores_variableAleatoriaExpNeg, subintervalos);
-            decimal chiExpoencial = Distribucion.obtenerChiExponencial(_lambda, limites, _muestra, subintervalos);
-            chis.Add(chiExpoencial);
-
-            decimal chiPoissoon = Distribucion.obtenerChiPoisson(_muestra, subintervalos);
+            limites = ChiCuadrado.calcularLimites(valores_variableAleatoriaPoisson, subintervalos);
+            decimal chiPoissoon = Distribucion.obtenerChiPoisson(_lambda, limites, _muestra, subintervalos);
             chis.Add(chiPoissoon);
 
-            decimal chiExpoencial = Distribucion.obtenerChiExponencial(_muestra, subintervalos);
-            chis.Add(chiExpoencial);
+            limites = ChiCuadrado.calcularLimites(valores_variableAleatoriaNormal, subintervalos);
+            decimal chiNormal = Distribucion.obtenerChiNormal(_media, _ds, limites, _muestra, subintervalos);
+            chis.Add(chiNormal);
 
             decimal chitabulado = ChiCuadrado.obtenerChitabulado(subintervalos);
             chis.Add(chitabulado);

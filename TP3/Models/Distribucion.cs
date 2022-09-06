@@ -163,9 +163,9 @@ namespace TP3.Models
 
         }
 
-        public static decimal obtenerChiExponencial(decimal lambda, List<decimal> limites, int muestra, int intervalos)
+        public static decimal obtenerChiExponencial(decimal lambdaExp, List<decimal> limites, int muestra, int intervalos)
         {
-            calcularEsperadosExponencial(lambda, limites);
+            calcularEsperadosExponencial(lambdaExp, limites);
             observadosExponencial = CalcularfreqAbsolutas(VariableExp, intervalos, muestra);
             return ChiCuadrado.testChiCuadrado(VariableExp, observadosExponencial, esperadosExponencial, muestra, intervalos);
 
@@ -173,13 +173,13 @@ namespace TP3.Models
 
 
 
-        public static void calcularEsperadosExponencial(decimal lambda, List <decimal> limites)
+        public static void calcularEsperadosExponencial(decimal lambdaExp, List <decimal> limites)
         {
             esperadosExponencial.Clear();
             for (int i = 1; i < limites.Count() ; i++)
             {
-               esperadosExponencial.Add( (decimal) (MathNet.Numerics.Distributions.Exponential.CDF( (double) lambda, (double) limites[i]) -
-                 MathNet.Numerics.Distributions.Exponential.CDF((double)lambda, (double)limites[i-1])));
+               esperadosExponencial.Add( (decimal) (MathNet.Numerics.Distributions.Exponential.CDF( (double)lambdaExp, (double) limites[i]) -
+                 MathNet.Numerics.Distributions.Exponential.CDF((double)lambdaExp, (double)limites[i-1])));
             }
 
         }
@@ -199,20 +199,21 @@ namespace TP3.Models
 
         }
 
-        public static decimal obtenerChiPoisson(int muestra, int intervalos)
+        public static decimal obtenerChiPoisson(decimal lambda, List<decimal> limites, int muestra, int intervalos)
         {
-            calcularEsperadosPoisson(muestra, intervalos);
+            calcularEsperadosPoisson(lambda, limites);
             observadosPoisson = CalcularfreqAbsolutas(VariablePoisson, intervalos, muestra);
             return ChiCuadrado.testChiCuadrado(VariablePoisson, observadosPoisson, esperadosPoisson, muestra, intervalos);
 
         }
 
-        public static void calcularEsperadosPoisson(int muestra, int intervalos)
+        public static void calcularEsperadosPoisson(decimal lambda, List<decimal> limites)
         {
             esperadosPoisson.Clear();
-            for (int i = 0; i < intervalos; i++)
+            for (int i = 1; i < limites.Count(); i++)
             {
-                esperadosPoisson.Add(muestra / intervalos);
+                esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i]) -
+                  MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i - 1])));
             }
 
 
@@ -232,20 +233,21 @@ namespace TP3.Models
 
         }
 
-        public static decimal obtenerChiNormal(int muestra, int intervalos)
+        public static decimal obtenerChiNormal(decimal media, decimal ds ,List<decimal> limites, int muestra, int intervalos)
         {
-            calcularEsperadosNormal(muestra, intervalos);
+            calcularEsperadosNormal(media, ds, limites);
             observadosNormal = CalcularfreqAbsolutas(VariableNormal, intervalos, muestra);
             return ChiCuadrado.testChiCuadrado(VariableNormal, observadosNormal, esperadosNormal, muestra, intervalos);
 
         }
 
-        public static void calcularEsperadosNormal(int muestra, int intervalos)
+        public static void calcularEsperadosNormal(decimal media, decimal ds ,List<decimal> limites)
         {
             esperadosNormal.Clear();
-            for (int i = 0; i < intervalos; i++)
+            for (int i = 1; i < limites.Count(); i++)
             {
-                esperadosNormal.Add(muestra / intervalos);
+                esperadosNormal.Add((decimal)(MathNet.Numerics.Distributions.Normal.CDF((double)media, (double)ds, (double)limites[i]) -
+                  MathNet.Numerics.Distributions.Normal.CDF((double)media, (double)ds, (double)limites[i - 1])));
             }
 
 
