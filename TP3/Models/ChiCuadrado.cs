@@ -17,7 +17,6 @@ namespace TP3.Models
 
 
         private static decimal chiCuadradoObtenido;
-        private static List<decimal> valoresMediosIntervalos = new List<decimal>();
 
         private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
@@ -72,8 +71,9 @@ namespace TP3.Models
         public static List<decimal>  obtenerMedios(List<decimal> conjuntoNumeros, int intervalos)
         {
             // 0 - 1 , 1 - 5, 5, 9
-            valoresMediosIntervalos.Clear();
-            List<decimal> limites = calcularLimites(conjuntoNumeros, intervalos);
+            List<decimal> valoresMediosIntervalos = new List<decimal>();
+
+             List<decimal> limites = calcularLimites(conjuntoNumeros, intervalos);
 
             for (int i = 0; i < limites.Count() - 1; i++)
             {
