@@ -35,7 +35,7 @@ namespace TP3.Views
         bool cargado = false;
 
         private List<decimal> numeros_variableAleatoria = new List<decimal>();
-        private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
+        private static List<decimal> valores_variableAleatoriaExp = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
 
@@ -78,57 +78,23 @@ namespace TP3.Views
 
         private bool ValidarCamposForm()
         {
-            //if ((bool)rbMixto.IsChecked)
-            //{
-            //    if (!String.IsNullOrEmpty(TxtConstanteIndependiente.Text) && !String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
-            //    {
-            //        decimal semilla = decimal.Parse(TxtSemilla.Text);
-            //        decimal modulo = decimal.Parse(TxtModulo.Text);
-            //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
-            //        decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
-            //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente, modulo));
-            //    }
-            //    else
-            //    {
-            //        return false;
-            //    }
-            //}
-            //else if ((bool)rbMultiplicativo.IsChecked)
-            //{
-            //    if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
-            //    {
-            //        decimal semilla = decimal.Parse(TxtSemilla.Text);
-            //        decimal modulo = decimal.Parse(TxtModulo.Text);
-            //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
-
-            //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
-            //    }
-            //    else
-            //    {
-            //        return false;
-            //    }
-            //}
-            //else if ((bool)rbAditivo.IsChecked)
-            //{
-            //    if (!String.IsNullOrEmpty(TxtSemilla.Text) && !String.IsNullOrEmpty(TxtModulo.Text) && !String.IsNullOrEmpty(TxtConstanteMultiplicadora.Text))
-            //    {
-            //        decimal semilla = decimal.Parse(TxtSemilla.Text);
-            //        decimal modulo = decimal.Parse(TxtModulo.Text);
-            //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
-
-            //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
-            //    }
-            //    else
-            //    {
-            //        return false;
-            //    }
-            //}
-
-            //else
-            //{
-            //    return false;
-            //}
-            return true;
+            
+                if (!String.IsNullOrEmpty(TxtLambda.Text) && decimal.Parse(TxtLambda.Text) > 0  && !String.IsNullOrEmpty(TxtCantidad.Text) && int.Parse(TxtCantidad.Text) > 1 && !String.IsNullOrEmpty(TxtMedia.Text) && !String.IsNullOrEmpty(TxtDE.Text))
+                {
+                    //        decimal semilla = decimal.Parse(TxtSemilla.Text);
+                    //        decimal modulo = decimal.Parse(TxtModulo.Text);
+                    //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
+                    //        decimal indepediente = decimal.Parse(TxtConstanteIndependiente.Text);
+                    //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo) && ValidarCIncremento(indepediente, modulo));
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            
+            
+          
         }
 
 #pragma endregion validaciones
@@ -137,6 +103,7 @@ namespace TP3.Views
 
         private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
         {
+            
 
             if (ValidarCamposForm())
             {
@@ -147,13 +114,13 @@ namespace TP3.Views
                 DE = decimal.Parse(TxtDE.Text);
 
 
-                Gestor.generarVariablesAleatorias(media, DE, lambda, cantidad);
+                Gestor.generarVariablesAleatorias( media, DE, lambda, cantidad);
 
-                (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Gestor.obtenerVariablesAleatorias();
+                (valores_variableAleatoriaExp, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Gestor.obtenerVariablesAleatorias();
 
           
 
-                mostrarVectorEstado(valores_variableAleatoriaExpNeg); //Falta agregar para que tmb muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
+                mostrarVectorEstado(valores_variableAleatoriaExp, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal); //Falta agregar para que tmb muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
 
                 estadoBotones(true);
 
@@ -163,7 +130,7 @@ namespace TP3.Views
             }
             else
             {
-                MessageBox.Show("Intente escribir valores positivos y menores al modulo ingresado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Intente escribir valores positivos", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }
@@ -241,10 +208,12 @@ namespace TP3.Views
 
         //}
 
-        private void mostrarVectorEstado(List<decimal> vectorEstado)
+        private void mostrarVectorEstado(List<decimal> vectorEstado, List<decimal> vectorEstado2, List<decimal> vectorEstado3)
         {
 
             dgvVectorEstado.DataContext = generarTabla(vectorEstado, "num", "valor");
+            dgvVectorEstado2.DataContext = generarTabla(vectorEstado2, "num", "valor");
+            dgvVectorEstado3.DataContext = generarTabla(vectorEstado3, "num", "valor");
 
         }
 
@@ -283,7 +252,7 @@ namespace TP3.Views
 
         }
 
-        private void rbExponencial_Checked(object sender, RoutedEventArgs e) //para exponencial y para poisson
+      /*  private void rbExponencial_Checked(object sender, RoutedEventArgs e) //para exponencial y para poisson
         {
             TxtLambda.IsEnabled = true;
             TxtDE.IsEnabled = false;
@@ -295,6 +264,6 @@ namespace TP3.Views
             TxtLambda.IsEnabled = false;
             TxtDE.IsEnabled = true;
             TxtMedia.IsEnabled = true;
-        }
+        }*/
     }
 }
