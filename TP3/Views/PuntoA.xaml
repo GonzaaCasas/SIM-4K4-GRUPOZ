@@ -222,12 +222,12 @@
             </DockPanel>
 
             <StackPanel Grid.Row="1" Grid.Column="3">
-                <Label>
+                <!--<Label>
                     Elija un Método
                 </Label>
                 <RadioButton x:Name="rbExponencial" Checked="rbExponencial_Checked" Background="#cce4f7" IsChecked="True" Content="Exponencial"></RadioButton>
                 <RadioButton x:Name="rbPoisson" Checked="rbExponencial_Checked" Background="#cce4f7" Content="Poisson"></RadioButton>
-                <RadioButton x:Name="rbNormal" Checked="rbNormal_Checked" Background="#cce4f7"  Content="Normal"></RadioButton>
+                <RadioButton x:Name="rbNormal" Checked="rbNormal_Checked" Background="#cce4f7"  Content="Normal"></RadioButton> -->
                 <Button x:Name="BtnGenerar" 
                         Grid.Column="3" 
                         Grid.Row="1" 

@@ -78,9 +78,8 @@ namespace TP3.Views
 
         private bool ValidarCamposForm()
         {
-            if ((bool)rbExponencial.IsChecked || (bool)rbPoisson.IsChecked)
-            {
-                if (!String.IsNullOrEmpty(TxtLambda.Text) && decimal.Parse(TxtLambda.Text) > 0  && !String.IsNullOrEmpty(TxtCantidad.Text) && int.Parse(TxtCantidad.Text) > 1)
+            
+                if (!String.IsNullOrEmpty(TxtLambda.Text) && decimal.Parse(TxtLambda.Text) > 0  && !String.IsNullOrEmpty(TxtCantidad.Text) && int.Parse(TxtCantidad.Text) > 1 && !String.IsNullOrEmpty(TxtMedia.Text) && !String.IsNullOrEmpty(TxtDE.Text))
                 {
                     //        decimal semilla = decimal.Parse(TxtSemilla.Text);
                     //        decimal modulo = decimal.Parse(TxtModulo.Text);
@@ -93,29 +92,8 @@ namespace TP3.Views
                 {
                     return false;
                 }
-            }
-           
-            else if ((bool)rbNormal.IsChecked)
-            {
-                if (!String.IsNullOrEmpty(TxtMedia.Text) && !String.IsNullOrEmpty(TxtDE.Text) && !String.IsNullOrEmpty(TxtCantidad.Text) && int.Parse(TxtCantidad.Text) > 1 )
-                {
-                    //        decimal semilla = decimal.Parse(TxtSemilla.Text);
-                    //        decimal modulo = decimal.Parse(TxtModulo.Text);
-                    //        decimal multiplicador = decimal.Parse(TxtConstanteMultiplicadora.Text);
-
-                    //        return (ValidarSemilla(semilla, modulo) && ValidarCMultiplicadora(multiplicador, modulo) && ValidarModulo(modulo));
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            else
-            {
-                return false;
-            }
+            
+            
           
         }
 
@@ -125,7 +103,7 @@ namespace TP3.Views
 
         private void BtnGenerar_Click(object sender, RoutedEventArgs e)  // para generar 20 numeros aleatorios
         {
-            metodo = (bool)rbNormal.IsChecked ? "Normal" : (bool)rbExponencial.IsChecked ? "Exponencial" : "Poisson";
+            
 
             if (ValidarCamposForm())
             {
@@ -274,7 +252,7 @@ namespace TP3.Views
 
         }
 
-        private void rbExponencial_Checked(object sender, RoutedEventArgs e) //para exponencial y para poisson
+      /*  private void rbExponencial_Checked(object sender, RoutedEventArgs e) //para exponencial y para poisson
         {
             TxtLambda.IsEnabled = true;
             TxtDE.IsEnabled = false;
@@ -286,6 +264,6 @@ namespace TP3.Views
             TxtLambda.IsEnabled = false;
             TxtDE.IsEnabled = true;
             TxtMedia.IsEnabled = true;
-        }
+        }*/
     }
 }
