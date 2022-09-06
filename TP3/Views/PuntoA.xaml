@@ -47,16 +47,14 @@
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
                              HorizontalAlignment="Left"
-                             Text="37"
-                             TextChanged="Txt_TextChanged"/>
+                             Text="37"/>
                     <Label Name="LblDE" Content="Desviacion estandar" FontSize="14"/>
                     <TextBox x:Name="TxtDE" 
                              PreviewTextInput="NumberValidationTextBox" 
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
                              HorizontalAlignment="Left"
-                             Text="7"
-                             TextChanged="Txt_TextChanged"/>
+                             Text="7"/>
                 </StackPanel>
             </GroupBox>
 
@@ -68,8 +66,7 @@
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
                              HorizontalAlignment="Left"
-                             Text="19"
-                             TextChanged="Txt_TextChanged"/>
+                             Text="19"/>
                 </StackPanel>
             </GroupBox>
 
@@ -81,8 +78,7 @@
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
                              HorizontalAlignment="Left"
-                             Text="19"
-                             TextChanged="Txt_TextChanged"/>
+                             Text="19"/>
                 </StackPanel>
             </GroupBox>
             <StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Center">
@@ -93,7 +89,7 @@
                          MinWidth="150"
                          HorizontalAlignment="Left"
                          Text="53"
-                         TextChanged="Txt_TextChanged" VerticalAlignment="Bottom"/>
+                         VerticalAlignment="Bottom"/>
             </StackPanel>
             <!--<StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-200,0,0,0" FontSize="16">Valores</Label>

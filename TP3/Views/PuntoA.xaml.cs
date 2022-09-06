@@ -137,9 +137,9 @@ namespace TP3.Views
         private void mostrarVectorEstado(List<decimal> vectorEstado, List<decimal> vectorEstado2, List<decimal> vectorEstado3)
         {
 
-            dgvVectorEstado.DataContext = generarTabla(vectorEstado, "num", "valor");
+            dgvVectorEstado3.DataContext = generarTabla(vectorEstado, "num", "valor");
             dgvVectorEstado2.DataContext = generarTabla(vectorEstado2, "num", "valor");
-            dgvVectorEstado3.DataContext = generarTabla(vectorEstado3, "num", "valor");
+            dgvVectorEstado.DataContext = generarTabla(vectorEstado3, "num", "valor");
 
         }
 
