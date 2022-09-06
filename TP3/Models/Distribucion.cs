@@ -266,7 +266,7 @@ namespace TP3.Models
 
         public static List<decimal> CalcularfreqAbsolutas(List<decimal> numeros_aleatorios, int subintervalos, int muestra)
         {
-            observados.Clear();
+            
 
             decimal[] arr = new decimal[subintervalos];
             List<decimal> frequencias = new List<decimal>(arr);
@@ -313,7 +313,7 @@ namespace TP3.Models
             }
 
 
-          return observados = frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
+          return frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
 
         }
 

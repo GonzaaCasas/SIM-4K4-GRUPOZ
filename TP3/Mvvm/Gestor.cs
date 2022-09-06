@@ -17,9 +17,6 @@ namespace TP3.Mvvm
         private static List<decimal> chis = new List<decimal>();
 
 
-
-
-
         public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda, decimal lambdaExp , int muestra)
 
         {

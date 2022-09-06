@@ -72,8 +72,9 @@ namespace TP3.Models
         public static List<string> obtenerMedios(List<decimal> conjuntoNumeros, int intervalos)
         {
             // 0 - 1 , 1 - 5, 5, 9
-            valoresMediosIntervalos.Clear();
-            List<decimal> limites = calcularLimites(conjuntoNumeros, intervalos);
+            List<decimal> valoresMediosIntervalos = new List<decimal>();
+
+             List<decimal> limites = calcularLimites(conjuntoNumeros, intervalos);
 
             for (int i = 0; i < limites.Count() - 1; i++)
             {
