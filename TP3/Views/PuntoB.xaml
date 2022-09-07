@@ -39,8 +39,7 @@
                 <TextBox x:Name="TxtSubintervalos" 
                 PreviewTextInput="NumberValidationTextBox" 
                 MaxHeight="26" MaxWidth="175" 
-                MinWidth="150"  Text="10"
-                TextChanged="Txt_TextChanged"/>
+                MinWidth="150"  Text="10" />
             </StackPanel>
 
             <StackPanel Grid.Row="0" Grid.Column="1">
@@ -105,7 +104,8 @@
                 <Button x:Name="BtnExportar"
                         Width="100"
                         Height="30"
-                        Click="BtnExportar_OnClick">
+                        Click="BtnExportar_OnClick"
+                        IsEnabled="False">
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconFileIcons HorizontalAlignment="Left" Width="15" Height="15" Kind="Excel" />
                         <TextBlock Text="  Exportar" ></TextBlock>
