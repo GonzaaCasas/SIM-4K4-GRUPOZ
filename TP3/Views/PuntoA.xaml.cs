@@ -22,15 +22,9 @@ namespace TP3.Views
         private decimal lambda;
         private decimal lambdaExp;
         private int cantidad;
-        private int muestra;
 
-        private string metodo = "";
-        private List<decimal> numeros_aleatorios = new List<decimal>();
-        private List<decimal> frecuencia_nroaleatorios = new List<decimal>();
-        private IEnumerable<decimal> porcentajes;
-        bool cargado = false;
 
-        private List<decimal> numeros_variableAleatoria = new List<decimal>();
+      
         private static List<decimal> valores_variableAleatoriaExp = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
@@ -39,7 +33,7 @@ namespace TP3.Views
         public PuntoA()
         {
             InitializeComponent();
-            cargado = true;
+     
 
         }
 
@@ -54,13 +48,13 @@ namespace TP3.Views
 
         private void NumeroDecimalTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9,]");
+            Regex regex = new Regex("[^0-9.]");
             e.Handled = regex.IsMatch(e.Text);
         }
 
         private void NumeroRealTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9,-]");
+            Regex regex = new Regex("[^0-9.-]");
             e.Handled = regex.IsMatch(e.Text);
         }
 
@@ -122,14 +116,6 @@ namespace TP3.Views
 
         }
 
-
-        //private IEnumerable<decimal> porcentajeIntervalos()
-        //{
-
-        //    return porcentajes = Gestor.probabilidad(numeros_aleatorios).Select(x => x * 100).ToList();
-
-        //}
-
         private void mostrarVectorEstado(List<decimal> vectorEstado, List<decimal> vectorEstado2, List<decimal> vectorEstado3)
         {
 
@@ -147,10 +133,10 @@ namespace TP3.Views
 
             foreach (var item in lista)
             {
-                // Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+               
                 DataRow _row = tabla.NewRow();
                 _row[0] = (tabla.Rows.Count + 1).ToString();
-                //  _row[1] = item.ToString();
+               
                 _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
                 tabla.Rows.Add(_row);
             }
@@ -158,25 +144,6 @@ namespace TP3.Views
             return tabla;
         }
 
-        //private void mostrarIntervalos(IEnumerable<decimal> vectorIntervalos)
-        //{
-        //    dgvIntervalos.DataContext = generarTabla(vectorIntervalos.ToList(), "nIntervalo", "porcentaje");
-
-        //}
-
-
-      /*  private void rbExponencial_Checked(object sender, RoutedEventArgs e) //para exponencial y para poisson
-        {
-            TxtLambda.IsEnabled = true;
-            TxtDE.IsEnabled = false;
-            TxtMedia.IsEnabled = false;
-        }
-
-        private void rbNormal_Checked(object sender, RoutedEventArgs e)
-        {
-            TxtLambda.IsEnabled = false;
-            TxtDE.IsEnabled = true;
-            TxtMedia.IsEnabled = true;
-        }*/
+    
     }
 }

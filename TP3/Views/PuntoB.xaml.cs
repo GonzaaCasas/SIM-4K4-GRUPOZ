@@ -22,20 +22,15 @@ namespace TP3.Views
 
     public partial class PuntoB : Page
     {
-        int muestra;
+       
         int subintervalos;
-        private List<decimal> numeros_aleatorios = new List<decimal>();
-        private Gestor gestor;
+   
 
-        private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
-        private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
-        private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
-
-        private static List<decimal> observadosUniforme = new List<decimal>();
+       
         private static List<decimal> observadosExponencial = new List<decimal>();
         private static List<decimal> observadosPoisson = new List<decimal>();
         private static List<decimal> observadosNormal = new List<decimal>();
-        private static List<decimal> esperadosUniforme = new List<decimal>();
+      
         private static List<decimal> esperadosExponencial = new List<decimal>();
         private static List<decimal> esperadosPoisson = new List<decimal>();
         private static List<decimal> esperadosNormal = new List<decimal>();
@@ -43,9 +38,9 @@ namespace TP3.Views
         private static List<string> mediosPoisson = new List<string>();
         private static List<string> mediosNormal = new List<string>();
 
-        private List<decimal> limites = new List<decimal>();
+       
         private List<decimal> resultadosTest = new List<decimal>();
-        bool cargado = false;
+     
 
 
         DataTable tablaExcel;
@@ -56,8 +51,7 @@ namespace TP3.Views
         public PuntoB()
         {
             InitializeComponent();
-            gestor = new Gestor();
-            cargado = true;
+          
 
             HabilitarBotones(Gestor.puntoA);
 
@@ -91,7 +85,7 @@ namespace TP3.Views
 
             if ((bool)dialog.ShowDialog())
             {
-                //MessageBox.Show($"The selected folder was:{Environment.NewLine}{dialog.SelectedPath}", "Sample folder browser dialog");
+                
                 Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel, "Distribucion");
                 MessageBox.Show("La distribución generada se ha exportado en " + dialog.SelectedPath,
                     "Exportacion exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -104,7 +98,7 @@ namespace TP3.Views
         private void BtnExp_OnClick(object sender, RoutedEventArgs e)
         {
             subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (subintervalos > 0)
+            if (subintervalos > 1)
             {
                 ejecutarTestChi(2);
                 (observadosExponencial, esperadosExponencial, mediosExponencial) = Gestor.obtenerTodoExp(subintervalos);
@@ -117,7 +111,7 @@ namespace TP3.Views
         private void BtnPoisson_OnClick(object sender, RoutedEventArgs e)
         {
             subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (subintervalos > 0)
+            if (subintervalos > 1)
             {
                 ejecutarTestChi(1);
                 (observadosPoisson, esperadosPoisson, mediosPoisson) = Gestor.obtenerTodoPoisson(subintervalos);
@@ -130,7 +124,7 @@ namespace TP3.Views
         private void BtnNormal_OnClick(object sender, RoutedEventArgs e)
         {
             subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (subintervalos > 0)
+            if (subintervalos > 1)
             {
                 ejecutarTestChi(0);
                 (observadosNormal, esperadosNormal, mediosNormal) = Gestor.obtenerTodoNormal(subintervalos);

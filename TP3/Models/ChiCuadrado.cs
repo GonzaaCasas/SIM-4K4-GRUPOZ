@@ -62,12 +62,6 @@ namespace TP3.Models
             return chiSquareTeorico;
 
         }
- 
-
-        public  List<decimal> obtenerFreqAbsolutas()
-        {
-            return observados;
-        }
 
         public static List<string> obtenerMedios(List<decimal> conjuntoNumeros, int intervalos)
         {

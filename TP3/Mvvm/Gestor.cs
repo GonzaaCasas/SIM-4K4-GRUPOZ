@@ -9,7 +9,6 @@ namespace TP3.Mvvm
 {
     internal class Gestor
     {
-        private static List<decimal> numeros_aleatorios = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
         private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
@@ -46,15 +45,6 @@ namespace TP3.Mvvm
 
         }
 
-
-        //public static void generarRandoms(string metodo, decimal xi_1, decimal c, decimal a, decimal modulo, int muestra, decimal semilla2)
-
-        //{
-        //    Generador.generarRandoms(metodo, xi_1, c, a, modulo, muestra, semilla2);
-        //}
-
-     
-
         public static void generadorRandoms(int muestra)
         {
              Generador.generarRandomcSharp(muestra);
@@ -85,20 +75,6 @@ namespace TP3.Mvvm
             return chis;
         }
 
-        public static (List<decimal>, List<decimal>, List<decimal>) obtenerObservaciones()
-        {
-            
-            return (Distribucion.obtenerObservacionesExponencial(), Distribucion.obtenerObservacionesPoisson(), Distribucion.obtenerObservacionesNormal());
-
-        }
-
-        public static (List<decimal>, List<decimal>, List<decimal>) obtenerEsperados()
-        {
-            return (Distribucion.obtenerEsperadosExponencial(), Distribucion.obtenerEsperadosPoisson(), Distribucion.obtenerEsperadosNormal());
-        }
-
-
-
         public static (List<decimal>, List<decimal>, List<string>) obtenerTodoNormal(int subintervalos)
         {
             return (Distribucion.obtenerObservacionesNormal(), Distribucion.obtenerEsperadosNormal(), ChiCuadrado.obtenerMedios(valores_variableAleatoriaNormal, subintervalos));
@@ -111,26 +87,6 @@ namespace TP3.Mvvm
         public static (List<decimal>, List<decimal>, List<string>) obtenerTodoExp(int subintervalos)
         {
             return (Distribucion.obtenerObservacionesExponencial(), Distribucion.obtenerEsperadosExponencial(), ChiCuadrado.obtenerMedios(valores_variableAleatoriaExpNeg, subintervalos));
-        }
-
-
-
-        public static List<decimal> obtenerConjuntoRandomGenerado()
-        {
-            return numeros_aleatorios;  
-
-        }
-
-
-        
-
-        public static (List<string>, List<string>, List<string>) obtenerMedioIntervalos(int subintervalos)
-        {
-
-            return (ChiCuadrado.obtenerMedios(valores_variableAleatoriaExpNeg, subintervalos),
-            ChiCuadrado.obtenerMedios(valores_variableAleatoriaPoisson, subintervalos),
-            ChiCuadrado.obtenerMedios(valores_variableAleatoriaNormal, subintervalos));
-
         }
 
 
