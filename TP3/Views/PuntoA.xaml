@@ -40,21 +40,21 @@
             </Grid.RowDefinitions>
             
             <GroupBox Grid.Row="0" Grid.Column="0" Header="Normal" Margin="5,0,5,0" Grid.RowSpan="3">
-                <DockPanel Margin="10,0,6,0" >
+                <DockPanel Margin="10,0,10,0" >
                     <Label Content="Media" FontSize="14" DockPanel.Dock="Top"/>
                     <TextBox x:Name="TxtMedia" 
-                             PreviewTextInput="NumberValidationTextBox" 
+                             PreviewTextInput="NumeroRealTextBox" 
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
-                             HorizontalAlignment="Left"
+                             HorizontalAlignment="Center"
                              Text="37"
                              DockPanel.Dock="Top"/>
                     <Label Name="LblDE" Content="Desviación estándar" FontSize="14" DockPanel.Dock="Top"/>
                     <TextBox x:Name="TxtDE" 
-                             PreviewTextInput="NumberValidationTextBox" 
+                             PreviewTextInput="NumeroDecimalTextBox" 
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
-                             HorizontalAlignment="Left"
+                             HorizontalAlignment="Center"
                              Text="7"
                              DockPanel.Dock="Top"/>
                     <DataGrid x:Name="dgvVectorEstado" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
@@ -96,10 +96,10 @@
             </GroupBox>
 
             <GroupBox Grid.Row="0" Grid.Column="1" Header="Poisson" Margin="5,0,5,0" Grid.RowSpan="3">
-                <DockPanel Margin="10,0,6,0">
+                <DockPanel Margin="10,0,10,0">
                     <Label Name="LblLambda" Content="Lambda (λ)" FontSize="14" DockPanel.Dock="Top"/>
                     <TextBox x:Name="TxtLambda" 
-                             PreviewTextInput="NumberValidationTextBox" 
+                             PreviewTextInput="NumeroDecimalTextBox" 
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
                              HorizontalAlignment="Left"
@@ -144,13 +144,13 @@
             </GroupBox>
 
             <GroupBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Header="Exponencial" Margin="5,0,5,0">
-                <DockPanel>
+                <DockPanel Margin="10,0,10,0">
                     <Label Name="LblLambdaExp" Content="Lambda (λ)" FontSize="14" DockPanel.Dock="Top"/>
                     <TextBox x:Name="TxtLambdaExp" 
-                             PreviewTextInput="NumberValidationTextBox" 
+                             PreviewTextInput="NumeroDecimalTextBox" 
                              MaxHeight="26" MaxWidth="175" 
                              MinWidth="150" 
-                             HorizontalAlignment="Left"
+                             HorizontalAlignment="Center"
                              Text="19"
                              DockPanel.Dock="Top"/>
                     <DataGrid x:Name="dgvVectorEstado3" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" Margin="10,80,10,40">
@@ -193,7 +193,7 @@
             <StackPanel Grid.Row="0" Grid.Column="3" Margin="10,10,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <Label Content="Cantidad de valores" FontSize="14" VerticalAlignment="Bottom"/>
                 <TextBox x:Name="TxtCantidad" 
-                         PreviewTextInput="NumberValidationTextBox" 
+                         PreviewTextInput="NumeroEnteroTextBox" 
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150"
                          HorizontalAlignment="Left"

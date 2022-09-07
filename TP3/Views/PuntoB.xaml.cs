@@ -59,25 +59,22 @@ namespace TP3.Views
             gestor = new Gestor();
             cargado = true;
 
+            HabilitarBotones(Gestor.puntoA);
+
+        }
+
+        private void HabilitarBotones(bool flag)
+        {
+            BtnNormal.IsEnabled = flag;
+            BtnPoisson.IsEnabled = flag;
+            BtnExp.IsEnabled = flag;
+            BtnExportar.IsEnabled = flag;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private bool validarCampos()
-        {
-            return true;
-        }
-
-        private void Txt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //if (cargado)
-            //{
-            //    //lo dejo por las dudas
-            //}
         }
 
 
@@ -107,36 +104,39 @@ namespace TP3.Views
         private void BtnExp_OnClick(object sender, RoutedEventArgs e)
         {
             subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (validarCampos())
+            if (subintervalos > 0)
             {
                 ejecutarTestChi(2);
                 (observadosExponencial, esperadosExponencial, mediosExponencial) = Gestor.obtenerTodoExp(subintervalos);
                 construirGrafico(observadosExponencial, esperadosExponencial, mediosExponencial.ToArray());
                 tablaExcel = construirTabla(observadosExponencial, esperadosExponencial);
+                BtnExportar.IsEnabled = true;
             }
         }
 
         private void BtnPoisson_OnClick(object sender, RoutedEventArgs e)
         {
             subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (validarCampos())
+            if (subintervalos > 0)
             {
                 ejecutarTestChi(1);
                 (observadosPoisson, esperadosPoisson, mediosPoisson) = Gestor.obtenerTodoPoisson(subintervalos);
                 construirGrafico(observadosPoisson, esperadosPoisson, mediosPoisson.ToArray());
                 tablaExcel = construirTabla(observadosPoisson, esperadosPoisson);
+                BtnExportar.IsEnabled = true;
             }
         }
 
         private void BtnNormal_OnClick(object sender, RoutedEventArgs e)
         {
             subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (validarCampos())
+            if (subintervalos > 0)
             {
                 ejecutarTestChi(0);
                 (observadosNormal, esperadosNormal, mediosNormal) = Gestor.obtenerTodoNormal(subintervalos);
                 construirGrafico(observadosNormal, esperadosNormal, mediosNormal.ToArray());
                 tablaExcel = construirTabla(observadosNormal, esperadosNormal);
+                BtnExportar.IsEnabled = true;
             }
         }
 
