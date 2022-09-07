@@ -115,10 +115,10 @@ namespace TP3.Models
             return (xi_1 + xi_0) % m;
         }
 
-        public static List<decimal> generarRandomcSharp(int muestra)
+        public static void generarRandomcSharp(int muestra)
         {
             double[] samples = SystemRandomSource.Doubles(muestra, new Random().Next(1, 100));  // genera numeros random [0; 1), primer argumento es la cantidad a generar, el segundo arg es una semilla aleatoria
-            return samples.Select(a => (decimal)a).ToList();
+            numeros_aleatorios = samples.Select(a => (decimal)a).ToList();
         }
     }
 }
