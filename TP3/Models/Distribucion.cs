@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics.Distributions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace TP3.Models
         private static List<decimal> esperadosUniforme = new List<decimal>();
         private static List<decimal> observadosUniforme = new List<decimal>();
 
-
+        static Random  random = new Random();
         // Variables para Exponencial
         private static List<decimal> esperadosExponencial = new List<decimal>();
         private static List<decimal> observadosExponencial = new List<decimal>();
@@ -57,7 +58,7 @@ namespace TP3.Models
             {
                 VariableExp.Add((-1 / lambda) * (decimal)Math.Log(1 - (double)numeros_aleatorios[i])); // (-1/lambda) * ln(1-random)
             }
-            
+
         }
 
         public static List<decimal> obtenerVariableExpNegativa()
@@ -68,38 +69,67 @@ namespace TP3.Models
         public static void GenerarVariablePoisson(decimal lambda, List<decimal> numeros_aleatorios)
         {
             VariablePoisson.Clear();
-            p_acumulada.Clear();
-            p_acumulada.Add(0); // aca va guardado las probabilidades acumuladas  
+            //p_acumulada.Clear();
+            //p_acumulada.Add(0); // aca va guardado las probabilidades acumuladas  
 
-            // Método de la transformación Inversa
-            for (int xi = 0; p_acumulada[xi] < 0.9999; xi++) // puse 0.9999 pq en un excel usaban hasta 4 decimales
+            //// Método de la transformación Inversa
+            //for (int xi = 0; p_acumulada[xi] < 0.9999; xi++) // puse 0.9999 pq en un excel usaban hasta 4 decimales
+            //{
+            //    fx = (double)(Math.Pow((double)lambda, xi) * Math.Pow(Math.E, -(double)lambda) / MathNet.Numerics.SpecialFunctions.Factorial(xi)); // [ lamba^x * e^(-lambda) ] / x!   funcion probabilidad de xi 
+            //    Fx = fx + (double)p_acumulada[xi]; // funcion acumulada de Xi
+            //    p_acumulada.Add(Math.Round((double)Fx, 4, MidpointRounding.AwayFromZero));  // truncar a 4 decimales asi la probabilidad acumulada ultima llega a  1
+            //    ;
+            //}
+
+            //// aca va preguntando si el random se encuentra en algun intervalo, si se encuentra toma un valor discreto segun el intervalo que se encuentra empezando desde cero, uno ...
+
+
+
+            //for (int xi = 0; xi < numeros_aleatorios.Count() - 1; xi++)
+            //{
+            //    for (int s = 1; s < p_acumulada.Count(); s++)
+            //    {
+            //        if (numeros_aleatorios[xi] <= (decimal)p_acumulada[s])
+            //        {
+            //            VariablePoisson.Add(s - 1);
+            //            break;
+            //        }
+            //    }
+
+
+
+            //}
+
+            for (int i = 0; i < numeros_aleatorios.Count() - 1; i++)
             {
-                fx = (double)(Math.Pow((double)lambda, xi) * Math.Pow(Math.E, -(double)lambda) / MathNet.Numerics.SpecialFunctions.Factorial(xi)); // [ lamba^x * e^(-lambda) ] / x!   funcion probabilidad de xi 
-                Fx = fx + (double)p_acumulada[xi]; // funcion acumulada de Xi
-                p_acumulada.Add(Math.Round((double)Fx, 4, MidpointRounding.AwayFromZero));  // truncar a 4 decimales asi la probabilidad acumulada ultima llega a  1
-               ;
+                VariablePoisson.Add(poisson(lambda, numeros_aleatorios.Count() - 1));
             }
 
-            // aca va preguntando si el random se encuentra en algun intervalo, si se encuentra toma un valor discreto segun el intervalo que se encuentra empezando desde cero, uno ...
+            Console.WriteLine("hola");
 
-        
 
-            for (int xi = 0; xi < numeros_aleatorios.Count() - 1; xi++)
+
+        }
+
+
+        public static int poisson(decimal lambda, int cantidad)
+        {
+            //Generador generador = new Generador(cantidad);
+            int x = -1;
+            double p = 1;
+            double a = (float)Math.Pow(Math.E,(double)-lambda);
+
+         
+            float num;
+            do
             {
-                for (int s = 1; s < p_acumulada.Count(); s++)
-                {
-                    if (numeros_aleatorios[xi] <= (decimal)p_acumulada[s])
-                    {
-                        VariablePoisson.Add(s-1);
-                        break;
-                    }
-                }
-
-               
-
+                double _random = random.NextDouble();
+                p = p * _random;
+                x++;
             }
+            while (p >= a);
 
-            
+            return x;
         }
 
         public static List<decimal> obtenerVariablePoisson()
@@ -213,8 +243,15 @@ namespace TP3.Models
             for (int i = 1; i < limites.Count(); i++)
             {
                 esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i]) -
-                  MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i - 1])) *  muestra);
+                  MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i - 1])) * muestra);
             }
+
+            //for (int xi = 0; xi < 10 ; xi++)
+            //{
+            //    esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.PMF((double)lambda, xi)) * muestra);
+            //}
+
+            //Console.WriteLine("hola");
 
 
         }
@@ -263,7 +300,7 @@ namespace TP3.Models
         public static List<decimal> obtenerEsperadosNormal()
         {
 
-            return esperadosPoisson;
+            return esperadosNormal;
 
         }
 
