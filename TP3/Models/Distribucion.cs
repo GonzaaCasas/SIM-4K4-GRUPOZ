@@ -69,43 +69,14 @@ namespace TP3.Models
         public static void GenerarVariablePoisson(decimal lambda, List<decimal> numeros_aleatorios)
         {
             VariablePoisson.Clear();
-            //p_acumulada.Clear();
-            //p_acumulada.Add(0); // aca va guardado las probabilidades acumuladas  
-
-            //// Método de la transformación Inversa
-            //for (int xi = 0; p_acumulada[xi] < 0.9999; xi++) // puse 0.9999 pq en un excel usaban hasta 4 decimales
-            //{
-            //    fx = (double)(Math.Pow((double)lambda, xi) * Math.Pow(Math.E, -(double)lambda) / MathNet.Numerics.SpecialFunctions.Factorial(xi)); // [ lamba^x * e^(-lambda) ] / x!   funcion probabilidad de xi 
-            //    Fx = fx + (double)p_acumulada[xi]; // funcion acumulada de Xi
-            //    p_acumulada.Add(Math.Round((double)Fx, 4, MidpointRounding.AwayFromZero));  // truncar a 4 decimales asi la probabilidad acumulada ultima llega a  1
-            //    ;
-            //}
-
-            //// aca va preguntando si el random se encuentra en algun intervalo, si se encuentra toma un valor discreto segun el intervalo que se encuentra empezando desde cero, uno ...
-
-
-
-            //for (int xi = 0; xi < numeros_aleatorios.Count() - 1; xi++)
-            //{
-            //    for (int s = 1; s < p_acumulada.Count(); s++)
-            //    {
-            //        if (numeros_aleatorios[xi] <= (decimal)p_acumulada[s])
-            //        {
-            //            VariablePoisson.Add(s - 1);
-            //            break;
-            //        }
-            //    }
-
-
-
-            //}
+        
+           
 
             for (int i = 0; i < numeros_aleatorios.Count() - 1; i++)
             {
                 VariablePoisson.Add(poisson(lambda, numeros_aleatorios.Count() - 1));
             }
 
-            Console.WriteLine("hola");
 
 
 
@@ -114,7 +85,7 @@ namespace TP3.Models
 
         public static int poisson(decimal lambda, int cantidad)
         {
-            //Generador generador = new Generador(cantidad);
+            
             int x = -1;
             double p = 1;
             double a = (float)Math.Pow(Math.E,(double)-lambda);
@@ -240,18 +211,15 @@ namespace TP3.Models
         public static void calcularEsperadosPoisson(decimal lambda, List<decimal> limites, int muestra)
         {
             esperadosPoisson.Clear();
-            for (int i = 1; i < limites.Count(); i++)
+
+            for (int xi = 0; xi < limites.Count() - 2; xi++) // por cada intervalo calcula la frecuencia esperada con la probabilidad de xi, menos para el ultimo intervalo  que lo calcula aparte
             {
-                esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i]) -
-                  MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i - 1])) * muestra);
+                esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.PMF((double)lambda, xi)) * muestra);
             }
 
-            //for (int xi = 0; xi < 10 ; xi++)
-            //{
-            //    esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.PMF((double)lambda, xi)) * muestra);
-            //}
+            esperadosPoisson.Add(muestra - esperadosPoisson.Sum());
 
-            //Console.WriteLine("hola");
+
 
 
         }

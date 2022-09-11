@@ -100,7 +100,7 @@ namespace TP3.Views
             subintervalos = int.Parse(TxtSubintervalos.Text);
             if (subintervalos > 1)
             {
-                ejecutarTestChi(2);
+                ejecutarTestChi(0);
                 (observadosExponencial, esperadosExponencial, mediosExponencial) = Gestor.obtenerTodoExp(subintervalos);
                 construirGrafico(observadosExponencial, esperadosExponencial, mediosExponencial.ToArray());
                 tablaExcel = construirTabla(observadosExponencial, esperadosExponencial);
@@ -126,7 +126,7 @@ namespace TP3.Views
             subintervalos = int.Parse(TxtSubintervalos.Text);
             if (subintervalos > 1)
             {
-                ejecutarTestChi(0);
+                ejecutarTestChi(2);
                 (observadosNormal, esperadosNormal, mediosNormal) = Gestor.obtenerTodoNormal(subintervalos);
                 construirGrafico(observadosNormal, esperadosNormal, mediosNormal.ToArray());
                 tablaExcel = construirTabla(observadosNormal, esperadosNormal);
@@ -139,7 +139,7 @@ namespace TP3.Views
         private void ejecutarTestChi(int indice)
         {
             resultadosTest.Clear();
-            resultadosTest = Gestor.test(this.subintervalos); // 0: normal | 1: poisson | 2: exp | 3: teorico
+            resultadosTest = Gestor.test(this.subintervalos); // 0: exp | 1: poisson | 2: normal | 3: teorico
 
 
             lblJiObtenida.Content = "Chi Obtenido \n" + Math.Round(resultadosTest[indice], 4, MidpointRounding.AwayFromZero).ToString();
