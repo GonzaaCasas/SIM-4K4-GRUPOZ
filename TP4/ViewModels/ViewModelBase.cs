@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TP3.ViewModels
+namespace TP4.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
