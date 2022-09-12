@@ -1,16 +1,14 @@
-﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using Ookii.Dialogs.Wpf;
+﻿using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TP4.Mvvm;
+
 
 namespace TP4.Views
 {
@@ -41,20 +39,21 @@ namespace TP4.Views
 
         private List<decimal> resultadosTest = new List<decimal>();
 
+        private Grafico2 grafico2 = new Grafico2();
 
 
         DataTable tablaExcel;
 
 
-        private Grafico grafico = null;
+        //private Grafico grafico = null;
+        //private Grafico2VM grafico2 = null;
 
         public PuntoB()
         {
+
             InitializeComponent();
-
-
             HabilitarBotones(Gestor.puntoA);
-
+            
         }
 
         private void HabilitarBotones(bool flag)
@@ -160,16 +159,20 @@ namespace TP4.Views
             lblAprobacion.Visibility = Visibility.Visible;
         }
 
-        private void construirGrafico(List<decimal> observado, List<decimal> esperado, string[] intervalos)
+        private void construirGrafico(List<decimal> observadoListaDecimals, List<decimal> esperadoListaDecimals, string[] intervalos)
         {
-            grafico = new Grafico();
+            grafico2 = new Grafico2();
             dockPlot.Children.Clear();
-            dockPlot.Children.Add(grafico);
-            grafico.AgregarColeccion(esperado.ToArray(), "Esperado");
-            grafico.AgregarColeccion(observado.ToArray(), "Observados");
+            dockPlot.Children.Add(grafico2);
 
-            grafico.AgregarIntervalos(intervalos);
-            grafico.Visible(true);
+            List<double> observadoListaDoubles = observadoListaDecimals.ConvertAll(x => (double)x);
+            List<double> esperadoListaDoubles = esperadoListaDecimals.ConvertAll(x => (double)x);
+
+            grafico2.AgregarSerie(esperadoListaDoubles, "Esperado");
+            grafico2.AgregarSerie(observadoListaDoubles, "Observados");
+
+            grafico2.AgregarIntervalos(intervalos);
+            grafico2.Visibility = Visibility.Visible;
         }
 
         private DataTable construirTabla(List<decimal> observada, List<decimal> esperada)

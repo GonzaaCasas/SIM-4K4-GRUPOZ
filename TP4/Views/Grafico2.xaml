@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="TP4.Views.Grafico2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             xmlns:vms="clr-namespace:TP4.ViewModels">
+
+    <lvc:CartesianChart
+        Series="{Binding Series}"
+        XAxes="{Binding XAxes}"
+        YAxes="{Binding YAxes}"
+        Visibility="{Binding Visibility}"
+        ZoomMode="X"
+        LegendPosition="Left"
+        LegendFontSize="15"
+        LegendBackground="#cce4f7">
+    </lvc:CartesianChart>
+</UserControl>
