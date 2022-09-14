@@ -165,8 +165,8 @@ namespace TP4.Views
             dockPlot.Children.Clear();
             dockPlot.Children.Add(grafico2);
 
-            List<double> observadoListaDoubles = observadoListaDecimals.ConvertAll(x => (double)x);
-            List<double> esperadoListaDoubles = esperadoListaDecimals.ConvertAll(x => (double)x);
+            List<double> observadoListaDoubles = observadoListaDecimals.ConvertAll(x => (double)x);              //De lista de decimal a lista de doubles
+            List<double> esperadoListaDoubles = esperadoListaDecimals.ConvertAll(x => (double)x);                //De lista de decimal a lista de doubles
 
             grafico2.AgregarSerie(esperadoListaDoubles, "Esperado");
             grafico2.AgregarSerie(observadoListaDoubles, "Observados");

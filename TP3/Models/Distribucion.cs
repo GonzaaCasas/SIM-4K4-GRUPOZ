@@ -212,14 +212,18 @@ namespace TP3.Models
         {
             esperadosPoisson.Clear();
 
-            for (int xi = 0; xi < limites.Count() - 2; xi++) // por cada intervalo calcula la frecuencia esperada con la probabilidad de xi, menos para el ultimo intervalo  que lo calcula aparte
+            //for (int xi = 0; xi < limites.Count() - 2; xi++) // por cada intervalo calcula la frecuencia esperada con la probabilidad de xi, menos para el ultimo intervalo  que lo calcula aparte
+            //{
+            //    esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.PMF((double)lambda, xi)) * muestra);
+            //}
+
+            //esperadosPoisson.Add(muestra - esperadosPoisson.Sum());
+
+            for (int i = 1; i < limites.Count(); i++)
             {
-                esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.PMF((double)lambda, xi)) * muestra);
+                esperadosPoisson.Add((decimal)(MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i]) -
+                                               MathNet.Numerics.Distributions.Poisson.CDF((double)lambda, (double)limites[i - 1])) * muestra);
             }
-
-            esperadosPoisson.Add(muestra - esperadosPoisson.Sum());
-
-
 
 
         }
