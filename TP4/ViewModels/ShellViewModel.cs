@@ -25,15 +25,15 @@ namespace TP4.ViewModels
             });
             this.Menu.Add(new MenuItem()
             {
-                Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.AlphaA },
-                Label = "Punto A",
+                Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.AlphaI },
+                Label = "Ingreso Datos",
                 NavigationType = typeof(PuntoA),
                 NavigationDestination = new Uri("Views/PuntoA.xaml", UriKind.RelativeOrAbsolute)
             });
             this.Menu.Add(new MenuItem()
             {
-                Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.AlphaB },
-                Label = "Punto B",
+                Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.AlphaR },
+                Label = "Resultados",
                 NavigationType = typeof(PuntoB),
                 NavigationDestination = new Uri("Views/PuntoB.xaml", UriKind.RelativeOrAbsolute)
             });

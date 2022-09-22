@@ -15,7 +15,7 @@
         <TextBlock Margin="0"
                    HorizontalAlignment="Center"
                    FontSize="48"
-                   Text="Trabajo Práctico Número 3" />
+                   Text="Trabajo Práctico Número 4" />
         <DockPanel Height="60"></DockPanel>
         <TextBlock Margin="4"
                    HorizontalAlignment="Left"

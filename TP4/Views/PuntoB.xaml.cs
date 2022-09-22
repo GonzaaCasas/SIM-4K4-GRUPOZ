@@ -58,9 +58,9 @@ namespace TP4.Views
 
         private void HabilitarBotones(bool flag)
         {
-            BtnNormal.IsEnabled = flag;
-            BtnPoisson.IsEnabled = flag;
-            BtnExp.IsEnabled = flag;
+            //BtnNormal.IsEnabled = flag;
+            //BtnPoisson.IsEnabled = flag;
+            //BtnExp.IsEnabled = flag;
             BtnExportar.IsEnabled = flag;
         }
 
@@ -96,7 +96,7 @@ namespace TP4.Views
 
         private void BtnExp_OnClick(object sender, RoutedEventArgs e)
         {
-            subintervalos = int.Parse(TxtSubintervalos.Text);
+            //subintervalos = int.Parse(TxtSubintervalos.Text);
             if (subintervalos > 1)
             {
                 ejecutarTestChi(2);
@@ -109,7 +109,7 @@ namespace TP4.Views
 
         private void BtnPoisson_OnClick(object sender, RoutedEventArgs e)
         {
-            subintervalos = int.Parse(TxtSubintervalos.Text);
+            //subintervalos = int.Parse(TxtSubintervalos.Text);
             if (subintervalos > 1)
             {
                 ejecutarTestChi(1);
@@ -122,7 +122,7 @@ namespace TP4.Views
 
         private void BtnNormal_OnClick(object sender, RoutedEventArgs e)
         {
-            subintervalos = int.Parse(TxtSubintervalos.Text);
+            //subintervalos = int.Parse(TxtSubintervalos.Text);
             if (subintervalos > 1)
             {
                 ejecutarTestChi(0);
@@ -141,22 +141,22 @@ namespace TP4.Views
             resultadosTest = Gestor.test(this.subintervalos); // 0: normal | 1: poisson | 2: exp | 3: teorico
 
 
-            lblJiObtenida.Content = "Chi Obtenido \n" + Math.Round(resultadosTest[indice], 4, MidpointRounding.AwayFromZero).ToString();
-            lblJiTabulada.Content = "Chi Tabulado \n" + Math.Round(resultadosTest[3], 4, MidpointRounding.AwayFromZero).ToString();
+            //lblJiObtenida.Content = "Chi Obtenido \n" + Math.Round(resultadosTest[indice], 4, MidpointRounding.AwayFromZero).ToString();
+            //lblJiTabulada.Content = "Chi Tabulado \n" + Math.Round(resultadosTest[3], 4, MidpointRounding.AwayFromZero).ToString();
 
-            lblJiObtenida.Visibility = Visibility.Visible;
-            lblJiTabulada.Visibility = Visibility.Visible;
-            if (resultadosTest[indice] < resultadosTest[3])
-            {
-                lblAprobacion.Content = "H0 Aceptada";
-                lblAprobacion.Foreground = Brushes.DarkGreen;
-            }
-            else
-            {
-                lblAprobacion.Content = "H0 Rechazada";
-                lblAprobacion.Foreground = Brushes.Red;
-            }
-            lblAprobacion.Visibility = Visibility.Visible;
+            //lblJiObtenida.Visibility = Visibility.Visible;
+            //lblJiTabulada.Visibility = Visibility.Visible;
+            //if (resultadosTest[indice] < resultadosTest[3])
+            //{
+            //    lblAprobacion.Content = "H0 Aceptada";
+            //    lblAprobacion.Foreground = Brushes.DarkGreen;
+            //}
+            //else
+            //{
+            //    lblAprobacion.Content = "H0 Rechazada";
+            //    lblAprobacion.Foreground = Brushes.Red;
+            //}
+            //lblAprobacion.Visibility = Visibility.Visible;
         }
 
         private void construirGrafico(List<decimal> observadoListaDecimals, List<decimal> esperadoListaDecimals, string[] intervalos)

@@ -72,8 +72,9 @@ namespace TP4.Views
 
         private bool ValidarCamposForm()
         {
-            return (EsNumeroDecimal(TxtDE.Text) && EsNumeroDecimal(TxtLambda.Text) &&
-                    EsNumeroDecimal(TxtLambdaExp.Text) && EsNumeroReal(TxtMedia.Text));
+            //return (EsNumeroDecimal(TxtDE.Text) && EsNumeroDecimal(TxtLambda.Text) &&
+            //        EsNumeroDecimal(TxtLambdaExp.Text) && EsNumeroReal(TxtMedia.Text));
+            return true;
 
         }
 
@@ -86,11 +87,11 @@ namespace TP4.Views
 
             if (ValidarCamposForm())
             {
-                cantidad = int.Parse(TxtCantidad.Text);
-                lambda = decimal.Parse(TxtLambda.Text);
-                lambdaExp = decimal.Parse(TxtLambdaExp.Text);
-                media = decimal.Parse(TxtMedia.Text);
-                DE = decimal.Parse(TxtDE.Text);
+                //cantidad = int.Parse(TxtCantidad.Text);
+                //lambda = decimal.Parse(TxtLambda.Text);
+                //lambdaExp = decimal.Parse(TxtLambdaExp.Text);
+                //media = decimal.Parse(TxtMedia.Text);
+                //DE = decimal.Parse(TxtDE.Text);
 
                 if (cantidad > 0 && lambdaExp > 0 && lambda > 0 && DE > 0)
                 {
@@ -119,9 +120,9 @@ namespace TP4.Views
         private void mostrarVectorEstado(List<decimal> vectorEstado, List<decimal> vectorEstado2, List<decimal> vectorEstado3)
         {
 
-            dgvVectorEstado3.DataContext = generarTabla(vectorEstado, "num", "valor");
-            dgvVectorEstado2.DataContext = generarTabla(vectorEstado2, "num", "valor");
-            dgvVectorEstado.DataContext = generarTabla(vectorEstado3, "num", "valor");
+            //dgvVectorEstado3.DataContext = generarTabla(vectorEstado, "num", "valor");
+            //dgvVectorEstado2.DataContext = generarTabla(vectorEstado2, "num", "valor");
+            //dgvVectorEstado.DataContext = generarTabla(vectorEstado3, "num", "valor");
 
         }
 
