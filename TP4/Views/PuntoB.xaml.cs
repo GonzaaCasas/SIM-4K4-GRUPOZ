@@ -37,6 +37,12 @@ namespace TP4.Views
         private static List<string> mediosNormal = new List<string>();
 
 
+        // ------------------------
+
+        private static List<decimal> frequencias = new List<decimal>();
+        private static List<string> medios = new List<string>();
+
+
         private List<decimal> resultadosTest = new List<decimal>();
 
         private Grafico2 grafico2 = new Grafico2();
@@ -191,6 +197,14 @@ namespace TP4.Views
 
             return tablaNumero;
         }
+
+        private void obtenerDatosIntervalos()
+        {
+            (frequencias, medios) = Gestor.obtenerDatosIntervalos();
+
+        }
+
+
     }
 
 

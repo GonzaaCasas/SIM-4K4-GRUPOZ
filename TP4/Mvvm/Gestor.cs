@@ -48,7 +48,9 @@ namespace TP4.Mvvm
         private static List<List<Actividad>> listaDatos = new List<List<Actividad>>();
         private static List<object> listaResultados = new List<object>();
         private static List<decimal> tPromedio = new List<decimal>();
-
+        private static List<decimal> duracionesFinalizacionTarea = new List<decimal>();
+        private static List<decimal> freqDuraciones = new List<decimal>();
+        private static List<string> medios = new List<string>();
 
         public static bool puntoA { get; set; }
         static Random random = new Random();
@@ -114,8 +116,14 @@ namespace TP4.Mvvm
                 }
                 tPromedio.Add(media);
                 // vectorEstado[i] = new List<List<decimal>> { listaActividades, listaResultados};
+                if (i <= 14)
+                {
+                    duracionesFinalizacionTarea.Add(actividadF.mf);
+
+                }
 
                 vectorEstado.Add(fila);
+               
             }
 
             for (int i = 1; i <= listaDatos.Count; i++)
@@ -132,11 +140,70 @@ namespace TP4.Mvvm
                 }               
             }
             listaResultados = new List<object> { min, max };
-            Console.WriteLine(vectorEstado);
 
             var prob = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
             var prob2 = MathNet.Numerics.Distributions.Normal.InvCDF((double)tPromedio.Last(), (double)DE, 0.9);
+
+            freqDuraciones = CalcularfreqAbsolutas(duracionesFinalizacionTarea, 15, 14);
+            medios = obtenerMedios(duracionesFinalizacionTarea, 15);
+            Console.WriteLine(vectorEstado);
+
         }
+
+        public static (List<decimal>,List<string>) obtenerDatosIntervalos()
+        {
+            return (freqDuraciones, medios);
+        }
+
+        public static List<string> obtenerMedios(List<decimal> conjuntoNumeros, int intervalos)
+        {
+            // 0 - 1 , 1 - 5, 5, 9
+            List<string> valoresMediosIntervalos = new List<string>();
+
+            List<decimal> limites = calcularLimites(conjuntoNumeros, intervalos);
+
+            for (int i = 0; i < limites.Count() - 1; i++)
+            {
+                valoresMediosIntervalos.Add(Math.Round(((limites[i] + limites[i + 1]) / 2), 4, MidpointRounding.AwayFromZero).ToString()); // (limite inferior + limite superior) / 2
+            }
+
+            return valoresMediosIntervalos;
+        }
+
+        public static List<decimal> calcularLimites(List<decimal> conjuntoNumeros, int subintervalos)
+        {
+            decimal min = conjuntoNumeros.Min();
+            decimal max = conjuntoNumeros.Max();
+            decimal paso = (max - min) / subintervalos;
+
+            decimal lim_inferior = min;
+            decimal lim_superior = lim_inferior + paso;
+
+
+            List<decimal> array = new List<decimal>();
+
+            array.Add(lim_inferior);
+
+            for (int i = 0; i < subintervalos - 1; i++)
+            {
+
+                // List<decimal> limites = new List<decimal>();
+
+
+                array.Add(lim_superior);
+
+
+                lim_superior = lim_superior + paso;
+
+            }
+
+            array.Add(lim_superior);
+
+
+            return array;
+
+        }
+
 
         public static void actualizarVectorEstado(int j)
         {
