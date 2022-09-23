@@ -17,24 +17,27 @@ namespace TP4.Views
 
     public partial class PuntoA : Page
     {
-        private decimal media;
-        private decimal DE;
-        private decimal lambda;
-        private decimal lambdaExp;
-        private int cantidad;
+        private decimal minimoA1;
+        private decimal maximoA1;
 
+        private decimal minimoA2;
+        private decimal maximoA2;
 
+        private decimal mediaA3;
 
-        private static List<decimal> valores_variableAleatoriaExp = new List<decimal>();
-        private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
-        private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
+        private decimal minimoA4;
+        private decimal maximoA4;
+
+        private decimal mediaA5;
+
+        //private static List<decimal> valores_variableAleatoriaExp = new List<decimal>();
+        //private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
+        //private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
 
 
         public PuntoA()
         {
             InitializeComponent();
-
-
         }
 
 
@@ -72,10 +75,7 @@ namespace TP4.Views
 
         private bool ValidarCamposForm()
         {
-            //return (EsNumeroDecimal(TxtDE.Text) && EsNumeroDecimal(TxtLambda.Text) &&
-            //        EsNumeroDecimal(TxtLambdaExp.Text) && EsNumeroReal(TxtMedia.Text));
             return true;
-
         }
 
         #endregion
@@ -87,22 +87,24 @@ namespace TP4.Views
 
             if (ValidarCamposForm())
             {
-                //cantidad = int.Parse(TxtCantidad.Text);
-                //lambda = decimal.Parse(TxtLambda.Text);
-                //lambdaExp = decimal.Parse(TxtLambdaExp.Text);
-                //media = decimal.Parse(TxtMedia.Text);
-                //DE = decimal.Parse(TxtDE.Text);
 
-                if (cantidad > 0 && lambdaExp > 0 && lambda > 0 && DE > 0)
+
+                if (true) //validaciones n>algo
                 {
-                    Gestor.generarVariablesAleatorias(media, DE, lambda, lambdaExp, cantidad);
+                    minimoA1 = decimal.Parse(TxtMinimoA1.Text);
+                    maximoA1 = decimal.Parse(TxtMaximoA1.Text);
 
-                    (valores_variableAleatoriaExp, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal) = Gestor.obtenerVariablesAleatorias();
+                    minimoA2 = decimal.Parse(TxtMinimoA2.Text);
+                    maximoA2 = decimal.Parse(TxtMaximoA2.Text);
 
+                    mediaA3 = decimal.Parse(TxtMediaA3.Text);
 
+                    minimoA4 = decimal.Parse(TxtMinimoA4.Text);
+                    maximoA4 = decimal.Parse(TxtMaximoA4.Text);
 
-                    mostrarVectorEstado(valores_variableAleatoriaExp, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal); //Falta agregar para que tmb muestre valores_variableAleatoriaPoisson y valores_variableAleatoriaNormal 
-                    Gestor.puntoA = true;
+                    mediaA5 = decimal.Parse(TxtMediaA5.Text);
+
+                    //funciones o hacer algo no se
                 }
                 else
                 {
@@ -117,33 +119,25 @@ namespace TP4.Views
 
         }
 
-        private void mostrarVectorEstado(List<decimal> vectorEstado, List<decimal> vectorEstado2, List<decimal> vectorEstado3)
-        {
 
-            //dgvVectorEstado3.DataContext = generarTabla(vectorEstado, "num", "valor");
-            //dgvVectorEstado2.DataContext = generarTabla(vectorEstado2, "num", "valor");
-            //dgvVectorEstado.DataContext = generarTabla(vectorEstado3, "num", "valor");
+        //private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
+        //{
+        //    DataTable tabla = new DataTable();
+        //    tabla.Columns.Add(strCol1);
+        //    tabla.Columns.Add(strCol2);
 
-        }
+        //    foreach (var item in lista)
+        //    {
 
-        private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
-        {
-            DataTable tabla = new DataTable();
-            tabla.Columns.Add(strCol1);
-            tabla.Columns.Add(strCol2);
+        //        DataRow _row = tabla.NewRow();
+        //        _row[0] = (tabla.Rows.Count + 1).ToString();
 
-            foreach (var item in lista)
-            {
+        //        _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+        //        tabla.Rows.Add(_row);
+        //    }
 
-                DataRow _row = tabla.NewRow();
-                _row[0] = (tabla.Rows.Count + 1).ToString();
-
-                _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
-                tabla.Rows.Add(_row);
-            }
-
-            return tabla;
-        }
+        //    return tabla;
+        //}
 
 
     }
