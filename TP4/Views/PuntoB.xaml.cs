@@ -56,24 +56,26 @@ namespace TP4.Views
 
             InitializeComponent();
             HabilitarBotones(Gestor.puntoA);
-            cargarTodo();
+            cargarTodo(Gestor.puntoA);
         }
 
-        private void cargarTodo()
+        private void cargarTodo(bool flag)
         {
-            tPromedio = Gestor.ObtenerTiempoPromedio();
-            LblTiempoPromedio.Content = Math.Round(tPromedio.Last(), 4, MidpointRounding.AwayFromZero).ToString();
+            if (flag)
+            {
+                tPromedio = Gestor.ObtenerTiempoPromedio();
+                LblTiempoPromedio.Content = Math.Round(tPromedio.Last(), 4, MidpointRounding.AwayFromZero).ToString();
 
-            min = Gestor.ObtenerMinimo();
-            max = Gestor.ObtenerMaximo();
-            LblMinimo.Content = Math.Round(min, 4, MidpointRounding.AwayFromZero).ToString();
-            LblMaximo.Content = Math.Round(max, 4, MidpointRounding.AwayFromZero).ToString();
+                min = Gestor.ObtenerMinimo();
+                max = Gestor.ObtenerMaximo();
+                LblMinimo.Content = Math.Round(min, 4, MidpointRounding.AwayFromZero).ToString();
+                LblMaximo.Content = Math.Round(max, 4, MidpointRounding.AwayFromZero).ToString();
 
-            prob45d = Gestor.ObtenerProb45d();
-            fecha90 = Gestor.Obtenerfecha90();
-            LblProb45d.Content = Math.Round(prob45d, 4, MidpointRounding.AwayFromZero).ToString() + " Días";
-            LblFecha90.Content = Math.Round(fecha90, 2, MidpointRounding.AwayFromZero).ToString();
-
+                prob45d = Gestor.ObtenerProb45d();
+                fecha90 = Gestor.Obtenerfecha90();
+                LblProb45d.Content = Math.Round(prob45d, 4, MidpointRounding.AwayFromZero).ToString() + " Días";
+                LblFecha90.Content = Math.Round(fecha90, 2, MidpointRounding.AwayFromZero).ToString();
+            }
         }
 
         private void HabilitarBotones(bool flag)
@@ -108,11 +110,12 @@ namespace TP4.Views
         {
             if (!flag)
             {
-                //construirGrafico()
+                ManejarIntervalos(true);
+                construirGrafico(tPromedio);
                 IconGrafico.Kind = MahApps.Metro.IconPacks.PackIconModernKind.EyeHide;
                 StrGrafico.Text = "  Ocultar grafico";
                 flagIntervalos = false;
-                ManejarIntervalos(true);
+                
             }
             else
             {
@@ -126,11 +129,15 @@ namespace TP4.Views
         {
             if (!flag)
             {
-                //construirgrafico()
+                ManejarGrafico(true);
+                List<double> lista;
+                List<string> intervalos;
+                (lista, intervalos) = Gestor.obtenerDatosIntervalos();
+                construirIntervalos(lista, intervalos.ToArray());
                 IconIntervalo.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.ChartBox;
                 StrIntervalos.Text = "  Ocultar intervalos";
                 flagGrafico = false;
-                ManejarGrafico(true);
+                
             }
             else
             {
@@ -144,15 +151,34 @@ namespace TP4.Views
         #endregion
 
 
-        private void construirGrafico(List<decimal> observadoListaDecimals, string[] intervalos)
+        private void construirGrafico(List<double> promedios)
         {
             grafico2 = new Grafico2();
             dockPlot.Children.Clear();
             dockPlot.Children.Add(grafico2);
+            grafico2.AgregarSerieLinea(promedios, "Promedio");
+            string[] intervalos = ConstruirLabels(promedios);
+            grafico2.AgregarIntervalos(intervalos, false);
+            grafico2.Visibility = Visibility.Visible;
+        }
 
-            List<double> observadoListaDoubles = observadoListaDecimals.ConvertAll(x => (double)x);              //De lista de decimal a lista de doubles
-            grafico2.AgregarSerie(observadoListaDoubles, "Observados");
-            grafico2.AgregarIntervalos(intervalos);
+        private string[] ConstruirLabels(List<double> promedios)
+        {
+            string[] labels = new string[promedios.Count];
+            for (int i = 1; i <= promedios.Count(); i++)
+            {
+                labels[i - 1] = i.ToString();
+            }
+            return labels;
+        }
+
+        private void construirIntervalos(List<double> observadoLista, string[] intervalos)
+        {
+            grafico2 = new Grafico2();
+            dockPlot.Children.Clear();
+            dockPlot.Children.Add(grafico2);
+            grafico2.AgregarSerieBarras(observadoLista, "Observados");
+            grafico2.AgregarIntervalos(intervalos, true);
             grafico2.Visibility = Visibility.Visible;
         }
 

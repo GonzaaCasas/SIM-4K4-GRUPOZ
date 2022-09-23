@@ -74,12 +74,13 @@ namespace TP4.Mvvm
         public static void simular(double simulaciones, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5)
         {
             inicializarDistribuciones( a1,  b1,  a2,  b2,  a4,  b4,  media3,  media5);
-
+            tPromedio.Clear();
+            listaDatos.Clear();
             bool flag = false;
-            //decimal min = 0;
-            //decimal max = 0;
+            min = 0;
+            max = 0;
+            double media;
             double acum = 0;
-            double media = 0;
             double acumstd = 0;
             double DE = 0;
 
@@ -102,7 +103,7 @@ namespace TP4.Mvvm
                     media = actividadF.mf;
                     acumstd = actividadF.mf;
                     flag = true;
-                    listaResultados = new List<object> { min, max };
+                    //listaResultados = new List<object> { min, max };
                 }
                 else
                 {
@@ -177,8 +178,6 @@ namespace TP4.Mvvm
         public static double Obtenerfecha90()
         {
             return fecha90;
-            
-
         }
 
         public static (List<double>,List<string>) obtenerDatosIntervalos()

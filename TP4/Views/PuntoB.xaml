@@ -17,7 +17,9 @@
                                     HorizontalAlignment="Right"
                                     Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
                                     Kind= "AlphaRBox"/>
-        <Grid Margin="10,10,0,0">
+
+
+        <Grid Margin="10,10,0,0" x:Name="GridDatos" Height="550">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -28,9 +30,20 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="200"></RowDefinition>
                 <RowDefinition ></RowDefinition>
-
             </Grid.RowDefinitions>
-            <GroupBox Header="Duración de la tarea" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,5,5,5">
+
+            <DockPanel x:Name="dockPlot"
+                        Grid.Column="0"
+                        Grid.Row="0" 
+                        Grid.ColumnSpan="3" 
+                        Grid.RowSpan="3" 
+                        Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Visibility="Visible"
+                       Panel.ZIndex="20">
+                <local:Grafico2 x:Name="Grafico2"></local:Grafico2>
+            </DockPanel>
+
+            <GroupBox Header="Duración de la tarea" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,5,5,5" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <GroupBox Header="Tiempo promedio"  Margin="5,5,5,5" HorizontalAlignment="Left" Width="150">
                         <StackPanel Orientation="Vertical">
@@ -49,21 +62,21 @@
                     </GroupBox>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="P de completarla en 45 dias" Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">
+            <GroupBox Header="P de completarla en 45 dias" Grid.Row="1" Grid.Column="0" Margin="5,5,5,5" MaxHeight="200" VerticalAlignment="Center" Height="200">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Probabilidad" FontSize="14"></Label>
                     <Label x:Name="LblProb45d" Content="valorProb%" FontSize="14"></Label>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Fecha a fijar" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5">
+            <GroupBox Header="Fecha a fijar" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" MaxHeight="200" VerticalAlignment="Center" Height="200">
                 <StackPanel Orientation="Vertical">
                     <TextBlock TextWrapping="WrapWithOverflow" FontSize="14">Fecha a fijar para terminar la tarea en esta fecha o antes</TextBlock>
                     <Label x:Name="LblFecha90" Content="valorFecha" FontSize="14"></Label>
                     <Label Content="Nivel de confianza de 90%" FontSize="14"></Label>
                 </StackPanel>
             </GroupBox>
-            
-            <GroupBox Header="Analisis de las actividades" Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Margin="5,5,5,5">
+
+            <GroupBox Header="Analisis de las actividades" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="5,5,5,50" MaxHeight="550">
                 <DockPanel>
                     <GroupBox Header="Tiempo de inicio mas tardio posible " DockPanel.Dock="Top" VerticalAlignment="Center">
                         <DockPanel>
@@ -84,7 +97,7 @@
                         Click="BtnGrafico_Click"
                         IsEnabled="False">
                     <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconModern x:Name="IconGrafico" HorizontalAlignment="Left" Width="15" Height="15" Kind="Eye" /> 
+                        <iconPacks:PackIconModern x:Name="IconGrafico" HorizontalAlignment="Left" Width="15" Height="15" Kind="Eye" />
                         <TextBlock x:Name="StrGrafico" Text="  Mostrar gráfico" ></TextBlock>
                     </StackPanel>
                 </Button>
@@ -100,14 +113,6 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <DockPanel x:Name="dockPlot"
-                        Grid.Column="0"
-                        Grid.Row="0" 
-                        Grid.ColumnSpan="3" 
-                        Grid.RowSpan="3" 
-                        Margin="0,30,0,30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                <local:Grafico2 x:Name="Grafico2"></local:Grafico2>
-            </DockPanel>
         </Grid>
     </Grid>
 </Page>
