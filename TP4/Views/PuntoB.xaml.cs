@@ -61,7 +61,7 @@ namespace TP4.Views
             //BtnNormal.IsEnabled = flag;
             //BtnPoisson.IsEnabled = flag;
             //BtnExp.IsEnabled = flag;
-            BtnExportar.IsEnabled = flag;
+            //BtnExportar.IsEnabled = flag;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -103,7 +103,7 @@ namespace TP4.Views
                 (observadosExponencial, esperadosExponencial, mediosExponencial) = Gestor.obtenerTodoExp(subintervalos);
                 construirGrafico(observadosExponencial, esperadosExponencial, mediosExponencial.ToArray());
                 tablaExcel = construirTabla(observadosExponencial, esperadosExponencial);
-                BtnExportar.IsEnabled = true;
+                //BtnExportar.IsEnabled = true;
             }
         }
 
@@ -116,7 +116,7 @@ namespace TP4.Views
                 (observadosPoisson, esperadosPoisson, mediosPoisson) = Gestor.obtenerTodoPoisson(subintervalos);
                 construirGrafico(observadosPoisson, esperadosPoisson, mediosPoisson.ToArray());
                 tablaExcel = construirTabla(observadosPoisson, esperadosPoisson);
-                BtnExportar.IsEnabled = true;
+                //BtnExportar.IsEnabled = true;
             }
         }
 
@@ -129,7 +129,7 @@ namespace TP4.Views
                 (observadosNormal, esperadosNormal, mediosNormal) = Gestor.obtenerTodoNormal(subintervalos);
                 construirGrafico(observadosNormal, esperadosNormal, mediosNormal.ToArray());
                 tablaExcel = construirTabla(observadosNormal, esperadosNormal);
-                BtnExportar.IsEnabled = true;
+                //BtnExportar.IsEnabled = true;
             }
         }
 

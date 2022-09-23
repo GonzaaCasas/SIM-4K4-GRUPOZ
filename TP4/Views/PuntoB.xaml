@@ -78,7 +78,7 @@
                 </DockPanel>
             </GroupBox>
             <StackPanel Grid.Row="1" Grid.Column="4" VerticalAlignment="Top"   Margin="0,0,0,0">
-                <Button x:Name="BtnExportar"
+                <Button x:Name="BtnGrafico"
                         Width="120"
                         Height="30"
                         Click="BtnExportar_OnClick"
@@ -86,6 +86,17 @@
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconModern x:Name="IconGrafico" HorizontalAlignment="Left" Width="15" Height="15" Kind="Eye" /> 
                         <TextBlock x:Name="StrGrafico" Text="  Mostrar gráfico" ></TextBlock>
+                    </StackPanel>
+                </Button>
+                <StackPanel Height="20"></StackPanel>
+                <Button x:Name="BtnIntervalos"
+                        Width="120"
+                        Height="30"
+                        Click="BtnExportar_OnClick"
+                        IsEnabled="False">
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconMaterial x:Name="IconIntervalo" HorizontalAlignment="Left" Width="15" Height="15" Kind="ChartBoxOutline" />
+                        <TextBlock x:Name="StrIntervalos" Text="  Mostrar intervalos" ></TextBlock>
                     </StackPanel>
                 </Button>
             </StackPanel>
