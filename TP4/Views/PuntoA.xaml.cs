@@ -104,7 +104,14 @@ namespace TP4.Views
 
                     mediaA5 = decimal.Parse(TxtMediaA5.Text);
 
+
+                    stackCarga.Visibility = Visibility.Visible;
+
                     //funciones o hacer algo no se
+
+                    lblCarga.Content = "Listo";
+                    animacionCarga.Visibility = Visibility.Hidden;
+
                 }
                 else
                 {
@@ -118,7 +125,6 @@ namespace TP4.Views
             }
 
         }
-
 
         //private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
         //{
