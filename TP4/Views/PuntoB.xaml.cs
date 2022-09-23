@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TP4.Mvvm;
+using System.Linq;
 
 
 namespace TP4.Views
@@ -21,26 +22,15 @@ namespace TP4.Views
     public partial class PuntoB : Page
     {
 
-        int subintervalos;
-
-
-
-        private static List<decimal> observadosExponencial = new List<decimal>();
-        private static List<decimal> observadosPoisson = new List<decimal>();
-        private static List<decimal> observadosNormal = new List<decimal>();
-
-        private static List<decimal> esperadosExponencial = new List<decimal>();
-        private static List<decimal> esperadosPoisson = new List<decimal>();
-        private static List<decimal> esperadosNormal = new List<decimal>();
-        private static List<string> mediosExponencial = new List<string>();
-        private static List<string> mediosPoisson = new List<string>();
-        private static List<string> mediosNormal = new List<string>();
-
-
-        private List<decimal> resultadosTest = new List<decimal>();
+        private List<double> tPromedio = new List<double>();
+        private static double min;
+        private static double max;
+        private static double prob45d;
+        private static double fecha90;
 
         private Grafico2 grafico2 = new Grafico2();
-
+        private bool flagGrafico = false;
+        private bool flagIntervalos = false;
 
         DataTable tablaExcel;
 
@@ -53,15 +43,30 @@ namespace TP4.Views
 
             InitializeComponent();
             HabilitarBotones(Gestor.puntoA);
-            
+            cargarTodo();
+        }
+
+        private void cargarTodo()
+        {
+            tPromedio = Gestor.ObtenerTiempoPromedio();
+            LblTiempoPromedio.Content = Math.Round(tPromedio.Last(), 4, MidpointRounding.AwayFromZero).ToString();
+
+            min = Gestor.ObtenerMinimo();
+            max = Gestor.ObtenerMaximo();
+            LblMinimo.Content = Math.Round(min, 4, MidpointRounding.AwayFromZero).ToString();
+            LblMaximo.Content = Math.Round(max, 4, MidpointRounding.AwayFromZero).ToString();
+
+            prob45d = Gestor.ObtenerProb45d();
+            fecha90 = Gestor.Obtenerfecha90();
+            LblProb45d.Content = Math.Round(prob45d, 4, MidpointRounding.AwayFromZero).ToString() + " Días";
+            LblFecha90.Content = Math.Round(fecha90, 2, MidpointRounding.AwayFromZero).ToString();
+
         }
 
         private void HabilitarBotones(bool flag)
         {
-            //BtnNormal.IsEnabled = flag;
-            //BtnPoisson.IsEnabled = flag;
-            //BtnExp.IsEnabled = flag;
-            //BtnExportar.IsEnabled = flag;
+            BtnGrafico.IsEnabled = flag;
+            BtnIntervalos.IsEnabled = flag;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -70,107 +75,70 @@ namespace TP4.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
+        #region botones para mostrar/ocultar graficos
 
-        private void BtnExportar_OnClick(object sender, RoutedEventArgs e)
+        private void BtnGrafico_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new VistaFolderBrowserDialog();
-            dialog.Description = "Elija una carpeta para exportar la serie generada";
-            dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
-
-            if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
-            {
-                MessageBox.Show("Because you are not using Windows Vista or later, the regular folder browser dialog will be used. Please use Windows Vista to see the new dialog.", "Sample folder browser dialog");
-            }
-
-            if ((bool)dialog.ShowDialog())
-            {
-
-                Gestor.ExportarExcel(dialog.SelectedPath, tablaExcel, "Distribucion");
-                MessageBox.Show("La distribución generada se ha exportado en " + dialog.SelectedPath,
-                    "Exportacion exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            ManejarGrafico(flagGrafico);
+            flagGrafico = !flagGrafico;
 
         }
 
-        #region botones para mostrar distribuciones
 
-        private void BtnExp_OnClick(object sender, RoutedEventArgs e)
+        private void BtnIntervalos_Click(object sender, RoutedEventArgs e)
         {
-            //subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (subintervalos > 1)
+            ManejarIntervalos(flagIntervalos);
+            flagIntervalos = !flagIntervalos;
+        }
+
+        private void ManejarGrafico(bool flag)
+        {
+            if (!flag)
             {
-                ejecutarTestChi(2);
-                (observadosExponencial, esperadosExponencial, mediosExponencial) = Gestor.obtenerTodoExp(subintervalos);
-                construirGrafico(observadosExponencial, esperadosExponencial, mediosExponencial.ToArray());
-                tablaExcel = construirTabla(observadosExponencial, esperadosExponencial);
-                //BtnExportar.IsEnabled = true;
+                //construirGrafico()
+                IconGrafico.Kind = MahApps.Metro.IconPacks.PackIconModernKind.EyeHide;
+                StrGrafico.Text = "  Ocultar grafico";
+                flagIntervalos = false;
+                ManejarIntervalos(true);
+            }
+            else
+            {
+                grafico2.Visibility = Visibility.Hidden;
+                IconGrafico.Kind = MahApps.Metro.IconPacks.PackIconModernKind.Eye;
+                StrGrafico.Text = "  Mostrar grafico";
             }
         }
 
-        private void BtnPoisson_OnClick(object sender, RoutedEventArgs e)
+        private void ManejarIntervalos(bool flag)
         {
-            //subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (subintervalos > 1)
+            if (!flag)
             {
-                ejecutarTestChi(1);
-                (observadosPoisson, esperadosPoisson, mediosPoisson) = Gestor.obtenerTodoPoisson(subintervalos);
-                construirGrafico(observadosPoisson, esperadosPoisson, mediosPoisson.ToArray());
-                tablaExcel = construirTabla(observadosPoisson, esperadosPoisson);
-                //BtnExportar.IsEnabled = true;
+                //construirgrafico()
+                IconIntervalo.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.ChartBox;
+                StrIntervalos.Text = "  Ocultar intervalos";
+                flagGrafico = false;
+                ManejarGrafico(true);
+            }
+            else
+            {
+                grafico2.Visibility = Visibility.Hidden;
+                IconIntervalo.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.ChartBoxOutline;
+                StrIntervalos.Text = "  Mostrar intervalos";
             }
         }
 
-        private void BtnNormal_OnClick(object sender, RoutedEventArgs e)
-        {
-            //subintervalos = int.Parse(TxtSubintervalos.Text);
-            if (subintervalos > 1)
-            {
-                ejecutarTestChi(0);
-                (observadosNormal, esperadosNormal, mediosNormal) = Gestor.obtenerTodoNormal(subintervalos);
-                construirGrafico(observadosNormal, esperadosNormal, mediosNormal.ToArray());
-                tablaExcel = construirTabla(observadosNormal, esperadosNormal);
-                //BtnExportar.IsEnabled = true;
-            }
-        }
 
         #endregion
 
-        private void ejecutarTestChi(int indice)
-        {
-            resultadosTest.Clear();
-            resultadosTest = Gestor.test(this.subintervalos); // 0: normal | 1: poisson | 2: exp | 3: teorico
 
-
-            //lblJiObtenida.Content = "Chi Obtenido \n" + Math.Round(resultadosTest[indice], 4, MidpointRounding.AwayFromZero).ToString();
-            //lblJiTabulada.Content = "Chi Tabulado \n" + Math.Round(resultadosTest[3], 4, MidpointRounding.AwayFromZero).ToString();
-
-            //lblJiObtenida.Visibility = Visibility.Visible;
-            //lblJiTabulada.Visibility = Visibility.Visible;
-            //if (resultadosTest[indice] < resultadosTest[3])
-            //{
-            //    lblAprobacion.Content = "H0 Aceptada";
-            //    lblAprobacion.Foreground = Brushes.DarkGreen;
-            //}
-            //else
-            //{
-            //    lblAprobacion.Content = "H0 Rechazada";
-            //    lblAprobacion.Foreground = Brushes.Red;
-            //}
-            //lblAprobacion.Visibility = Visibility.Visible;
-        }
-
-        private void construirGrafico(List<decimal> observadoListaDecimals, List<decimal> esperadoListaDecimals, string[] intervalos)
+        private void construirGrafico(List<decimal> observadoListaDecimals, string[] intervalos)
         {
             grafico2 = new Grafico2();
             dockPlot.Children.Clear();
             dockPlot.Children.Add(grafico2);
 
             List<double> observadoListaDoubles = observadoListaDecimals.ConvertAll(x => (double)x);              //De lista de decimal a lista de doubles
-            List<double> esperadoListaDoubles = esperadoListaDecimals.ConvertAll(x => (double)x);                //De lista de decimal a lista de doubles
-
-            grafico2.AgregarSerie(esperadoListaDoubles, "Esperado");
             grafico2.AgregarSerie(observadoListaDoubles, "Observados");
-
             grafico2.AgregarIntervalos(intervalos);
             grafico2.Visibility = Visibility.Visible;
         }
@@ -191,6 +159,8 @@ namespace TP4.Views
 
             return tablaNumero;
         }
+
+
     }
 
 

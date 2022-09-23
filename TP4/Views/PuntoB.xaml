@@ -34,7 +34,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <GroupBox Header="Tiempo promedio"  Margin="5,5,5,5" HorizontalAlignment="Left" Width="150">
                         <StackPanel Orientation="Vertical">
-                            <Label Content="Tiempo promedio" FontSize="14"></Label>
+                            <Label x:Name="LblTiempoPromedio" Content="Tiempo promedio" FontSize="14"></Label>
                             <Label Content="Días" FontSize="14"></Label>
                         </StackPanel>
                     </GroupBox>
@@ -42,9 +42,9 @@
                     <GroupBox Header="Máximo y Mínimo" Margin="5,5,5,5" HorizontalAlignment="Right" Width="150" >
                         <StackPanel Orientation="Vertical">
                             <Label Content="Máximo" FontSize="14"></Label>
-                            <Label Content="valorMaximo" FontSize="14"></Label>
+                            <Label x:Name="LblMaximo" Content="valorMaximo" FontSize="14"></Label>
                             <Label Content="Mínimo" FontSize="14"></Label>
-                            <Label Content="valorMinimo" FontSize="14"></Label>
+                            <Label x:Name="LblMinimo" Content="valorMinimo" FontSize="14"></Label>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
@@ -52,13 +52,13 @@
             <GroupBox Header="P de completarla en 45 dias" Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Probabilidad" FontSize="14"></Label>
-                    <Label Content="valorProb%" FontSize="14"></Label>
+                    <Label x:Name="LblProb45d" Content="valorProb%" FontSize="14"></Label>
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="Fecha a fijar" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5">
                 <StackPanel Orientation="Vertical">
                     <TextBlock TextWrapping="WrapWithOverflow" FontSize="14">Fecha a fijar para terminar la tarea en esta fecha o antes</TextBlock>
-                    <Label Content="valorFecha" FontSize="14"></Label>
+                    <Label x:Name="LblFecha90" Content="valorFecha" FontSize="14"></Label>
                     <Label Content="Nivel de confianza de 90%" FontSize="14"></Label>
                 </StackPanel>
             </GroupBox>
@@ -81,7 +81,7 @@
                 <Button x:Name="BtnGrafico"
                         Width="120"
                         Height="30"
-                        Click="BtnExportar_OnClick"
+                        Click="BtnGrafico_Click"
                         IsEnabled="False">
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconModern x:Name="IconGrafico" HorizontalAlignment="Left" Width="15" Height="15" Kind="Eye" /> 
@@ -92,7 +92,7 @@
                 <Button x:Name="BtnIntervalos"
                         Width="120"
                         Height="30"
-                        Click="BtnExportar_OnClick"
+                        Click="BtnIntervalos_Click"
                         IsEnabled="False">
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconMaterial x:Name="IconIntervalo" HorizontalAlignment="Left" Width="15" Height="15" Kind="ChartBoxOutline" />

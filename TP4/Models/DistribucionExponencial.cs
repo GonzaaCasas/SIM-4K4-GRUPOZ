@@ -9,17 +9,17 @@ namespace TP4.Models
     internal class DistribucionExponencial
     {
 
-        private decimal lambda;
+        private double lambda;
 
-        public DistribucionExponencial(decimal _media)
+        public DistribucionExponencial(double _media)
         {
             lambda = 1 / _media;
         }
 
 
-        public decimal generar_x_Exponencial(decimal random)
+        public double generar_x_Exponencial(double random)
         {
-            return ( - 1 /lambda) * (decimal)Math.Log(1- (double)random);
+            return ( - 1 /lambda) * Math.Log(1- random);
         }
     }
 }
