@@ -273,8 +273,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\ChiCuadrado.cs" />
     <Compile Include="Models\Distribucion.cs" />
+    <Compile Include="Models\DistribucionExponencial.cs" />
+    <Compile Include="Models\DistribucionUniforme.cs" />
     <Compile Include="Models\Generador.cs" />
     <Compile Include="Navigation\FrameAnimator.cs" />
     <Compile Include="Navigation\NavigationServiceEx.cs" />
