@@ -6,6 +6,8 @@ using System.Data;
 using System.Linq;
 using TP4.Models;
 using TP4.ViewModels;
+using System.Linq;
+
 
 namespace TP4.Mvvm
 {
@@ -41,8 +43,11 @@ namespace TP4.Mvvm
 
 
 
-        private static List<List<decimal>> vectorEstado = new List<List<decimal>>();
-        private static List<decimal> fila;
+        private static List<object> vectorEstado = new List<object>();
+        private static List<object> fila = new List<object>();
+        private static List<List<Actividad>> listaDatos = new List<List<Actividad>>();
+        private static List<object> listaResultados = new List<object>();
+        private static List<decimal> tPromedio = new List<decimal>();
 
 
         public static bool puntoA { get; set; }
@@ -63,29 +68,74 @@ namespace TP4.Mvvm
         {
             inicializarDistribuciones( a1,  b1,  a2,  b2,  a4,  b4,  media3,  media5);
 
+            bool flag = false;
+            decimal min = 0;
+            decimal max = 0;
+            decimal acum = 0;
+            decimal media = 0;
+            decimal acumstd = 0;
+            decimal DE = 0;
+
             for (int i = 1; i <= simulaciones; i++) // despues cambiar simulaciones / 2
             {
-
+                
                 // actualizarVectorEstado(i);
                 crearActividades();
                 determinarMomentosTempranosTardes();
                 //TerminarDeCalcularActividades(?)
                 //Hacer el resto de calculos (promedio duracion, max y min, probabilidad de 45 dias , etc)
-                fila = new List<decimal> { i, actividadI.d, actividadI.mi, actividadI.mf, actividadI.mf_tarde, actividadI.mi_tarde,
-                                              actividad1.d, actividad1.mi, actividad1.mf, actividad1.mf_tarde, actividad1.mi_tarde,
-                                              actividad2.d, actividad2.mi, actividad2.mf, actividad2.mf_tarde, actividad2.mi_tarde,
-                                              actividad3.d, actividad3.mi, actividad3.mf, actividad3.mf_tarde, actividad3.mi_tarde,
-                                              actividad4.d, actividad4.mi, actividad4.mf, actividad4.mf_tarde, actividad4.mi_tarde,
-                                              actividad5.d, actividad5.mi, actividad5.mf, actividad5.mf_tarde, actividad5.mi_tarde,
-                                              actividadF.d, actividadF.mi, actividadF.mf, actividadF.mf_tarde, actividadF.mi_tarde,
-                                                };
 
+                listaDatos.Add(new List<Actividad> {actividadI, actividad1,actividad2, actividad3, actividad4, actividad5, actividadF });
+
+                if (!flag)
+                {
+                    min = actividadF.mf;
+                    max = actividadF.mf;
+                    acum = actividadF.mf;
+                    media = actividadF.mf;
+                    acumstd = actividadF.mf;
+                    flag = true;
+                    listaResultados = new List<object> { min, max };
+                }
+                else
+                {
+                    acum += actividadF.mf;
+                    media = acum / listaDatos.Count;
+                    //acumstd += (decimal)Math.Pow((double)(actividadF.mf - media),2);
+                    //DE = acumstd / (i - 1);
+                    if (actividadF.mf < min)
+                    {
+                        min = actividadF.mf;
+                    }
+                    if (actividadF.mf > max)
+                    {
+                        max = actividadF.mf;
+                    }
+                }
+                tPromedio.Add(media);
                 // vectorEstado[i] = new List<List<decimal>> { listaActividades, listaResultados};
-                
+
                 vectorEstado.Add(fila);
             }
 
+            for (int i = 1; i <= listaDatos.Count; i++)
+            {
+                acumstd += (decimal)Math.Pow((double)listaDatos[i-1][6].mf - (double)tPromedio.Last(), 2);
+
+                if (i == 1)
+                {
+                    DE = (decimal)Math.Sqrt((double)(acumstd / i));
+                }
+                else
+                {
+                    DE = (decimal)Math.Sqrt((double)(acumstd / (i-1)));
+                }               
+            }
+            listaResultados = new List<object> { min, max };
             Console.WriteLine(vectorEstado);
+
+            var prob = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
+            var prob2 = MathNet.Numerics.Distributions.Normal.InvCDF((double)tPromedio.Last(), (double)DE, 0.9);
         }
 
         public static void actualizarVectorEstado(int j)

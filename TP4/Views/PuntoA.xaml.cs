@@ -110,10 +110,16 @@ namespace TP4.Views
                     cantidadSimular = decimal.Parse(TxtCantidad.Text);
 
 
+
+                    stackCarga.Visibility = Visibility.Visible;
+
                     //funciones o hacer algo no se
 
-                    
                     Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5);
+
+
+                    lblCarga.Content = "Listo";
+                    animacionCarga.Visibility = Visibility.Hidden;
 
                 }
                 else
@@ -128,7 +134,6 @@ namespace TP4.Views
             }
 
         }
-
 
         //private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
         //{
