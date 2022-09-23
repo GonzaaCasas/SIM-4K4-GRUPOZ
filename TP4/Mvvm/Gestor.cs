@@ -13,17 +13,7 @@ namespace TP4.Mvvm
 {
     internal class Gestor
     {
-        private static List<decimal> valores_variableAleatoriaExpNeg = new List<decimal>();
-        private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
-        private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
-        private static int _muestra;
-        private static decimal _lambda;
-        private static decimal _lambdaExp;
-        private static decimal _media;
-        private static decimal _ds;
-        private static List<decimal> chis = new List<decimal>();
-
-        //--------------------- Lo de arriba es del TP pasado
+ 
 
         static Actividad actividadI;
         static Actividad actividad1;
@@ -32,8 +22,6 @@ namespace TP4.Mvvm
         static Actividad actividad4;
         static Actividad actividad5;
         static Actividad actividadF;
-
-
 
         private static DistribucionUniforme _uniformeActividad1;
         private static DistribucionUniforme _uniformeActividad2;
@@ -71,7 +59,6 @@ namespace TP4.Mvvm
             _ExponencialActividad3 = new DistribucionExponencial(media3);
             _uniformeActividad4 = new DistribucionUniforme(a4, b4);
             _ExponencialActividad5 = new DistribucionExponencial(media5);
-
 
         }
 
@@ -119,14 +106,13 @@ namespace TP4.Mvvm
             double acumstd = 0;
             double DE = 0;
 
-            for (int i = 1; i <= simulaciones; i++) // despues cambiar simulaciones / 2
+            for (int i = 1; i <= simulaciones; i++) 
             {
                 
-                // actualizarVectorEstado(i);
+                
                 crearActividades();
                 determinarMomentosTempranosTardes();
-                //TerminarDeCalcularActividades(?)
-                //Hacer el resto de calculos (promedio duracion, max y min, probabilidad de 45 dias , etc)
+    
 
                 listaDatos.Add(new List<Actividad> {actividadI, actividad1,actividad2, actividad3, actividad4, actividad5, actividadF });
 
@@ -198,7 +184,7 @@ namespace TP4.Mvvm
                 }
                 tPromedio.Add(media);
        
-                // vectorEstado[i] = new List<List<decimal>> { listaActividades, listaResultados};
+             
                 if (i <= 14)
                 {
                     duracionesFinalizacionTarea.Add(actividadF.mf);
@@ -318,33 +304,6 @@ namespace TP4.Mvvm
 
 
             return array;
-
-        }
-
-
-        public static void actualizarVectorEstado(int j)
-        {
-
-
-            for (int i = 0; i <= 1; i++) // actualiza las dos filas del vector estado
-            {
-
-                //crearActividades();
-                //determinarMomentosTempranosTardes();
-                ////TerminarDeCalcularActividades(?)
-                ////Hacer el resto de calculos (promedio duracion, max y min, probabilidad de 45 dias , etc)
-                //fila = new List<decimal> { j, actividadI.d, actividadI.mi, actividadI.mf, actividadI.mf_tarde, actividadI.mi_tarde,
-                //                              actividad1.d, actividad1.mi, actividad1.mf, actividad1.mf_tarde, actividad1.mi_tarde,
-                //                              actividad2.d, actividad2.mi, actividad2.mf, actividad2.mf_tarde, actividad2.mi_tarde,
-                //                              actividad3.d, actividad3.mi, actividad3.mf, actividad3.mf_tarde, actividad3.mi_tarde,
-                //                              actividad4.d, actividad4.mi, actividad4.mf, actividad4.mf_tarde, actividad4.mi_tarde,
-                //                              actividad5.d, actividad5.mi, actividad5.mf, actividad5.mf_tarde, actividad5.mi_tarde,
-                //                              actividadF.d, actividadF.mi, actividadF.mf, actividadF.mf_tarde, actividadF.mi_tarde,
-
-              
-                //fila.AddRange(fila) ;
-
-            }
 
         }
 
@@ -524,81 +483,6 @@ namespace TP4.Mvvm
             return frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
 
         }
-
-
-        public static void generarVariablesAleatorias(decimal media, decimal ds, decimal lambda, decimal lambdaExp, int muestra)
-
-        {
-            _media = media;
-            _ds = ds;
-            _lambda = lambda;
-            _lambdaExp = lambdaExp;
-            _muestra = muestra;
-            generadorRandoms(muestra + 1);   // a la muestra le hago + 1 pq la distribucion normal hace uso de un random mas que el resto
-            Generador.generarVariables(media, ds, lambda, lambdaExp);
-
-        }
-        public static (List<decimal>, List<decimal>, List<decimal>) obtenerVariablesAleatorias()
-        {
-            valores_variableAleatoriaExpNeg = Distribucion.obtenerVariableExpNegativa();
-            valores_variableAleatoriaPoisson = Distribucion.obtenerVariablePoisson();
-            valores_variableAleatoriaNormal = Distribucion.obtenerVariableNormal();
-
-            return (valores_variableAleatoriaExpNeg, valores_variableAleatoriaPoisson, valores_variableAleatoriaNormal);
-
-
-        }
-
-        public static void generadorRandoms(int muestra)
-        {
-            Generador.generarRandomcSharp(muestra);
-        }
-
-        public static List<decimal> test(int subintervalos) // cambiar a List<decimal>
-        {
-            //decimal chiUniforme = Distribucion.obtenerChiUniforme(_muestra, subintervalos);
-            //chis.Add(chiUniforme);
-
-            chis.Clear();
-            List<decimal> limites;
-            limites = ChiCuadrado.calcularLimites(valores_variableAleatoriaExpNeg, subintervalos);
-            decimal chiExponencial = Distribucion.obtenerChiExponencial(_lambdaExp, limites, _muestra, subintervalos);
-            chis.Add(chiExponencial);
-
-            limites = ChiCuadrado.calcularLimites(valores_variableAleatoriaPoisson, subintervalos);
-            decimal chiPoissoon = Distribucion.obtenerChiPoisson(_lambda, limites, _muestra, subintervalos);
-            chis.Add(chiPoissoon);
-
-            limites = ChiCuadrado.calcularLimites(valores_variableAleatoriaNormal, subintervalos);
-            decimal chiNormal = Distribucion.obtenerChiNormal(_media, _ds, limites, _muestra, subintervalos);
-            chis.Add(chiNormal);
-
-            decimal chitabulado = ChiCuadrado.obtenerChitabulado(subintervalos);
-            chis.Add(chitabulado);
-
-            return chis;
-        }
-
-        public static (List<decimal>, List<decimal>, List<string>) obtenerTodoNormal(int subintervalos)
-        {
-            return (Distribucion.obtenerObservacionesNormal(), Distribucion.obtenerEsperadosNormal(), ChiCuadrado.obtenerMedios(valores_variableAleatoriaNormal, subintervalos));
-        }
-
-        public static (List<decimal>, List<decimal>, List<string>) obtenerTodoPoisson(int subintervalos)
-        {
-            return (Distribucion.obtenerObservacionesPoisson(), Distribucion.obtenerEsperadosPoisson(), ChiCuadrado.obtenerMedios(valores_variableAleatoriaPoisson, subintervalos));
-        }
-        public static (List<decimal>, List<decimal>, List<string>) obtenerTodoExp(int subintervalos)
-        {
-            return (Distribucion.obtenerObservacionesExponencial(), Distribucion.obtenerEsperadosExponencial(), ChiCuadrado.obtenerMedios(valores_variableAleatoriaExpNeg, subintervalos));
-        }
-
-
-        public static bool ExportarExcel(string ruta, DataTable tabla, string nombreArchivo)
-        {
-            return ExportadorExcel.ExportarExcel(ruta, tabla, nombreArchivo);
-        }
-
 
     }
 
