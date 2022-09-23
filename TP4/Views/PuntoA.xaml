@@ -142,10 +142,10 @@
                         Command="{Binding generarCommand}" Margin="47,10,48,0"
                         >Generar</Button>
             </StackPanel>
-            <StackPanel x:Name="stackCarga" Grid.Row="1" Grid.Column="3" Visibility="Hidden">
+            <StackPanel x:Name="stackCarga" Grid.Row="1" Grid.Column="3" Panel.ZIndex="20" >
                 <controls:ProgressRing  x:Name="animacionCarga" Foreground="{DynamicResource AccentColorBrush}"
-                  IsActive="True" Visibility="Visible"/>
-                <Label x:Name="lblCarga" FontSize="14" Content="Calculando..." HorizontalAlignment="Center"></Label>
+                  IsActive="{Binding cargaActiva}" Visibility="{Binding visibilidadCarga}"/>
+                <Label x:Name="lblCarga" FontSize="14" Content="{Binding strCarga}" HorizontalAlignment="Center"></Label>
             </StackPanel>
             
         </Grid>

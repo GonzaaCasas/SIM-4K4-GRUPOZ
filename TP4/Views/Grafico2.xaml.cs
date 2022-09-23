@@ -39,7 +39,7 @@ namespace TP4.Views
             {
                 new Axis
                 {
-                    Name = "Cantidad",
+                    Name = "Días",
                     NamePaint = new SolidColorPaint(SKColors.Black),
 
                     LabelsPaint = new SolidColorPaint(SKColors.Black),
@@ -65,7 +65,7 @@ namespace TP4.Views
                 }
             };
 
-        public void AgregarSerie(List<double> serie, string titulo)
+        public void AgregarSerieBarras(List<double> serie, string titulo)
         {
             Series = Series.Concat(new ISeries[]
             {
@@ -77,12 +77,26 @@ namespace TP4.Views
             }).ToArray();
         }
 
-        public void AgregarIntervalos(string[] intervalos)
+        public void AgregarSerieLinea(List<double> serie, string titulo)
         {
-            XAxes = new Axis[]
+            Series = Series.Concat(new ISeries[]
             {
-                new Axis
+                new LineSeries<double>
                 {
+                    Name = titulo,
+                    Values = serie
+                }
+            }).ToArray();
+        }
+
+        public void AgregarIntervalos(string[] intervalos, bool rotacion)
+        {
+            if (rotacion)
+            {
+               XAxes = new Axis[]
+            {
+               new Axis
+               {
                     Labels = intervalos,
                     LabelsRotation = 35,
                     LabelsPaint = new SolidColorPaint(SKColors.Black),
@@ -90,6 +104,21 @@ namespace TP4.Views
                     //SeparatorsPaint = new SolidColorPaint(SKColors.Black) { StrokeThickness = 2 }
                 }
             };
+            }
+            else
+            {
+               XAxes = new Axis[]
+         {
+               new Axis
+               {
+                    Labels = intervalos,
+                    LabelsPaint = new SolidColorPaint(SKColors.Black),
+                    TextSize = 20
+                    //SeparatorsPaint = new SolidColorPaint(SKColors.Black) { StrokeThickness = 2 }
+                }
+         };
+            }
+            
         }
     }
 }

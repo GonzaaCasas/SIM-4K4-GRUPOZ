@@ -10,6 +10,7 @@
         YAxes="{Binding YAxes}"
         Visibility="{Binding Visibility}"
         ZoomMode="X"
+        Background="#cce4f7"
         LegendPosition="Left"
         LegendFontSize="15"
         LegendBackground="#cce4f7">
