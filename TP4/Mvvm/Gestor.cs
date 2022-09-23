@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using TP4.Models;
 using TP4.ViewModels;
 
@@ -210,6 +211,59 @@ namespace TP4.Mvvm
             actividadF.mf = actividadF.d + actividadF.mi;
             actividadF.mf_tarde = actividadF.mf;
             actividadF.mi_tarde = actividadF.mf_tarde - actividadF.d;
+        }
+
+        public static List<decimal> CalcularfreqAbsolutas(List<decimal> serie, int subintervalos, int muestra)
+        {
+
+
+            decimal[] arr = new decimal[subintervalos];
+            List<decimal> frequencias = new List<decimal>(arr);
+
+
+            decimal min = serie.Min();
+            decimal max = serie.Max();
+
+
+            decimal paso = (max - min) / subintervalos;
+
+            decimal lim_inferior = min;
+            decimal lim_superior = lim_inferior + paso;
+
+            int simActual = 1;
+            int simAnterior = 0;
+
+
+
+            foreach (var random in serie)
+            {
+                for (int i = 0; i < subintervalos; i++)
+                {
+                    if (random >= lim_inferior && random <= lim_superior)
+                    {
+                        frequencias[i] = (frequencias[i] * simAnterior + 1) / simActual; // observados
+                    }
+                    else
+                    {
+                        frequencias[i] = (frequencias[i] * simAnterior + 0) / simActual;
+                    }
+
+                    lim_inferior = lim_superior;
+                    lim_superior = lim_inferior + paso;
+
+
+                }
+
+                simAnterior = simActual;
+                simActual++;
+                lim_inferior = min;
+                lim_superior = lim_inferior + paso;
+
+            }
+
+
+            return frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
+
         }
 
 
