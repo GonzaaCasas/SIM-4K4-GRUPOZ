@@ -30,21 +30,12 @@ namespace TP4.Views
 
 
 
-        private static List<decimal> observadosExponencial = new List<decimal>();
-        private static List<decimal> observadosPoisson = new List<decimal>();
-        private static List<decimal> observadosNormal = new List<decimal>();
-
-        private static List<decimal> esperadosExponencial = new List<decimal>();
-        private static List<decimal> esperadosPoisson = new List<decimal>();
-        private static List<decimal> esperadosNormal = new List<decimal>();
-        private static List<string> mediosExponencial = new List<string>();
-        private static List<string> mediosPoisson = new List<string>();
-        private static List<string> mediosNormal = new List<string>();
+     
 
 
         // ------------------------
 
-        private static List<decimal> frequencias = new List<decimal>();
+        private static List<double> frequencias = new List<double>();
         private static List<string> medios = new List<string>();
 
 

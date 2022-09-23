@@ -47,9 +47,8 @@ namespace TP4.Mvvm
         private static List<object> fila = new List<object>();
         private static List<List<Actividad>> listaDatos = new List<List<Actividad>>();
         private static List<object> listaResultados = new List<object>();
-        private static List<decimal> tPromedio = new List<decimal>();
-        private static List<decimal> duracionesFinalizacionTarea = new List<decimal>();
-        private static List<decimal> freqDuraciones = new List<decimal>();
+        private static List<double> duracionesFinalizacionTarea = new List<double>();
+        private static List<double> freqDuraciones = new List<double>();
         private static List<string> medios = new List<string>();
         private static List<double> tPromedio = new List<double>();
 
@@ -146,6 +145,8 @@ namespace TP4.Mvvm
                 }               
             }
             //listaResultados = new List<object> { min, max };
+            freqDuraciones = CalcularfreqAbsolutas(duracionesFinalizacionTarea, 15, 14);
+            medios = obtenerMedios(duracionesFinalizacionTarea, 15);
             Console.WriteLine(vectorEstado);
 
             prob45d = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
@@ -176,16 +177,11 @@ namespace TP4.Mvvm
         public static double Obtenerfecha90()
         {
             return fecha90;
-            var prob = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
-            var prob2 = MathNet.Numerics.Distributions.Normal.InvCDF((double)tPromedio.Last(), (double)DE, 0.9);
-
-            freqDuraciones = CalcularfreqAbsolutas(duracionesFinalizacionTarea, 15, 14);
-            medios = obtenerMedios(duracionesFinalizacionTarea, 15);
-            Console.WriteLine(vectorEstado);
+            
 
         }
 
-        public static (List<decimal>,List<string>) obtenerDatosIntervalos()
+        public static (List<double>,List<string>) obtenerDatosIntervalos()
         {
             return (freqDuraciones, medios);
         }
@@ -194,12 +190,12 @@ namespace TP4.Mvvm
 
 
 
-        public static List<string> obtenerMedios(List<decimal> conjuntoNumeros, int intervalos)
+        public static List<string> obtenerMedios(List<double> conjuntoNumeros, int intervalos)
         {
             // 0 - 1 , 1 - 5, 5, 9
             List<string> valoresMediosIntervalos = new List<string>();
 
-            List<decimal> limites = calcularLimites(conjuntoNumeros, intervalos);
+            List<double> limites = calcularLimites(conjuntoNumeros, intervalos);
 
             for (int i = 0; i < limites.Count() - 1; i++)
             {
@@ -209,17 +205,17 @@ namespace TP4.Mvvm
             return valoresMediosIntervalos;
         }
 
-        public static List<decimal> calcularLimites(List<decimal> conjuntoNumeros, int subintervalos)
+        public static List<double> calcularLimites(List<double> conjuntoNumeros, int subintervalos)
         {
-            decimal min = conjuntoNumeros.Min();
-            decimal max = conjuntoNumeros.Max();
-            decimal paso = (max - min) / subintervalos;
+            double min = conjuntoNumeros.Min();
+            double max = conjuntoNumeros.Max();
+            double paso = (max - min) / subintervalos;
 
-            decimal lim_inferior = min;
-            decimal lim_superior = lim_inferior + paso;
+            double lim_inferior = min;
+            double lim_superior = lim_inferior + paso;
 
 
-            List<decimal> array = new List<decimal>();
+            List<double> array = new List<double>();
 
             array.Add(lim_inferior);
 
@@ -369,22 +365,22 @@ namespace TP4.Mvvm
             actividadF.mi_tarde = actividadF.mf_tarde - actividadF.d;
         }
 
-        public static List<decimal> CalcularfreqAbsolutas(List<decimal> serie, int subintervalos, int muestra)
+        public static List<double> CalcularfreqAbsolutas(List<double> serie, int subintervalos, int muestra)
         {
 
 
-            decimal[] arr = new decimal[subintervalos];
-            List<decimal> frequencias = new List<decimal>(arr);
+            double[] arr = new double[subintervalos];
+            List<double> frequencias = new List<double>(arr);
 
 
-            decimal min = serie.Min();
-            decimal max = serie.Max();
+            double min = serie.Min();
+            double max = serie.Max();
 
 
-            decimal paso = (max - min) / subintervalos;
+            double paso = (max - min) / subintervalos;
 
-            decimal lim_inferior = min;
-            decimal lim_superior = lim_inferior + paso;
+            double lim_inferior = min;
+            double lim_superior = lim_inferior + paso;
 
             int simActual = 1;
             int simAnterior = 0;
