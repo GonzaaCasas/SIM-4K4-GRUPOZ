@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,6 +33,10 @@ namespace TP4.Views
 
         private double cantidadSimular;
 
+        public string strCarga { get; set; } = "";
+        public bool cargaActiva { get; set; } = false;
+        public Visibility visibilidadCarga { get; set; } = Visibility.Collapsed;
+
 
         //private static List<decimal> valores_variableAleatoriaExp = new List<decimal>();
         //private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
@@ -41,6 +46,7 @@ namespace TP4.Views
         public PuntoA()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
 
@@ -110,15 +116,18 @@ namespace TP4.Views
                     cantidadSimular = double.Parse(TxtCantidad.Text);
 
 
-
-                    stackCarga.Visibility = Visibility.Visible;
-
-                    //funciones o hacer algo no se
-
-                    Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5);
-
-                    lblCarga.Content = "Listo";
-                    animacionCarga.Visibility = Visibility.Hidden;
+                    animacionCarga.IsActive = true;
+                    animacionCarga.Visibility = Visibility.Visible;
+                    lblCarga.Content = "Calculando...";
+                    Task.Factory.StartNew(() =>
+                    {
+                        Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5);
+                    }).ContinueWith(task =>
+                    {
+                        animacionCarga.IsActive = false;
+                        animacionCarga.Visibility = Visibility.Hidden;
+                        lblCarga.Content = "Listo";
+                    }, System.Threading.CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
 
                 }
                 else

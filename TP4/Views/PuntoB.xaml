@@ -19,16 +19,16 @@
                                     Kind= "AlphaRBox"/>
 
 
-        <Grid Margin="10,10,0,0" x:Name="GridDatos" Height="550">
+        <Grid Margin="10,10,0,0" x:Name="GridDatos">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="380"></ColumnDefinition>
                 <ColumnDefinition Width="130"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="200"></RowDefinition>
+                <RowDefinition ></RowDefinition>
                 <RowDefinition ></RowDefinition>
             </Grid.RowDefinitions>
 
@@ -43,49 +43,123 @@
                 <local:Grafico2 x:Name="Grafico2"></local:Grafico2>
             </DockPanel>
 
-            <GroupBox Header="Duración de la tarea" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,5,5,5" HorizontalAlignment="Center">
+            <GroupBox Header="Duración de la tarea" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,42,5,15" HorizontalAlignment="Stretch" VerticalAlignment="Top" MaxWidth="420">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <GroupBox Header="Tiempo promedio"  Margin="5,5,5,5" HorizontalAlignment="Left" Width="150">
                         <StackPanel Orientation="Vertical">
-                            <Label x:Name="LblTiempoPromedio" Content="Tiempo promedio" FontSize="14"></Label>
-                            <Label Content="Días" FontSize="14"></Label>
+                            <Label x:Name="LblTiempoPromedio" Content="Tiempo promedio" FontSize="16" FontWeight="Bold"></Label>
+                            <Label Content="Días" FontSize="16"></Label>
                         </StackPanel>
                     </GroupBox>
                     <StackPanel Width="50"></StackPanel>
                     <GroupBox Header="Máximo y Mínimo" Margin="5,5,5,5" HorizontalAlignment="Right" Width="150" >
                         <StackPanel Orientation="Vertical">
-                            <Label Content="Máximo" FontSize="14"></Label>
-                            <Label x:Name="LblMaximo" Content="valorMaximo" FontSize="14"></Label>
-                            <Label Content="Mínimo" FontSize="14"></Label>
-                            <Label x:Name="LblMinimo" Content="valorMinimo" FontSize="14"></Label>
+                            <Label Content="Máximo" FontSize="16"></Label>
+                            <Label x:Name="LblMaximo" Content="valorMaximo" FontSize="16" FontWeight="Bold"></Label>
+                            <Label Content="Mínimo" FontSize="16"></Label>
+                            <Label x:Name="LblMinimo" Content="valorMinimo" FontSize="16" FontWeight="Bold"></Label>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="P de completarla en 45 dias" Grid.Row="1" Grid.Column="0" Margin="5,5,5,5" MaxHeight="200" VerticalAlignment="Center" Height="200">
+            <GroupBox Header="P de completarla en 45 dias" Grid.Row="1" Grid.Column="0" Margin="5,30,5,5" MaxHeight="200" VerticalAlignment="Top" Height="200" MaxWidth="200">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Probabilidad" FontSize="14"></Label>
-                    <Label x:Name="LblProb45d" Content="valorProb%" FontSize="14"></Label>
+                    <Label Content="Probabilidad" FontSize="16"></Label>
+                    <Label x:Name="LblProb45d" Content="valorProb%" FontSize="16" FontWeight="Bold"></Label>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Fecha a fijar" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" MaxHeight="200" VerticalAlignment="Center" Height="200">
+            <GroupBox Header="Fecha a fijar" Grid.Row="1" Grid.Column="1" Margin="5,30,5,5" MaxHeight="200" VerticalAlignment="Top" Height="200" MaxWidth="200">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock TextWrapping="WrapWithOverflow" FontSize="14">Fecha a fijar para terminar la tarea en esta fecha o antes</TextBlock>
-                    <Label x:Name="LblFecha90" Content="valorFecha" FontSize="14"></Label>
-                    <Label Content="Nivel de confianza de 90%" FontSize="14"></Label>
+                    <TextBlock TextWrapping="WrapWithOverflow" FontSize="16">Fecha a fijar para terminar la tarea en esta fecha o antes</TextBlock>
+                    <Label x:Name="LblFecha90" Content="valorFecha" FontSize="16" FontWeight="Bold"></Label>
+                    <TextBlock TextWrapping="WrapWithOverflow" FontSize="16">Con un nivel de confianza de 90%</TextBlock>
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Analisis de las actividades" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="5,5,5,50" MaxHeight="550">
+            <GroupBox Header="Analisis de las actividades" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="15,40,15,15" MaxHeight="550">
                 <DockPanel>
-                    <GroupBox Header="Tiempo de inicio mas tardio posible " DockPanel.Dock="Top" VerticalAlignment="Center">
+                    <GroupBox Header="Tiempo de inicio mas tardio posible " DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="5,3,5,5">
                         <DockPanel>
-                            <DataGrid></DataGrid>
+                            <DataGrid x:Name="DgvMITarido" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
+                                <DataGrid.Style>
+                                    <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                                        <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                                    </Style>
+                                </DataGrid.Style>
+                                <DataGrid.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="Background" Value="LightBlue"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.CellStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Actividad" Binding="{Binding col1}">
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Tiempo inicio tardío" Binding="{Binding col2}"  MinWidth="100" CanUserResize="False">
+                                        <DataGridTextColumn.CellStyle>
+                                            <Style TargetType="DataGridCell">
+                                                <Setter Property="FontWeight" Value="Bold"></Setter>
+                                            </Style>
+                                        </DataGridTextColumn.CellStyle>
+                                        <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                                <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                                
+                                            </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </DockPanel>
                     </GroupBox>
-                    <GroupBox Header="Tareas criticas" DockPanel.Dock="Bottom" VerticalAlignment="Center">
+                    <GroupBox Header="Tareas criticas" DockPanel.Dock="Bottom" VerticalAlignment="Center" Margin="5,5,5,5">
                         <DockPanel>
-                            <DataGrid></DataGrid>
+                            <DataGrid x:Name="DgvTCriticas" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
+                                <DataGrid.Style>
+                                    <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                                        <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                                    </Style>
+                                </DataGrid.Style>
+                                <DataGrid.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="Background" Value="LightBlue"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.CellStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Actividad" Binding="{Binding col1}">
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Probabilidad" Binding="{Binding col2}"  MinWidth="100" CanUserResize="False">
+                                        <DataGridTextColumn.CellStyle>
+                                            <Style TargetType="DataGridCell">
+                                                <Setter Property="FontWeight" Value="Bold"></Setter>
+                                            </Style>
+                                        </DataGridTextColumn.CellStyle>
+                                        <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                                <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                            </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </DockPanel>
                     </GroupBox>
                 </DockPanel>

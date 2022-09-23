@@ -28,25 +28,12 @@ namespace TP4.Views
         private static double prob45d;
         private static double fecha90;
 
-
-
-     
-
-
-        // ------------------------
-
-        private static List<double> frequencias = new List<double>();
-        private static List<string> medios = new List<string>();
-
-
-        private List<decimal> resultadosTest = new List<decimal>();
+        private static List<double> MITardio = new List<double>();
+        private static List<double> actCriticas = new List<double>();
 
         private Grafico2 grafico2 = new Grafico2();
         private bool flagGrafico = false;
         private bool flagIntervalos = false;
-
-        DataTable tablaExcel;
-
 
         //private Grafico grafico = null;
         //private Grafico2VM grafico2 = null;
@@ -73,8 +60,19 @@ namespace TP4.Views
 
                 prob45d = Gestor.ObtenerProb45d();
                 fecha90 = Gestor.Obtenerfecha90();
-                LblProb45d.Content = Math.Round(prob45d, 4, MidpointRounding.AwayFromZero).ToString() + " Días";
-                LblFecha90.Content = Math.Round(fecha90, 2, MidpointRounding.AwayFromZero).ToString();
+                LblProb45d.Content = Math.Round(prob45d, 4, MidpointRounding.AwayFromZero).ToString();
+                LblFecha90.Content = Math.Round(fecha90, 2, MidpointRounding.AwayFromZero).ToString() + " Días";
+
+
+                MITardio = Gestor.ObtenerMITardio();
+                actCriticas = Gestor.ObtenerActCriticas();
+                
+                DataTable tablaMITardio = construirTabla(MITardio);
+                DataTable tablaActCriticas = construirTabla(actCriticas);
+                DgvMITarido.DataContext = tablaMITardio;
+                DgvTCriticas.DataContext = tablaActCriticas;
+
+
             }
         }
 
@@ -182,29 +180,22 @@ namespace TP4.Views
             grafico2.Visibility = Visibility.Visible;
         }
 
-        private DataTable construirTabla(List<decimal> observada, List<decimal> esperada)
+        private DataTable construirTabla(List<double> lista)
         {
-            DataTable tablaNumero = new DataTable();
-            tablaNumero.Columns.Add("Observada");
-            tablaNumero.Columns.Add("Esperada");
+            DataTable tabla = new DataTable();
+            tabla.Columns.Add("col1");
+            tabla.Columns.Add("col2");
 
-            for (int i = 0; i < observada.Count; i++)
+            for (int i = 0; i < lista.Count; i++)
             {
-                DataRow _row = tablaNumero.NewRow();
-                _row[0] = Math.Round(observada[i], 4, MidpointRounding.AwayFromZero).ToString();
-                _row[1] = Math.Round(esperada[i], 4, MidpointRounding.AwayFromZero).ToString();
-                tablaNumero.Rows.Add(_row);
+                DataRow _row = tabla.NewRow();
+                _row[0] = $"A{i + 1}";
+                _row[1] = Math.Round(lista[i], 4, MidpointRounding.AwayFromZero).ToString();
+                tabla.Rows.Add(_row);
             }
 
-            return tablaNumero;
+            return tabla;
         }
-
-        private void obtenerDatosIntervalos()
-        {
-            (frequencias, medios) = Gestor.obtenerDatosIntervalos();
-
-        }
-
 
     }
 

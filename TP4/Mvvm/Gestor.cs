@@ -85,7 +85,6 @@ namespace TP4.Mvvm
             max = 0;
             double media;
             double acum = 0;
-            double media = 0;
 
             double acumMI_tardeA1 = 0;
             double mediaMI_tardeA1 = 0;
@@ -243,6 +242,16 @@ namespace TP4.Mvvm
         public static List<double> ObtenerTiempoPromedio()
         {
             return tPromedio;
+        }
+
+        public static List<double> ObtenerMITardio()
+        {
+            return actividadesMI_tardePromedios;
+        }
+
+        public static List<double> ObtenerActCriticas()
+        {
+            return actividadesCriticasProbalidades;
         }
 
         public static double ObtenerMinimo()
