@@ -52,6 +52,10 @@ namespace TP4.Mvvm
         private static List<string> medios = new List<string>();
         private static List<double> tPromedio = new List<double>();
 
+        private static List<double> actividadesMI_tardePromedios = new List<double>();
+        private static List<double> actividadesCriticasProbalidades = new List<double>();
+
+
         private static double min = 0;
         private static double max = 0;
         private static double prob45d;
@@ -80,6 +84,38 @@ namespace TP4.Mvvm
             //decimal max = 0;
             double acum = 0;
             double media = 0;
+
+            double acumMI_tardeA1 = 0;
+            double mediaMI_tardeA1 = 0;
+
+            double acumMI_tardeA2 = 0;
+            double mediaMI_tardeA2 = 0;
+
+            double acumMI_tardeA3 = 0;
+            double mediaMI_tardeA3 = 0;
+
+            double acumMI_tardeA4 = 0;
+            double mediaMI_tardeA4 = 0;
+
+            double acumMI_tardeA5 = 0;
+            double mediaMI_tardeA5 = 0;
+
+            double acumCriticoA1 = 0;
+            double acumCriticoA2 = 0;
+            double acumCriticoA3 = 0;
+            double acumCriticoA4 = 0;
+            double acumCriticoA5 = 0;
+
+            double probabCriticoA1 = 0;
+            double probabCriticoA2 = 0;
+            double probabCriticoA3 = 0;
+            double probabCriticoA4 = 0;
+            double probabCriticoA5 = 0;
+
+            actividadesCriticasProbalidades.Clear();
+            actividadesMI_tardePromedios.Clear();
+
+
             double acumstd = 0;
             double DE = 0;
 
@@ -99,6 +135,19 @@ namespace TP4.Mvvm
                     min = actividadF.mf;
                     max = actividadF.mf;
                     acum = actividadF.mf;
+                    acumMI_tardeA1 = actividad1.mi_tarde;
+                    acumMI_tardeA2 = actividad2.mi_tarde;
+                    acumMI_tardeA3 = actividad3.mi_tarde;
+                    acumMI_tardeA4 = actividad4.mi_tarde;
+                    acumMI_tardeA5 = actividad5.mi_tarde;
+
+                    acumCriticoA1 = actividad1.mi == actividad1.mi_tarde ? 1 : 0;
+                    acumCriticoA2 = actividad2.mi == actividad2.mi_tarde ? 1 : 0;
+                    acumCriticoA3 = actividad3.mi == actividad3.mi_tarde ? 1 : 0;
+                    acumCriticoA4 = actividad4.mi == actividad4.mi_tarde ? 1 : 0;
+                    acumCriticoA5 = actividad5.mi == actividad5.mi_tarde ? 1 : 0;
+
+
                     media = actividadF.mf;
                     acumstd = actividadF.mf;
                     flag = true;
@@ -108,6 +157,34 @@ namespace TP4.Mvvm
                 {
                     acum += actividadF.mf;
                     media = acum / listaDatos.Count;
+
+                    acumMI_tardeA1 += actividad1.mi_tarde;
+                    acumMI_tardeA2 += actividad2.mi_tarde;
+                    acumMI_tardeA3 += actividad3.mi_tarde;
+                    acumMI_tardeA4 += actividad4.mi_tarde;
+                    acumMI_tardeA5 += actividad5.mi_tarde;
+
+
+                    mediaMI_tardeA1 = acumMI_tardeA1 / listaDatos.Count;
+                    mediaMI_tardeA2 = acumMI_tardeA2 / listaDatos.Count;
+                    mediaMI_tardeA3 = acumMI_tardeA3 / listaDatos.Count;
+                    mediaMI_tardeA4 = acumMI_tardeA4 / listaDatos.Count;
+                    mediaMI_tardeA5 = acumMI_tardeA5 / listaDatos.Count;
+
+
+                    acumCriticoA1 += actividad1.mi == actividad1.mi_tarde ? 1 : 0;
+                    acumCriticoA2 += actividad2.mi == actividad2.mi_tarde ? 1 : 0;
+                    acumCriticoA3 += actividad3.mi == actividad3.mi_tarde ? 1 : 0;
+                    acumCriticoA4 += actividad4.mi == actividad4.mi_tarde ? 1 : 0;
+                    acumCriticoA5 += actividad5.mi == actividad5.mi_tarde ? 1 : 0;
+
+
+                    probabCriticoA1 = acumCriticoA1 / listaDatos.Count;
+                    probabCriticoA2 = acumCriticoA2 / listaDatos.Count;
+                    probabCriticoA3 = acumCriticoA3 / listaDatos.Count;
+                    probabCriticoA4 = acumCriticoA4 / listaDatos.Count;
+                    probabCriticoA5 = acumCriticoA5 / listaDatos.Count;
+
                     //acumstd += (decimal)Math.Pow((double)(actividadF.mf - media),2);
                     //DE = acumstd / (i - 1);
                     if (actividadF.mf < min)
@@ -120,6 +197,7 @@ namespace TP4.Mvvm
                     }
                 }
                 tPromedio.Add(media);
+       
                 // vectorEstado[i] = new List<List<decimal>> { listaActividades, listaResultados};
                 if (i <= 14)
                 {
@@ -151,6 +229,10 @@ namespace TP4.Mvvm
 
             prob45d = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
             fecha90 = MathNet.Numerics.Distributions.Normal.InvCDF((double)tPromedio.Last(), (double)DE, 0.9);
+
+            actividadesMI_tardePromedios.AddRange(new List<double> { mediaMI_tardeA1, mediaMI_tardeA2, mediaMI_tardeA3,
+                                                                    mediaMI_tardeA4, mediaMI_tardeA5});
+            actividadesCriticasProbalidades.AddRange(new List<double> { probabCriticoA1, probabCriticoA2, 0,                                                                             probabCriticoA4, probabCriticoA5 });
 
             puntoA = true; //flag
         }
@@ -310,59 +392,84 @@ namespace TP4.Mvvm
 
         public static void determinarMomentosTempranosTardes()
         {
-            //  momentos (?) de la actividadI
+            //  momentos mas temprano de la actividadI 
 
             actividadI.mi = 0;
             actividadI.mf = actividadI.d + actividadI.mi;
+
+            //  momentos mas temprano de la actividad1 
+
+            actividad1.mi = actividadI.mf;
+            actividad1.mf = actividad1.d + actividad1.mi;
+
+  
+            //  momentos mas temprano de la actividad2
+
+            actividad2.mi = actividadI.mf;
+            actividad2.mf = actividad2.d + actividad2.mi;
+
+
+            //  momentos mas temprano de la actividad3
+
+            actividad3.mi = actividadI.mf;
+            actividad3.mf = actividad3.d + actividad3.mi;
+
+        
+            //  momentos mas temprano de la actividad4
+
+            actividad4.mi = actividad1.mf;
+            actividad4.mf = actividad4.d + actividad4.mi;
+
+
+            //  momentos mas tempranos de la actividad5
+
+            actividad5.mi = actividad4.mf > actividad2.mf ? actividad4.mf : actividad2.mf;
+            actividad5.mf = actividad5.d + actividad5.mi;
+
+
+            //  momentos mas tempranos de la actividadF
+
+            actividadF.mi = actividad5.mf > actividad2.mf ? actividad5.mf : actividad2.mf;
+            actividadF.mf = actividadF.d + actividadF.mi;
+
+            // momentos mas tarde de la actividadF
+
+            actividadF.mf_tarde = actividadF.mf;
+            actividadF.mi_tarde = actividadF.mf_tarde - actividadF.d;
+
+            // momentos mas tarde la actividad5
+
+            actividad5.mf_tarde = actividadF.mi_tarde;
+            actividad5.mi_tarde = actividad5.mf_tarde - actividad5.d;
+
+            // momentos mas tarde la actividad4
+
+
+            actividad4.mf_tarde = actividad5.mi_tarde;
+            actividad4.mi_tarde = actividad4.mf_tarde - actividad4.d;
+
+            // momentos mas tarde la actividad3
+
+            actividad3.mf_tarde = 0; /// (?)
+            actividad3.mi_tarde = 0; // (?)
+
+            // momentos mas tarde la actividad2
+
+            actividad2.mf_tarde = actividad5.mi_tarde < actividadF.mi_tarde ? actividad5.mi_tarde : actividadF.mi_tarde;
+            actividad2.mi_tarde = actividad2.mf_tarde - actividad2.d;
+
+            // momentos mas tarde la actividad1
+
+
+            actividad1.mf_tarde = actividad4.mi_tarde;
+            actividad1.mi_tarde = actividad1.mf_tarde - actividad1.d;
+
+            // momentos mas tarde la actividadI
+
             actividadI.mf_tarde = actividad1.mi_tarde < actividad2.mi_tarde ? actividad1.mi_tarde : actividad2.mi_tarde;
             actividadI.mi_tarde = actividadI.mf_tarde - actividadI.d;
 
 
-            //  momentos (?) de la actividad1 
-
-            actividad1.mi = actividadI.mf;
-            actividad1.mf = actividad1.d + actividad1.mi;
-            actividad1.mf_tarde = actividad4.mi_tarde;
-            actividad1.mi_tarde = actividad1.mf_tarde - actividad1.d;
-
-
-            //  momentos (?) de la actividad2
-
-            actividad2.mi = actividadI.mf;
-            actividad2.mf = actividad2.d + actividad2.mi;
-            actividad2.mf_tarde = actividad5.mi_tarde < actividadF.mi_tarde ? actividad5.mi_tarde : actividadF.mi_tarde;
-            actividad2.mi_tarde = actividad2.mf_tarde - actividad2.d;
-
-
-            //  momentos (?) de la actividad3
-
-            actividad3.mi = actividadI.mf;
-            actividad3.mf = actividad3.d + actividad3.mi;
-            actividad3.mf_tarde = 0; /// (?)
-            actividad3.mi_tarde = 0; // (?)
-
-
-            //  momentos (?) de la actividad4
-
-            actividad4.mi = actividad1.mf;
-            actividad4.mf = actividad4.d + actividad4.mi;
-            actividad4.mf_tarde = actividad5.mi_tarde;
-            actividad4.mi_tarde = actividad4.mf_tarde - actividad4.d;
-
-
-            //  momentos (?) de la actividad5
-
-            actividad5.mi = actividad4.mf > actividad2.mf ? actividad4.mf : actividad2.mf;
-            actividad5.mf = actividad5.d + actividad5.mi;
-            actividad5.mf_tarde = actividadF.mi_tarde;
-            actividad5.mi_tarde = actividad5.mf_tarde - actividad5.d;
-
-            //  momentos (?) de la actividadF
-
-            actividadF.mi = actividad5.mf > actividad2.mf ? actividad5.mf : actividad2.mf;
-            actividadF.mf = actividadF.d + actividadF.mi;
-            actividadF.mf_tarde = actividadF.mf;
-            actividadF.mi_tarde = actividadF.mf_tarde - actividadF.d;
         }
 
         public static List<double> CalcularfreqAbsolutas(List<double> serie, int subintervalos, int muestra)
