@@ -58,15 +58,33 @@ namespace TP4.Mvvm
 
         }
 
-        public static void simular(int simulaciones)
+        public static void simular(decimal simulaciones, decimal a1, decimal b1, decimal a2, decimal b2, decimal a4, decimal b4, decimal media3, decimal media5)
         {
-           
+            inicializarDistribuciones( a1,  b1,  a2,  b2,  a4,  b4,  media3,  media5);
 
-            for (int i = 1; i < simulaciones/2; i++) // despues cambiar simulaciones / 2
+            for (int i = 1; i <= simulaciones; i++) // despues cambiar simulaciones / 2
             {
+
+                // actualizarVectorEstado(i);
+                crearActividades();
+                determinarMomentosTempranosTardes();
+                //TerminarDeCalcularActividades(?)
+                //Hacer el resto de calculos (promedio duracion, max y min, probabilidad de 45 dias , etc)
+                fila = new List<decimal> { i, actividadI.d, actividadI.mi, actividadI.mf, actividadI.mf_tarde, actividadI.mi_tarde,
+                                              actividad1.d, actividad1.mi, actividad1.mf, actividad1.mf_tarde, actividad1.mi_tarde,
+                                              actividad2.d, actividad2.mi, actividad2.mf, actividad2.mf_tarde, actividad2.mi_tarde,
+                                              actividad3.d, actividad3.mi, actividad3.mf, actividad3.mf_tarde, actividad3.mi_tarde,
+                                              actividad4.d, actividad4.mi, actividad4.mf, actividad4.mf_tarde, actividad4.mi_tarde,
+                                              actividad5.d, actividad5.mi, actividad5.mf, actividad5.mf_tarde, actividad5.mi_tarde,
+                                              actividadF.d, actividadF.mi, actividadF.mf, actividadF.mf_tarde, actividadF.mi_tarde,
+                                                };
+
+                // vectorEstado[i] = new List<List<decimal>> { listaActividades, listaResultados};
                 
-                actualizarVectorEstado(i);
+                vectorEstado.Add(fila);
             }
+
+            Console.WriteLine(vectorEstado);
         }
 
         public static void actualizarVectorEstado(int j)
@@ -76,21 +94,20 @@ namespace TP4.Mvvm
             for (int i = 0; i <= 1; i++) // actualiza las dos filas del vector estado
             {
 
-                crearActividades();
-                determinarMomentosTempranosTardes();
-                //TerminarDeCalcularActividades(?)
-                //Hacer el resto de calculos (promedio duracion, max y min, probabilidad de 45 dias , etc)
-                fila = new List<decimal> { j, actividadI.d, actividadI.mi, actividadI.mf, actividadI.mf_tarde, actividadI.mi_tarde,
-                                              actividad1.d, actividad1.mi, actividad1.mf, actividad1.mf_tarde, actividad1.mi_tarde,
-                                              actividad2.d, actividad2.mi, actividad2.mf, actividad2.mf_tarde, actividad2.mi_tarde,
-                                              actividad3.d, actividad3.mi, actividad3.mf, actividad3.mf_tarde, actividad3.mi_tarde,
-                                              actividad4.d, actividad4.mi, actividad4.mf, actividad4.mf_tarde, actividad4.mi_tarde,
-                                              actividad5.d, actividad5.mi, actividad5.mf, actividad5.mf_tarde, actividad5.mi_tarde,
-                                              actividadF.d, actividadF.mi, actividadF.mf, actividadF.mf_tarde, actividadF.mi_tarde,
+                //crearActividades();
+                //determinarMomentosTempranosTardes();
+                ////TerminarDeCalcularActividades(?)
+                ////Hacer el resto de calculos (promedio duracion, max y min, probabilidad de 45 dias , etc)
+                //fila = new List<decimal> { j, actividadI.d, actividadI.mi, actividadI.mf, actividadI.mf_tarde, actividadI.mi_tarde,
+                //                              actividad1.d, actividad1.mi, actividad1.mf, actividad1.mf_tarde, actividad1.mi_tarde,
+                //                              actividad2.d, actividad2.mi, actividad2.mf, actividad2.mf_tarde, actividad2.mi_tarde,
+                //                              actividad3.d, actividad3.mi, actividad3.mf, actividad3.mf_tarde, actividad3.mi_tarde,
+                //                              actividad4.d, actividad4.mi, actividad4.mf, actividad4.mf_tarde, actividad4.mi_tarde,
+                //                              actividad5.d, actividad5.mi, actividad5.mf, actividad5.mf_tarde, actividad5.mi_tarde,
+                //                              actividadF.d, actividadF.mi, actividadF.mf, actividadF.mf_tarde, actividadF.mi_tarde,
 
-                };
-                fila.AddRange(fila) ;
-                vectorEstado[i] = fila;
+              
+                //fila.AddRange(fila) ;
 
             }
 
@@ -108,13 +125,13 @@ namespace TP4.Mvvm
 
             decimal t1 = _uniformeActividad1.generar_x_uniforme((decimal)random.NextDouble());
             actividad1 = new Actividad(t1);
-            actividad1.mi = actividadI.mf;
+
 
             // Se crea la Actividad 2 que tiene comportamiento Uniforme
 
             decimal t2 = _uniformeActividad2.generar_x_uniforme((decimal)random.NextDouble());
             actividad2 = new Actividad(t2);
-            actividad2.mi = actividadI.mf;
+
 
             // Se crea la Actividad 3 que tiene comportamiento Exponencial
 

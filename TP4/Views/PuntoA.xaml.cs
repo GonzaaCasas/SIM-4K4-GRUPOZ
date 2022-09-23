@@ -30,6 +30,9 @@ namespace TP4.Views
 
         private decimal mediaA5;
 
+        private decimal cantidadSimular;
+
+
         //private static List<decimal> valores_variableAleatoriaExp = new List<decimal>();
         //private static List<decimal> valores_variableAleatoriaPoisson = new List<decimal>();
         //private static List<decimal> valores_variableAleatoriaNormal = new List<decimal>();
@@ -104,7 +107,14 @@ namespace TP4.Views
 
                     mediaA5 = decimal.Parse(TxtMediaA5.Text);
 
+                    cantidadSimular = decimal.Parse(TxtCantidad.Text);
+
+
                     //funciones o hacer algo no se
+
+                    
+                    Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5);
+
                 }
                 else
                 {
