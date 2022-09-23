@@ -17,20 +17,20 @@ namespace TP4.Views
 
     public partial class PuntoA : Page
     {
-        private decimal minimoA1;
-        private decimal maximoA1;
+        private double minimoA1;
+        private double maximoA1;
 
-        private decimal minimoA2;
-        private decimal maximoA2;
+        private double minimoA2;
+        private double maximoA2;
 
-        private decimal mediaA3;
+        private double mediaA3;
 
-        private decimal minimoA4;
-        private decimal maximoA4;
+        private double minimoA4;
+        private double maximoA4;
 
-        private decimal mediaA5;
+        private double mediaA5;
 
-        private decimal cantidadSimular;
+        private double cantidadSimular;
 
 
         //private static List<decimal> valores_variableAleatoriaExp = new List<decimal>();
@@ -94,20 +94,20 @@ namespace TP4.Views
 
                 if (true) //validaciones n>algo
                 {
-                    minimoA1 = decimal.Parse(TxtMinimoA1.Text);
-                    maximoA1 = decimal.Parse(TxtMaximoA1.Text);
+                    minimoA1 = double.Parse(TxtMinimoA1.Text);
+                    maximoA1 = double.Parse(TxtMaximoA1.Text);
 
-                    minimoA2 = decimal.Parse(TxtMinimoA2.Text);
-                    maximoA2 = decimal.Parse(TxtMaximoA2.Text);
+                    minimoA2 = double.Parse(TxtMinimoA2.Text);
+                    maximoA2 = double.Parse(TxtMaximoA2.Text);
 
-                    mediaA3 = decimal.Parse(TxtMediaA3.Text);
+                    mediaA3 = double.Parse(TxtMediaA3.Text);
 
-                    minimoA4 = decimal.Parse(TxtMinimoA4.Text);
-                    maximoA4 = decimal.Parse(TxtMaximoA4.Text);
+                    minimoA4 = double.Parse(TxtMinimoA4.Text);
+                    maximoA4 = double.Parse(TxtMaximoA4.Text);
 
-                    mediaA5 = decimal.Parse(TxtMediaA5.Text);
+                    mediaA5 = double.Parse(TxtMediaA5.Text);
 
-                    cantidadSimular = decimal.Parse(TxtCantidad.Text);
+                    cantidadSimular = double.Parse(TxtCantidad.Text);
 
 
 
@@ -116,7 +116,6 @@ namespace TP4.Views
                     //funciones o hacer algo no se
 
                     Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5);
-
 
                     lblCarga.Content = "Listo";
                     animacionCarga.Visibility = Visibility.Hidden;

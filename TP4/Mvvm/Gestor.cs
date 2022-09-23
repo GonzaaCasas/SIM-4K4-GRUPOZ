@@ -51,11 +51,17 @@ namespace TP4.Mvvm
         private static List<decimal> duracionesFinalizacionTarea = new List<decimal>();
         private static List<decimal> freqDuraciones = new List<decimal>();
         private static List<string> medios = new List<string>();
+        private static List<double> tPromedio = new List<double>();
+
+        private static double min = 0;
+        private static double max = 0;
+        private static double prob45d;
+        private static double fecha90;
 
         public static bool puntoA { get; set; }
         static Random random = new Random();
 
-        public static void inicializarDistribuciones( decimal a1, decimal b1, decimal a2, decimal b2, decimal a4, decimal b4, decimal media3, decimal media5)
+        public static void inicializarDistribuciones( double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5)
         {
             _uniformeActividad1 = new DistribucionUniforme(a1, b1);
             _uniformeActividad2 = new DistribucionUniforme(a2, b2);
@@ -66,17 +72,17 @@ namespace TP4.Mvvm
 
         }
 
-        public static void simular(decimal simulaciones, decimal a1, decimal b1, decimal a2, decimal b2, decimal a4, decimal b4, decimal media3, decimal media5)
+        public static void simular(double simulaciones, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5)
         {
             inicializarDistribuciones( a1,  b1,  a2,  b2,  a4,  b4,  media3,  media5);
 
             bool flag = false;
-            decimal min = 0;
-            decimal max = 0;
-            decimal acum = 0;
-            decimal media = 0;
-            decimal acumstd = 0;
-            decimal DE = 0;
+            //decimal min = 0;
+            //decimal max = 0;
+            double acum = 0;
+            double media = 0;
+            double acumstd = 0;
+            double DE = 0;
 
             for (int i = 1; i <= simulaciones; i++) // despues cambiar simulaciones / 2
             {
@@ -128,19 +134,48 @@ namespace TP4.Mvvm
 
             for (int i = 1; i <= listaDatos.Count; i++)
             {
-                acumstd += (decimal)Math.Pow((double)listaDatos[i-1][6].mf - (double)tPromedio.Last(), 2);
+                acumstd += Math.Pow(listaDatos[i-1][6].mf - tPromedio.Last(), 2);
 
                 if (i == 1)
                 {
-                    DE = (decimal)Math.Sqrt((double)(acumstd / i));
+                    DE = Math.Sqrt((double)(acumstd / i));
                 }
                 else
                 {
-                    DE = (decimal)Math.Sqrt((double)(acumstd / (i-1)));
+                    DE = Math.Sqrt((double)(acumstd / (i-1)));
                 }               
             }
-            listaResultados = new List<object> { min, max };
+            //listaResultados = new List<object> { min, max };
+            Console.WriteLine(vectorEstado);
 
+            prob45d = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
+            fecha90 = MathNet.Numerics.Distributions.Normal.InvCDF((double)tPromedio.Last(), (double)DE, 0.9);
+
+            puntoA = true; //flag
+        }
+
+        #region obtener variables
+        public static List<double> ObtenerTiempoPromedio()
+        {
+            return tPromedio;
+        }
+
+        public static double ObtenerMinimo()
+        {
+            return min;
+        }
+        public static double ObtenerMaximo()
+        {
+            return max;
+        }
+
+        public static double ObtenerProb45d()
+        {
+            return prob45d;
+        }
+        public static double Obtenerfecha90()
+        {
+            return fecha90;
             var prob = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
             var prob2 = MathNet.Numerics.Distributions.Normal.InvCDF((double)tPromedio.Last(), (double)DE, 0.9);
 
@@ -154,6 +189,10 @@ namespace TP4.Mvvm
         {
             return (freqDuraciones, medios);
         }
+        #endregion
+
+
+
 
         public static List<string> obtenerMedios(List<decimal> conjuntoNumeros, int intervalos)
         {
@@ -241,29 +280,29 @@ namespace TP4.Mvvm
 
             // Se crea  la Actividad 1 que tiene comportamiento Uniforme
 
-            decimal t1 = _uniformeActividad1.generar_x_uniforme((decimal)random.NextDouble());
+            double t1 = _uniformeActividad1.generar_x_uniforme(random.NextDouble());
             actividad1 = new Actividad(t1);
 
 
             // Se crea la Actividad 2 que tiene comportamiento Uniforme
 
-            decimal t2 = _uniformeActividad2.generar_x_uniforme((decimal)random.NextDouble());
+            double t2 = _uniformeActividad2.generar_x_uniforme(random.NextDouble());
             actividad2 = new Actividad(t2);
 
 
             // Se crea la Actividad 3 que tiene comportamiento Exponencial
 
-            decimal t3 = _ExponencialActividad3.generar_x_Exponencial((decimal)random.NextDouble());
+            double t3 = _ExponencialActividad3.generar_x_Exponencial(random.NextDouble());
             actividad3 = new Actividad(t3);
 
             // Se crea la actividad 4 que tiene comportamiento Uniforme
 
-            decimal t4 = _uniformeActividad4.generar_x_uniforme((decimal)random.NextDouble());
+            double t4 = _uniformeActividad4.generar_x_uniforme(random.NextDouble());
             actividad4 = new Actividad(t4);
 
             // Se crea la actividad 5 que tiene comportamiento Exponecial
 
-            decimal t5 = _ExponencialActividad5.generar_x_Exponencial((decimal)random.NextDouble());
+            double t5 = _ExponencialActividad5.generar_x_Exponencial(random.NextDouble());
             actividad5 = new Actividad(t5);
 
             // Se crea la actividad F
