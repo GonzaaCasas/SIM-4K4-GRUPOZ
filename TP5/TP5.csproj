@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3A0DB982-BB1A-4493-BC58-31D9EBB92B34}</ProjectGuid>
+    <ProjectGuid>{B0013C97-2B7A-435F-8912-EB0560A7C8F5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TP4</RootNamespace>
-    <AssemblyName>TP4</AssemblyName>
+    <RootNamespace>TP5</RootNamespace>
+    <AssemblyName>TP5</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
