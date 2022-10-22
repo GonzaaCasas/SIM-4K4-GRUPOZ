@@ -278,7 +278,6 @@
     <Compile Include="Models\DistribucionUniforme.cs" />
     <Compile Include="Navigation\FrameAnimator.cs" />
     <Compile Include="Navigation\NavigationServiceEx.cs" />
-    <Compile Include="ViewModels\ExportadorExcel.cs" />
     <Compile Include="ViewModels\MenuItem.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
