@@ -1,16 +1,16 @@
-﻿<mah:MetroWindow x:Class="TP4.MainWindow"
+﻿<mah:MetroWindow x:Class="TP5.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:viewModels="clr-namespace:TP4.ViewModels"
-        xmlns:navigation="clr-namespace:TP4.Navigation"
-        xmlns:local="clr-namespace:TP4"
+        xmlns:viewModels="clr-namespace:TP5.ViewModels"
+        xmlns:navigation="clr-namespace:TP5.Navigation"
+        xmlns:local="clr-namespace:TP5"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Trabajo Practico 4 - Simulacion Montecarlo" Height="650" MinHeight="650" Width="1000" MinWidth="1000">
+        Title="Trabajo Practico 5 - Modelos de Simulacion Dinamicos" Height="650" MinHeight="650" Width="1000" MinWidth="1000">
     <mah:MetroWindow.DataContext>
         <viewModels:ShellViewModel/>
     </mah:MetroWindow.DataContext>
