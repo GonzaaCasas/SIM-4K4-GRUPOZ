@@ -14,14 +14,21 @@ namespace TP5.Mvvm {
         public static double reloj;
 		public static double proxLlegada;
 		public static Servidor servidorFin;
-		public static int cantidadSeccion5 = 0;
-        public static int cantidadSeccion3 = 0;
+		public static Queue<Cliente> clientesSeccion2 = new Queue<Cliente>();
+        public static Queue<Cliente> clientesSeccion3 = new Queue<Cliente>();
+		public static Queue<Cliente> clientesSeccion4 = new Queue<Cliente>();
+		public static Queue<Cliente> clientesSeccion5 = new Queue<Cliente>();
 
-        public static int acumEnsamblados = 0 ;
+		public static double acumTiempoSistema= 0;
+		public static int acumEnsamblados = 0 ;
+		public static double promedioDuracionEnsamble;
+
+		public static int acumFin = 0;
+		public static int acumLlegadas = 0;
 
 
 
-        public static List<Servidor> servidores = new List<Servidor>();
+		public static List<Servidor> servidores = new List<Servidor>();
 
 
         static Servidor Seccion1;
@@ -30,13 +37,6 @@ namespace TP5.Mvvm {
 		static Servidor Seccion4;
 		static Servidor Seccion5;
 
-		static Actividad actividadI;
-		static Actividad actividad1;
-		static Actividad actividad2;
-		static Actividad actividad3;
-		static Actividad actividad4;
-		static Actividad actividad5;
-		static Actividad actividadF;
 
 		private static DistribucionUniforme _uniformeActividad1;
 		private static DistribucionUniforme _uniformeActividad2;
@@ -89,68 +89,115 @@ namespace TP5.Mvvm {
 		public static void simular(double eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
 			inicializarDistribuciones(a1, b1, a2, b2, a4, b4, media3, media5);
 			InicializarServidores();
-			bool inicio = true;
-			for (int i = 0; i < eventos; i++) {
 
-                switch (DeterminarEvento())
-                {
+			Cliente clienteFin;
+			for (int i = 0; i < eventos; i++)
+			{
+
+				switch (DeterminarEvento())
+				{
 					case "inicio":
 						proxLlegada = GenerarLlegadaCliente();
 						reloj = proxLlegada;
 						break;
 
 					case "llegada":
+						acumLlegadas++;
+                        //Console.WriteLine("llegada");
 						reloj = proxLlegada;
 						proxLlegada = GenerarLlegadaCliente();
 						InicializarPedido();
 						break;
 
 					case "finAtencion":
+						acumFin++;
+                        //Console.WriteLine("finatencion");
 						reloj = servidorFin.finAtencion ?? 0;
-						servidorFin.TerminarAtencion();
+						clienteFin = servidorFin.TerminarAtencion();
+						clienteFin.tiempoEsperaAcumulado += clienteFin.tiempoEspera;
 
 						if (servidorFin.Equals(Seccion1))
 						{
 							servidorFin.GenerarLlegadaCliente(Seccion4);
 						}
-						if (servidorFin.Equals(Seccion2) || servidorFin.Equals(Seccion4))
+						if (servidorFin.Equals(Seccion2))
 						{
-							servidorFin.GenerarLlegadaCliente(Seccion5);
+							clientesSeccion2.Enqueue(clienteFin);
 						}
-
+						if (servidorFin.Equals(Seccion3))
+						{
+							clientesSeccion3.Enqueue(clienteFin);
+						}
+						if (servidorFin.Equals(Seccion4))
+						{
+							clientesSeccion4.Enqueue(clienteFin);
+						}
 						if (servidorFin.Equals(Seccion5))
 						{
-							cantidadSeccion5++;
+							clientesSeccion5.Enqueue(clienteFin);
 						}
-                        if (servidorFin.Equals(Seccion3))
-                        {
-                            cantidadSeccion3++;
-                        }
-                        break;
 
-                    default:
-                        break;
-                }
+						if (clientesSeccion2.Count() >= 1 && clientesSeccion4.Count() >= 1)
+						{
+							Cliente cliente2 = clientesSeccion2.Dequeue();
+							Cliente cliente4 = clientesSeccion4.Dequeue();
 
-				if (cantidadSeccion5 >= 1 && cantidadSeccion3 >=1 )
-				{
-					cantidadSeccion5--;
-                    cantidadSeccion3--;
+							if (cliente4.tiempoEsperaAcumulado > cliente2.tiempoEsperaAcumulado)
+							{
+								Seccion4.GenerarLlegadaCliente(Seccion5);
+							}
+							else
+							{
+								Seccion2.GenerarLlegadaCliente(Seccion5);
+							}
 
-					acumEnsamblados++;
+						}
 
-                }
+						if (clientesSeccion5.Count() >= 1 && clientesSeccion3.Count() >= 1)
+						{
+							Cliente cliente3 = clientesSeccion3.Dequeue();
+							Cliente cliente5 = clientesSeccion5.Dequeue();
 
-            }
+							acumEnsamblados++;
 
+							if (cliente3.tiempoEsperaAcumulado > cliente5.tiempoEsperaAcumulado)
+							{
+								acumTiempoSistema += cliente3.tiempoSistema;
+							}
+							else
+							{
+								acumTiempoSistema += cliente5.tiempoSistema;
+							}
+
+                            if (acumEnsamblados >= 1000)
+                            {
+                                Console.WriteLine("");
+                            }
+
+							Console.WriteLine($"Prod ensamblados: {acumEnsamblados}");
+						}
+						break;
+
+					default:
+						break;
+				}
+
+                //Console.WriteLine($"reloj : {reloj}");
+			}
+
+			promedioDuracionEnsamble = acumTiempoSistema / acumEnsamblados;
+
+            Console.WriteLine($"Promedio duracion ensamble: {promedioDuracionEnsamble}");
+			Console.WriteLine($"Acum llegadas: {acumLlegadas}");
+			Console.WriteLine($"Acum fin: {acumFin}");
 		}
 
 
         private static void InicializarPedido()
         {
-			Seccion1.NuevoCliente(new Cliente());
-			Seccion2.NuevoCliente(new Cliente());
-			Seccion3.NuevoCliente(new Cliente());
+			Seccion1.NuevoCliente(new Cliente(reloj));
+			Seccion2.NuevoCliente(new Cliente(reloj));
+			Seccion3.NuevoCliente(new Cliente(reloj));
 		}
 
 
@@ -159,15 +206,25 @@ namespace TP5.Mvvm {
 			if (reloj == 0)
 			{
 				return "inicio";
-
             }
 			
 			servidorFin = servidores.Where( x => x.finAtencion != null).OrderBy(servidor => servidor.finAtencion).FirstOrDefault();
-			
+            
+			//if (servidorFin == null)
+   //         {
+   //             Console.WriteLine("NULL");
+   //         }
+   //         else
+   //         {
+			//	Console.WriteLine($"servidor fin: {servidorFin.nombre}");
+			//}
+
 			if ( servidorFin == null || proxLlegada <= servidorFin.finAtencion )
 			{
+				//Console.WriteLine($"llegada: {proxLlegada}");
 				return "llegada";
 			}
+            //Console.WriteLine($"finAtencion: {servidorFin.finAtencion}");
 			return "finAtencion";
 
 
@@ -175,11 +232,11 @@ namespace TP5.Mvvm {
 
         private static void InicializarServidores()
         {
-			Seccion1 = new Servidor(_uniformeActividad1);
-			Seccion2 = new Servidor(_uniformeActividad2);
-			Seccion3 = new Servidor(_ExponencialActividad3);
-			Seccion4 = new Servidor(_uniformeActividad4);
-			Seccion5 = new Servidor(_ExponencialActividad5);
+			Seccion1 = new Servidor(_uniformeActividad1, "Seccion1");
+			Seccion2 = new Servidor(_uniformeActividad2, "Seccion2");
+			Seccion3 = new Servidor(_ExponencialActividad3, "Seccion3");
+			Seccion4 = new Servidor(_uniformeActividad4, "Seccion4");
+			Seccion5 = new Servidor(_ExponencialActividad5, "Seccion5");
 
             servidores.Add(Seccion1);
             servidores.Add(Seccion2);
@@ -273,136 +330,6 @@ namespace TP5.Mvvm {
 
 
 			return array;
-
-		}
-
-		
-
-		public static void determinarMomentosTempranosTardes() {
-			//  momentos mas temprano de la actividadI 
-
-			actividadI.mi = 0;
-			actividadI.mf = actividadI.d + actividadI.mi;
-
-			//  momentos mas temprano de la actividad1 
-
-			actividad1.mi = actividadI.mf;
-			actividad1.mf = actividad1.d + actividad1.mi;
-
-
-			//  momentos mas temprano de la actividad2
-
-			actividad2.mi = actividadI.mf;
-			actividad2.mf = actividad2.d + actividad2.mi;
-
-
-			//  momentos mas temprano de la actividad3
-
-			actividad3.mi = actividadI.mf;
-			actividad3.mf = actividad3.d + actividad3.mi;
-
-
-			//  momentos mas temprano de la actividad4
-
-			actividad4.mi = actividad1.mf;
-			actividad4.mf = actividad4.d + actividad4.mi;
-
-
-			//  momentos mas tempranos de la actividad5
-
-			actividad5.mi = actividad4.mf > actividad2.mf ? actividad4.mf : actividad2.mf;
-			actividad5.mf = actividad5.d + actividad5.mi;
-
-
-			//  momentos mas tempranos de la actividadF
-
-			actividadF.mi = actividad5.mf > actividad2.mf ? actividad5.mf : actividad2.mf;
-			actividadF.mf = actividadF.d + actividadF.mi;
-
-			// momentos mas tarde de la actividadF
-
-			actividadF.mf_tarde = actividadF.mf;
-			actividadF.mi_tarde = actividadF.mf_tarde - actividadF.d;
-
-			// momentos mas tarde la actividad5
-
-			actividad5.mf_tarde = actividadF.mi_tarde;
-			actividad5.mi_tarde = actividad5.mf_tarde - actividad5.d;
-
-			// momentos mas tarde la actividad4
-
-
-			actividad4.mf_tarde = actividad5.mi_tarde;
-			actividad4.mi_tarde = actividad4.mf_tarde - actividad4.d;
-
-			// momentos mas tarde la actividad3
-
-			actividad3.mf_tarde = 0; /// (?)
-			actividad3.mi_tarde = 0; // (?)
-
-			// momentos mas tarde la actividad2
-
-			actividad2.mf_tarde = actividad5.mi_tarde < actividadF.mi_tarde ? actividad5.mi_tarde : actividadF.mi_tarde;
-			actividad2.mi_tarde = actividad2.mf_tarde - actividad2.d;
-
-			// momentos mas tarde la actividad1
-
-
-			actividad1.mf_tarde = actividad4.mi_tarde;
-			actividad1.mi_tarde = actividad1.mf_tarde - actividad1.d;
-
-			// momentos mas tarde la actividadI
-
-			actividadI.mf_tarde = actividad1.mi_tarde < actividad2.mi_tarde ? actividad1.mi_tarde : actividad2.mi_tarde;
-			actividadI.mi_tarde = actividadI.mf_tarde - actividadI.d;
-
-
-		}
-
-		public static List<double> CalcularfreqAbsolutas(List<double> serie, int subintervalos, int muestra) {
-
-
-			double[] arr = new double[subintervalos];
-			List<double> frequencias = new List<double>(arr);
-
-
-			double min = serie.Min();
-			double max = serie.Max();
-
-
-			double paso = (max - min) / subintervalos;
-
-			double lim_inferior = min;
-			double lim_superior = lim_inferior + paso;
-
-			int simActual = 1;
-			int simAnterior = 0;
-
-
-
-			foreach (var random in serie) {
-				for (int i = 0; i < subintervalos; i++) {
-					if (random >= lim_inferior && random <= lim_superior) {
-						frequencias[i] = (frequencias[i] * simAnterior + 1) / simActual; // observados
-					} else {
-						frequencias[i] = (frequencias[i] * simAnterior + 0) / simActual;
-					}
-
-					lim_inferior = lim_superior;
-					lim_superior = lim_inferior + paso;
-
-
-				}
-
-				simAnterior = simActual;
-				simActual++;
-				lim_inferior = min;
-				lim_superior = lim_inferior + paso;
-
-			}
-
-
-			return frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
 
 		}
 

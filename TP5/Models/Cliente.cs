@@ -10,13 +10,21 @@ namespace TP5.Models
     {
         public string estado { get; set; }
 
-        public double tiempoEspera { get; set; }
-
         public double horaLlegada { get; set; }
+        public double tiempoEspera { get; set; }
+        public double horaFinAtencion { get; set; }
+        public double tiempoSistema { get; set; }
+        public double tiempoEsperaAcumulado { get; set; } = 0;
 
-        public Cliente()
-        {
+
+        public Cliente(double reloj)
+        { 
+            horaLlegada = reloj;
+            tiempoEspera = 0;
+            horaFinAtencion = 0;
+            tiempoSistema = 0;
 
         }
+
     }
 }
