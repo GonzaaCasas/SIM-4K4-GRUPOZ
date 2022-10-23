@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -88,6 +87,7 @@ namespace TP5.Mvvm {
 
 
 		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
+			puntoA = true;
 			inicializarDistribuciones(a1, b1, a2, b2, a4, b4, media3, media5);
 			InicializarServidores();
 			acumTiempoSistema = 0;
