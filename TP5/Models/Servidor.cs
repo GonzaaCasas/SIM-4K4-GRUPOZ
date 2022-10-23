@@ -79,6 +79,7 @@ namespace TP5.Models
             finAtencion = null;
             this.finAtencion = tiempoFinalizacion + Gestor.reloj;
 
+            material.horaEmpiezoAtencion = Gestor.reloj;
             material.tiempoEspera = (Gestor.reloj - material.horaLlegada);
             material.horaFinAtencion = this.finAtencion ?? 0;
             material.tiempoSistema = (material.horaFinAtencion - material.horaLlegada);

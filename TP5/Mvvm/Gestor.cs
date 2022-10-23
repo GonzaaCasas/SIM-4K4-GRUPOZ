@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,8 +31,48 @@ namespace TP5.Mvvm {
 		public static decimal promedioDuracionEnsamble;
 		public static decimal promedioProductosEnSistema;
 
+        public static List<decimal> ensamblesPorHora = new List<decimal>(new decimal[24]); // cada indice corresponde a una hora de las 24
 
-		public static List<Servidor> servidores = new List<Servidor>();
+        public static decimal diaCalculado;
+        public static decimal horaCalculada;
+        public static decimal promedioEnsamblesPorHora;
+
+        public static decimal promedioProductosEnCola;
+        public static decimal acumProductosEnCola;
+
+
+        public static decimal tiempoAcumuladoOcupadoSeccion1;
+        public static decimal tiempoAcumuladoOcupadoSeccion2;
+        public static decimal tiempoAcumuladoOcupadoSeccion3;
+        public static decimal tiempoAcumuladoOcupadoSeccion4;
+        public static decimal tiempoAcumuladoOcupadoSeccion5;
+
+        public static decimal porcentajeOcupacioSeccion1;
+        public static decimal porcentajeOcupacioSeccion2;
+        public static decimal porcentajeOcupacioSeccion3;
+        public static decimal porcentajeOcupacioSeccion4;
+        public static decimal porcentajeOcupacioSeccion5;
+
+        public static decimal cantMaxCola1;
+        public static decimal cantMaxCola2;
+        public static decimal cantMaxCola3;
+        public static decimal cantMaxCola4;
+        public static decimal cantMaxCola5;
+
+
+        public static decimal promedioPermanenciaColaSeccion1;
+        public static decimal promedioPermanenciaColaSeccion2;
+        public static decimal promedioPermanenciaColaSeccion3;
+        public static decimal promedioPermanenciaColaSeccion4;
+        public static decimal promedioPermanenciaColaSeccion5;
+
+		public static decimal proporcionTiempoBloqueo;
+
+
+        public static decimal probabilidadDeCompletarxEnsambles;
+
+
+        public static List<Servidor> servidores = new List<Servidor>();
         static Servidor Seccion1;
 		static Servidor Seccion2;
 		static Servidor Seccion3;
@@ -121,25 +162,42 @@ namespace TP5.Mvvm {
 						if (servidorFin.Equals(Seccion1))
 						{
 							servidorFin.GenerarLlegadaCliente(Seccion4);
+
+                            tiempoAcumuladoOcupadoSeccion1 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion; // del cliente que termino su atencion, calcula cuanto tiempo estuvo ocupado en el servidor y acumula
+
+							
+
 						}
 						if (servidorFin.Equals(Seccion2))
 						{
 							clientesSeccion2.Enqueue(clienteFin);
-						}
-						if (servidorFin.Equals(Seccion3))
+
+                            tiempoAcumuladoOcupadoSeccion2 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
+
+                        }
+                        if (servidorFin.Equals(Seccion3))
 						{
 							clientesSeccion3.Enqueue(clienteFin);
-						}
-						if (servidorFin.Equals(Seccion4))
+
+                            tiempoAcumuladoOcupadoSeccion3 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
+
+                        }
+                        if (servidorFin.Equals(Seccion4))
 						{
 							clientesSeccion4.Enqueue(clienteFin);
-						}
-						if (servidorFin.Equals(Seccion5))
+
+                            tiempoAcumuladoOcupadoSeccion4 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
+
+                        }
+                        if (servidorFin.Equals(Seccion5))
 						{
 							clientesSeccion5.Enqueue(clienteFin);
-						}
 
-						if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
+                            tiempoAcumuladoOcupadoSeccion5 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
+
+                        }
+
+                        if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
 						{
 							Cliente cliente2 = clientesSeccion2.Dequeue();
 							Cliente cliente4 = clientesSeccion4.Dequeue();
@@ -175,6 +233,11 @@ namespace TP5.Mvvm {
                             }
 
 							Console.WriteLine($"Prod ensamblados: {acumEnsamblados}. \n minutos : {reloj}. \n Tiempo de espera acumulado: {acumTiempoSistema}\n\n");
+
+							diaCalculado = Math.Floor(reloj / (60 * 24)) ; // si paso mas de un dia calcula cuantos paso
+                            horaCalculada = Math.Floor( ( (reloj - (60 * 24 * diaCalculado) ) / 60  )); // si la hora cae en 23.5 entonces es la hora 23 ; la lista va de 0 a 23 horas (24 horas total)
+							ensamblesPorHora[(int)horaCalculada]++;
+
 						}
 						break;
 
@@ -182,10 +245,23 @@ namespace TP5.Mvvm {
 						break;
 				}
 
+
+
 				//Console.WriteLine($"reloj : {reloj}");
 				acumProductosEnSistema += cantProductosEnSistema;
 
-			}
+				acumProductosEnCola += servidores.Sum(servidor => servidor.cola.Count());
+
+            }
+
+			porcentajeOcupacioSeccion1 = (tiempoAcumuladoOcupadoSeccion1 / reloj) * 100;
+            porcentajeOcupacioSeccion2 = (tiempoAcumuladoOcupadoSeccion2 / reloj) * 100;
+            porcentajeOcupacioSeccion3 = (tiempoAcumuladoOcupadoSeccion3 / reloj) * 100;
+            porcentajeOcupacioSeccion4 = (tiempoAcumuladoOcupadoSeccion4 / reloj) * 100;
+            porcentajeOcupacioSeccion5 = (tiempoAcumuladoOcupadoSeccion5 / reloj) * 100;
+
+
+            promedioEnsamblesPorHora = ensamblesPorHora.Sum()/ 24;
 
             promedioDuracionEnsamble = acumTiempoSistema / acumEnsamblados;
 
@@ -193,11 +269,61 @@ namespace TP5.Mvvm {
             propRealizadosSolicitados = acumEnsamblados / acumSolicitadas;
 			promedioProductosEnSistema = acumProductosEnSistema / eventos;
 
+			promedioProductosEnCola = acumProductosEnCola / eventos;
+
+
+            cantMaxCola1 = servidores[0].maximoCola;
+            cantMaxCola2 = servidores[1].maximoCola;
+            cantMaxCola3 = servidores[2].maximoCola;
+            cantMaxCola4 = servidores[3].maximoCola;
+            cantMaxCola5 = servidores[4].maximoCola;
+
+
+
             Console.WriteLine($"Promedio duracion ensamble: {promedioDuracionEnsamble}");
-			//Console.WriteLine($"Acum llegadas: {acumLlegadas}");
-			//Console.WriteLine($"Acum llegadas* 3: {acumLlegadas*3}");
-			//Console.WriteLine($"Acum inicializadas: {acumInicializadas}");
-		}
+
+            //Console.WriteLine($"Acum llegadas: {acumLlegadas}");
+            //Console.WriteLine($"Acum llegadas* 3: {acumLlegadas*3}");
+            //Console.WriteLine($"Acum inicializadas: {acumInicializadas}");
+
+            //  ----------- variables a devolver ------
+
+            // promedioDuracionEnsamble (es un dato)
+
+            // propRealizadosSolicitados (es un dato)
+
+            //cantMaxCola1 
+            //cantMaxCola2
+            //cantMaxCola3
+            //cantMaxCola4
+            //cantMaxCola5
+
+            // promedioPermanenciaColaSeccion1 (es un dato)
+            // promedioPermanenciaColaSeccion2  (es un dato)
+            // promedioPermanenciaColaSeccion3  (es un dato)
+            // promedioPermanenciaColaSeccion4  (es un dato)
+            // promedioPermanenciaColaSeccion5  (es un dato)
+
+            // promedioProductosEnCola
+            // promedioProductosEnSistema
+
+            // porcentajeOcupacioSeccion1 (es un dato)
+            // porcentajeOcupacioSeccion2 (es un dato)
+            // porcentajeOcupacioSeccion3 (es un dato)
+            // porcentajeOcupacioSeccion4 (es un dato)
+            // porcentajeOcupacioSeccion5 (es un dato)
+
+            // proporcionTiempoBloqueo (es un dato)
+
+            //  promedioEnsamblesPorHora  (es un dato)
+            //  ensamblesPorHora (es una lista que contiene cantidad ensambles por hora en cada indice)
+
+
+            // probabilidadDeCompletarxEnsambles
+
+
+        }
+
 
 
         private static void InicializarPedido()
