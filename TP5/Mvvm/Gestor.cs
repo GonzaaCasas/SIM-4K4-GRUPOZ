@@ -11,6 +11,15 @@ using TP5.ViewModels;
 namespace TP5.Mvvm {
 	internal class Gestor {
 
+        public static double reloj;
+		public static double proxLlegada;
+		public static Servidor servidorFin;
+
+		static Servidor Seccion1;
+		static Servidor Seccion2;
+		static Servidor Seccion3;
+		static Servidor Seccion4;
+		static Servidor Seccion5;
 
 		static Actividad actividadI;
 		static Actividad actividad1;
@@ -25,6 +34,7 @@ namespace TP5.Mvvm {
 		private static DistribucionExponencial _ExponencialActividad3;
 		private static DistribucionUniforme _uniformeActividad4;
 		private static DistribucionExponencial _ExponencialActividad5;
+		private static DistribucionExponencial _ExponencialPedidos;
 
 
 
@@ -48,168 +58,85 @@ namespace TP5.Mvvm {
 
 		public static bool puntoA { get; set; }
 		static Random random = new Random();
+     
 
-		public static void inicializarDistribuciones(double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
+        public static void inicializarDistribuciones(double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
 			_uniformeActividad1 = new DistribucionUniforme(a1, b1);
 			_uniformeActividad2 = new DistribucionUniforme(a2, b2);
 			_ExponencialActividad3 = new DistribucionExponencial(media3);
 			_uniformeActividad4 = new DistribucionUniforme(a4, b4);
 			_ExponencialActividad5 = new DistribucionExponencial(media5);
+			_ExponencialPedidos = new DistribucionExponencial(0.05); // 3 pedidos por hora = 0.05 pedidos/minuto
 
 		}
 
-		public static void simular(double simulaciones, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
+
+
+
+		public static void simular(double eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
 			inicializarDistribuciones(a1, b1, a2, b2, a4, b4, media3, media5);
-			tPromedio.Clear();
-			listaDatos.Clear();
-			bool flag = false;
-			min = 0;
-			max = 0;
-			double media;
-			double acum = 0;
+			InicializarServidores();
+			bool inicio = true;
+			for (int i = 0; i < eventos; i++) {
 
-			double acumMI_tardeA1 = 0;
-			double mediaMI_tardeA1 = 0;
+                switch (DeterminarEvento())
+                {
+					case "inicio":
+						proxLlegada = GenerarLlegadaCliente();
+						reloj = proxLlegada;
+						break;
 
-			double acumMI_tardeA2 = 0;
-			double mediaMI_tardeA2 = 0;
+					case "llegada":
+						reloj = proxLlegada;
+						proxLlegada = GenerarLlegadaCliente();
+						InicializarPedido();
+						break;
 
-			double acumMI_tardeA3 = 0;
-			double mediaMI_tardeA3 = 0;
+					case "finAtencion":
+						reloj = servidorFin.finAtencion;
+						servidorFin.TerminarAtencion();
+						break;
 
-			double acumMI_tardeA4 = 0;
-			double mediaMI_tardeA4 = 0;
-
-			double acumMI_tardeA5 = 0;
-			double mediaMI_tardeA5 = 0;
-
-			double acumCriticoA1 = 0;
-			double acumCriticoA2 = 0;
-			double acumCriticoA3 = 0;
-			double acumCriticoA4 = 0;
-			double acumCriticoA5 = 0;
-
-			double probabCriticoA1 = 0;
-			double probabCriticoA2 = 0;
-			double probabCriticoA3 = 0;
-			double probabCriticoA4 = 0;
-			double probabCriticoA5 = 0;
-
-			actividadesCriticasProbalidades.Clear();
-			actividadesMI_tardePromedios.Clear();
-
-
-			double acumstd = 0;
-			double DE = 0;
-
-			for (int i = 1; i <= simulaciones; i++) {
-
-
-				crearActividades();
-				determinarMomentosTempranosTardes();
-
-
-				listaDatos.Add(new List<Actividad> { actividadI, actividad1, actividad2, actividad3, actividad4, actividad5, actividadF });
-
-				if (!flag) {
-					min = actividadF.mf;
-					max = actividadF.mf;
-					acum = actividadF.mf;
-					acumMI_tardeA1 = actividad1.mi_tarde;
-					acumMI_tardeA2 = actividad2.mi_tarde;
-					acumMI_tardeA3 = actividad3.mi_tarde;
-					acumMI_tardeA4 = actividad4.mi_tarde;
-					acumMI_tardeA5 = actividad5.mi_tarde;
-
-					acumCriticoA1 = actividad1.mi == actividad1.mi_tarde ? 1 : 0;
-					acumCriticoA2 = actividad2.mi == actividad2.mi_tarde ? 1 : 0;
-					acumCriticoA3 = actividad3.mi == actividad3.mi_tarde ? 1 : 0;
-					acumCriticoA4 = actividad4.mi == actividad4.mi_tarde ? 1 : 0;
-					acumCriticoA5 = actividad5.mi == actividad5.mi_tarde ? 1 : 0;
-
-
-					media = actividadF.mf;
-					acumstd = actividadF.mf;
-					flag = true;
-					//listaResultados = new List<object> { min, max };
-				} else {
-					acum += actividadF.mf;
-					media = acum / listaDatos.Count;
-
-					acumMI_tardeA1 += actividad1.mi_tarde;
-					acumMI_tardeA2 += actividad2.mi_tarde;
-					acumMI_tardeA3 += actividad3.mi_tarde;
-					acumMI_tardeA4 += actividad4.mi_tarde;
-					acumMI_tardeA5 += actividad5.mi_tarde;
-
-
-					mediaMI_tardeA1 = acumMI_tardeA1 / listaDatos.Count;
-					mediaMI_tardeA2 = acumMI_tardeA2 / listaDatos.Count;
-					mediaMI_tardeA3 = acumMI_tardeA3 / listaDatos.Count;
-					mediaMI_tardeA4 = acumMI_tardeA4 / listaDatos.Count;
-					mediaMI_tardeA5 = acumMI_tardeA5 / listaDatos.Count;
-
-
-					acumCriticoA1 += actividad1.mi == actividad1.mi_tarde ? 1 : 0;
-					acumCriticoA2 += actividad2.mi == actividad2.mi_tarde ? 1 : 0;
-					acumCriticoA3 += actividad3.mi == actividad3.mi_tarde ? 1 : 0;
-					acumCriticoA4 += actividad4.mi == actividad4.mi_tarde ? 1 : 0;
-					acumCriticoA5 += actividad5.mi == actividad5.mi_tarde ? 1 : 0;
-
-
-					probabCriticoA1 = acumCriticoA1 / listaDatos.Count;
-					probabCriticoA2 = acumCriticoA2 / listaDatos.Count;
-					probabCriticoA3 = acumCriticoA3 / listaDatos.Count;
-					probabCriticoA4 = acumCriticoA4 / listaDatos.Count;
-					probabCriticoA5 = acumCriticoA5 / listaDatos.Count;
-
-					//acumstd += (decimal)Math.Pow((double)(actividadF.mf - media),2);
-					//DE = acumstd / (i - 1);
-					if (actividadF.mf < min) {
-						min = actividadF.mf;
-					}
-					if (actividadF.mf > max) {
-						max = actividadF.mf;
-					}
-				}
-				tPromedio.Add(media);
-
-
-				if (i <= 14) {
-					duracionesFinalizacionTarea.Add(actividadF.mf);
-
-				}
-
-				vectorEstado.Add(fila);
+                    default:
+                        break;
+                }
 
 			}
 
-			for (int i = 1; i <= listaDatos.Count; i++) {
-				acumstd += Math.Pow(listaDatos[i - 1][6].mf - tPromedio.Last(), 2);
-
-				if (i == 1) {
-					DE = Math.Sqrt((double)(acumstd / i));
-				} else {
-					DE = Math.Sqrt((double)(acumstd / (i - 1)));
-				}
-			}
-			//listaResultados = new List<object> { min, max };
-			freqDuraciones = CalcularfreqAbsolutas(duracionesFinalizacionTarea, 15, 14);
-			medios = obtenerMedios(duracionesFinalizacionTarea, 15);
-			Console.WriteLine(vectorEstado);
-
-			prob45d = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
-			fecha90 = MathNet.Numerics.Distributions.Normal.InvCDF((double)tPromedio.Last(), (double)DE, 0.9);
-
-			actividadesMI_tardePromedios.AddRange(new List<double> { mediaMI_tardeA1, mediaMI_tardeA2, mediaMI_tardeA3,
-																																		mediaMI_tardeA4, mediaMI_tardeA5});
-			actividadesCriticasProbalidades.AddRange(new List<double> { probabCriticoA1, probabCriticoA2, 0, probabCriticoA4, probabCriticoA5 });
-
-			puntoA = true; //flag
 		}
 
-		#region obtener variables
-		public static List<double> ObtenerTiempoPromedio() {
+
+        private static void InicializarPedido()
+        {
+			Seccion1.NuevoCliente(new Cliente());
+			Seccion2.NuevoCliente(new Cliente());
+			Seccion3.NuevoCliente(new Cliente());
+		}
+
+
+        private static string DeterminarEvento()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void InicializarServidores()
+        {
+			Seccion1 = new Servidor(_uniformeActividad1);
+			Seccion2 = new Servidor(_uniformeActividad2);
+			Seccion3 = new Servidor(_ExponencialActividad3);
+			Seccion4 = new Servidor(_uniformeActividad4);
+			Seccion5 = new Servidor(_ExponencialActividad5);
+		}
+
+        public static double GenerarLlegadaCliente()
+        {
+			double tiempo = _ExponencialPedidos.Generar_x();
+			return (tiempo + reloj);
+
+        }
+
+        #region obtener variables
+        public static List<double> ObtenerTiempoPromedio() {
 			return tPromedio;
 		}
 
@@ -239,8 +166,6 @@ namespace TP5.Mvvm {
 			return (freqDuraciones, medios);
 		}
 		#endregion
-
-
 
 
 		public static List<string> obtenerMedios(List<double> conjuntoNumeros, int intervalos) {
@@ -288,46 +213,7 @@ namespace TP5.Mvvm {
 
 		}
 
-		public static void crearActividades() {
-
-			// Se crea  la Actividad I 
-
-			actividadI = new Actividad(0);
-
-
-			// Se crea  la Actividad 1 que tiene comportamiento Uniforme
-
-			double t1 = _uniformeActividad1.generar_x_uniforme(random.NextDouble());
-			actividad1 = new Actividad(t1);
-
-
-			// Se crea la Actividad 2 que tiene comportamiento Uniforme
-
-			double t2 = _uniformeActividad2.generar_x_uniforme(random.NextDouble());
-			actividad2 = new Actividad(t2);
-
-
-			// Se crea la Actividad 3 que tiene comportamiento Exponencial
-
-			double t3 = _ExponencialActividad3.generar_x_Exponencial(random.NextDouble());
-			actividad3 = new Actividad(t3);
-
-			// Se crea la actividad 4 que tiene comportamiento Uniforme
-
-			double t4 = _uniformeActividad4.generar_x_uniforme(random.NextDouble());
-			actividad4 = new Actividad(t4);
-
-			// Se crea la actividad 5 que tiene comportamiento Exponecial
-
-			double t5 = _ExponencialActividad5.generar_x_Exponencial(random.NextDouble());
-			actividad5 = new Actividad(t5);
-
-			// Se crea la actividad F
-
-			actividadF = new Actividad(0);
-
-
-		}
+		
 
 		public static void determinarMomentosTempranosTardes() {
 			//  momentos mas temprano de la actividadI 

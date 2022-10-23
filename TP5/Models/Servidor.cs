@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TP5.Mvvm;
+
+namespace TP5.Models
+{
+    internal class Servidor
+    {
+        public string estado { get; set; }
+
+        public double finAtencion { get; set; }
+
+        public Queue<Cliente> cola { get; set; }
+
+        private IDistribucion distribucion { get; set; }
+
+        public Servidor(IDistribucion dist)
+        {
+            estado = "libre";
+            cola = new Queue<Cliente>();
+            distribucion = dist;
+
+        }
+
+
+        public void NuevoCliente(Cliente material)
+        {
+            if (estado == "libre")
+            {
+                estado = "ocupado";
+                this.finAtencion =  GenerarFinAtencion() + Gestor.reloj;
+            }
+            else
+            {
+                cola.Enqueue(material);
+            }
+        }
+
+        public void TerminarAtencion()
+        {
+            if (cola.Count >= 1)
+            {
+                cola.Dequeue();
+            }
+            else
+            {
+                estado = "libre";
+            }
+
+        }
+
+        private double GenerarFinAtencion()
+        {
+            return distribucion.Generar_x();
+        }
+    }
+}
