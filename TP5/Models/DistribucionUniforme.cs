@@ -9,15 +9,17 @@ namespace TP5.Models {
 		private double a;
 		private double b;
 
-		static Random random = new Random();
 
-		public DistribucionUniforme(double _a, double _b) {
+		private RandomAux random;
+
+		public DistribucionUniforme(double _a, double _b, RandomAux rnd) {
 			this.a = _a;
 			this.b = _b;
+			this.random = rnd;
 		}
 
 		public double Generar_x() {
-			return this.a + random.NextDouble() * (this.b - this.a);
+			return this.a + random.generarRandom() * (this.b - this.a);
 		}
 
 	}

@@ -11,7 +11,7 @@ namespace TP5.Models
     {
         public string estado { get; set; }
 
-        public double finAtencion { get; set; }
+        public Nullable<double> finAtencion { get; set; }
 
         public Queue<Cliente> cola { get; set; }
 
@@ -22,6 +22,7 @@ namespace TP5.Models
             estado = "libre";
             cola = new Queue<Cliente>();
             distribucion = dist;
+            finAtencion = null;
 
         }
 
@@ -41,13 +42,18 @@ namespace TP5.Models
 
         public void TerminarAtencion()
         {
+            //finAtencion = null;
+            this.finAtencion = GenerarFinAtencion() + Gestor.reloj;
+
             if (cola.Count >= 1)
             {
                 cola.Dequeue();
+ 
             }
             else
             {
                 estado = "libre";
+
             }
 
         }
@@ -56,5 +62,11 @@ namespace TP5.Models
         {
             return distribucion.Generar_x();
         }
+
+        public void GenerarLlegadaCliente(Servidor servidor)
+        {
+            servidor.NuevoCliente(new Cliente());
+        }
+
     }
 }

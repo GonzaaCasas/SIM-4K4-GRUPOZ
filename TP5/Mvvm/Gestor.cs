@@ -14,8 +14,17 @@ namespace TP5.Mvvm {
         public static double reloj;
 		public static double proxLlegada;
 		public static Servidor servidorFin;
+		public static int cantidadSeccion5 = 0;
+        public static int cantidadSeccion3 = 0;
 
-		static Servidor Seccion1;
+        public static int acumEnsamblados = 0 ;
+
+
+
+        public static List<Servidor> servidores = new List<Servidor>();
+
+
+        static Servidor Seccion1;
 		static Servidor Seccion2;
 		static Servidor Seccion3;
 		static Servidor Seccion4;
@@ -57,16 +66,20 @@ namespace TP5.Mvvm {
 		private static double fecha90;
 
 		public static bool puntoA { get; set; }
-		static Random random = new Random();
+
+
      
 
         public static void inicializarDistribuciones(double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
-			_uniformeActividad1 = new DistribucionUniforme(a1, b1);
-			_uniformeActividad2 = new DistribucionUniforme(a2, b2);
-			_ExponencialActividad3 = new DistribucionExponencial(media3);
-			_uniformeActividad4 = new DistribucionUniforme(a4, b4);
-			_ExponencialActividad5 = new DistribucionExponencial(media5);
-			_ExponencialPedidos = new DistribucionExponencial(0.05); // 3 pedidos por hora = 0.05 pedidos/minuto
+
+			RandomAux rnd = new RandomAux();
+
+			_uniformeActividad1 = new DistribucionUniforme(a1, b1, rnd);
+			_uniformeActividad2 = new DistribucionUniforme(a2, b2, rnd);
+			_ExponencialActividad3 = new DistribucionExponencial(media3, rnd);
+			_uniformeActividad4 = new DistribucionUniforme(a4, b4, rnd);
+			_ExponencialActividad5 = new DistribucionExponencial(media5, rnd);
+			_ExponencialPedidos = new DistribucionExponencial(20, rnd); // cada 20 minutos se tiene un pedido
 
 		}
 
@@ -93,15 +106,42 @@ namespace TP5.Mvvm {
 						break;
 
 					case "finAtencion":
-						reloj = servidorFin.finAtencion;
+						reloj = servidorFin.finAtencion ?? 0;
 						servidorFin.TerminarAtencion();
-						break;
+
+						if (servidorFin.Equals(Seccion1))
+						{
+							servidorFin.GenerarLlegadaCliente(Seccion4);
+						}
+						if (servidorFin.Equals(Seccion2) || servidorFin.Equals(Seccion4))
+						{
+							servidorFin.GenerarLlegadaCliente(Seccion5);
+						}
+
+						if (servidorFin.Equals(Seccion5))
+						{
+							cantidadSeccion5++;
+						}
+                        if (servidorFin.Equals(Seccion3))
+                        {
+                            cantidadSeccion3++;
+                        }
+                        break;
 
                     default:
                         break;
                 }
 
-			}
+				if (cantidadSeccion5 >= 1 && cantidadSeccion3 >=1 )
+				{
+					cantidadSeccion5--;
+                    cantidadSeccion3--;
+
+					acumEnsamblados++;
+
+                }
+
+            }
 
 		}
 
@@ -116,7 +156,21 @@ namespace TP5.Mvvm {
 
         private static string DeterminarEvento()
         {
-            throw new NotImplementedException();
+			if (reloj == 0)
+			{
+				return "inicio";
+
+            }
+			
+			servidorFin = servidores.Where( x => x.finAtencion != null).OrderBy(servidor => servidor.finAtencion).FirstOrDefault();
+			
+			if ( servidorFin == null || proxLlegada <= servidorFin.finAtencion )
+			{
+				return "llegada";
+			}
+			return "finAtencion";
+
+
         }
 
         private static void InicializarServidores()
@@ -126,7 +180,16 @@ namespace TP5.Mvvm {
 			Seccion3 = new Servidor(_ExponencialActividad3);
 			Seccion4 = new Servidor(_uniformeActividad4);
 			Seccion5 = new Servidor(_ExponencialActividad5);
-		}
+
+            servidores.Add(Seccion1);
+            servidores.Add(Seccion2);
+            servidores.Add(Seccion3);
+            servidores.Add(Seccion4);
+            servidores.Add(Seccion5);
+
+
+
+        }
 
         public static double GenerarLlegadaCliente()
         {
