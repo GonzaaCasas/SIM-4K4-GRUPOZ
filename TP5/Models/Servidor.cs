@@ -23,6 +23,8 @@ namespace TP5.Models
         private Cliente clienteActual { get; set; }
         private Cliente clienteAnterior { get; set; }
 
+        public int cantClientesPasaronACola { get; set; }
+
         public Servidor(IDistribucion dist, string _nombre)
         {
             estado = "libre";
@@ -30,12 +32,14 @@ namespace TP5.Models
             distribucion = dist;
             finAtencion = null;
             nombre = _nombre;
+            cantClientesPasaronACola = 0;
 
         }
 
 
         public void NuevoCliente(Cliente material)
         {
+            cantClientesPasaronACola++;
 
             if (estado == "libre")
             {
