@@ -11,29 +11,29 @@ using TP5.Mvvm;
 
 
 namespace TP5.Views {
-	/// <summary>
-	/// Interaction logic for PuntoB.xaml
-	/// </summary>
-	/// 
-
 
 	public partial class PuntoB : Page {
 
-		private List<double> tPromedio = new List<double>();
-		private static double min;
-		private static double max;
-		private static double prob45d;
-		private static double fecha90;
+		//private List<double> tPromedio = new List<double>();
 
-		private static List<double> MITardio = new List<double>();
-		private static List<double> actCriticas = new List<double>();
+		private static int cantEnsambles;
 
-		private Grafico2 grafico2 = new Grafico2();
-		private bool flagGrafico = false;
-		private bool flagIntervalos = false;
+		//colas
+		private static List<decimal> listaOcupacionServidor = new List<decimal>();
+		private static List<decimal> listaMaxProductosEnEspera = new List<decimal>();
+		private static List<decimal> listaTPromedioPermanencia = new List<decimal>();
+		private static decimal cantPromProductosEnSistema;
+		private static decimal cantPromProductosEnCola;
 
-		//private Grafico grafico = null;
-		//private Grafico2VM grafico2 = null;
+		//Ensamble
+
+		private static decimal propRealizadosSolicitados;
+		private static decimal promDuracionEnsamble;
+		private static decimal A3EsperaA5;
+		private static decimal A5EsperaA3;
+		private static List<decimal> ensamblesHora = new List<decimal>();
+		private static decimal promEnsamblesHora;
+		private static decimal prob;
 
 		public PuntoB() {
 
@@ -44,35 +44,57 @@ namespace TP5.Views {
 
 		private void cargarTodo(bool flag) {
 			if (flag) {
-				tPromedio = Gestor.ObtenerTiempoPromedio();
-				LblTiempoPromedio.Content = Math.Round(tPromedio.Last(), 4, MidpointRounding.AwayFromZero).ToString();
 
-				min = Gestor.ObtenerMinimo();
-				max = Gestor.ObtenerMaximo();
-				LblMinimo.Content = Math.Round(min, 4, MidpointRounding.AwayFromZero).ToString();
-				LblMaximo.Content = Math.Round(max, 4, MidpointRounding.AwayFromZero).ToString();
+				//recuperarColas
+				listaOcupacionServidor = new List<decimal> { Gestor.porcentajeOcupacioSeccion1,
+					Gestor.porcentajeOcupacioSeccion2, Gestor.porcentajeOcupacioSeccion3,
+					Gestor.porcentajeOcupacioSeccion4, Gestor.porcentajeOcupacioSeccion5 };
+				listaMaxProductosEnEspera = new List<decimal> { Gestor.cantMaxCola1, Gestor.cantMaxCola2,
+					Gestor.cantMaxCola3, Gestor.cantMaxCola4, Gestor.cantMaxCola5 };
+				listaTPromedioPermanencia = new List<decimal> { Gestor.promedioPermanenciaColaSeccion1,
+					Gestor.promedioPermanenciaColaSeccion2, Gestor.promedioPermanenciaColaSeccion3,
+					Gestor.promedioPermanenciaColaSeccion4, Gestor.promedioPermanenciaColaSeccion5};
+				cantPromProductosEnSistema = Gestor.promedioProductosEnSistema;
+				cantPromProductosEnCola = Gestor.promedioProductosEnCola;
 
-				prob45d = Gestor.ObtenerProb45d();
-				fecha90 = Gestor.Obtenerfecha90();
-				LblProb45d.Content = Math.Round(prob45d, 4, MidpointRounding.AwayFromZero).ToString();
-				LblFecha90.Content = Math.Round(fecha90, 2, MidpointRounding.AwayFromZero).ToString() + " Días";
+				//recuperarEnsamble
+				propRealizadosSolicitados = Gestor.propRealizadosSolicitados;
+				promDuracionEnsamble = Gestor.promedioDuracionEnsamble;
+				//A3EsperaA5 = 
+				//A5EsperaA3 =
+				ensamblesHora = Gestor.ensamblesPorHora;
+				promEnsamblesHora = Gestor.promedioEnsamblesPorHora;
+				//prob se hace en PuntoB
 
 
-				MITardio = Gestor.ObtenerMITardio();
-				actCriticas = Gestor.ObtenerActCriticas();
 
-				DataTable tablaMITardio = construirTabla(MITardio);
-				DataTable tablaActCriticas = construirTabla(actCriticas);
-				DgvMITarido.DataContext = tablaMITardio;
-				DgvTCriticas.DataContext = tablaActCriticas;
+				//cargar Colas
+				DataTable tablaOcupacionServidor = construirTabla(listaOcupacionServidor, "Cola");
+				DgvOcupacionServidor.DataContext = tablaOcupacionServidor;
+				DataTable tablaMaxProductosEnEspera = construirTabla(listaMaxProductosEnEspera, "Cola");
+				DgvMaxProductosEspera.DataContext = tablaMaxProductosEnEspera;
+				DataTable tablaTPromedioPermanencia = construirTabla(listaTPromedioPermanencia, "Cola");
+				DgvTPromedioPermanencia.DataContext = tablaTPromedioPermanencia;
 
+				LblCantPromProductosEnSistema.Content = cantPromProductosEnSistema.ToString();
+				LblCantPromProductosEnCola.Content = Math.Round(cantPromProductosEnCola, 2, MidpointRounding.AwayFromZero).ToString();
 
+				//cargar Ensamble
+				LblPropRealizadoSolicitado.Content = propRealizadosSolicitados;
+				LblPromDuracionEnsamble.Content = Math.Round(promDuracionEnsamble, 2, MidpointRounding.AwayFromZero).ToString();
+				LblA3EsperaA5.Content = A3EsperaA5.ToString();
+				LblA5EsperaA3.Content = A5EsperaA3.ToString();
+				DataTable tablaEnsamblesHora = construirTabla(ensamblesHora, "Hora");
+				DgvEnsamblesHora.DataContext = tablaEnsamblesHora;
+				LblPromEnsambleHoras.Content = promEnsamblesHora.ToString();
+				//prob se hace en funcion OnClick
 			}
 		}
 
 		private void HabilitarBotones(bool flag) {
-			BtnGrafico.IsEnabled = flag;
-			BtnIntervalos.IsEnabled = flag;
+			BtnCola.IsEnabled = flag;
+			BtnEnsamble.IsEnabled = flag;
+			BtnCalcular.IsEnabled = flag;
 		}
 
 		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) {
@@ -82,98 +104,44 @@ namespace TP5.Views {
 
 		#region botones para mostrar/ocultar graficos
 
-		private void BtnGrafico_Click(object sender, RoutedEventArgs e) {
-			ManejarGrafico(flagGrafico);
-			flagGrafico = !flagGrafico;
+		private void BtnCola_Click(object sender, RoutedEventArgs e) {
+			DockEnsambles.Visibility = Visibility.Hidden;
+			DockColas.Visibility = Visibility.Visible;
+
 
 		}
 
-
-		private void BtnIntervalos_Click(object sender, RoutedEventArgs e) {
-			ManejarIntervalos(flagIntervalos);
-			flagIntervalos = !flagIntervalos;
+		private void BtnEnsamble_Click(object sender, RoutedEventArgs e) {
+			DockColas.Visibility = Visibility.Hidden;
+			DockEnsambles.Visibility = Visibility.Visible;
 		}
-
-		private void ManejarGrafico(bool flag) {
-			if (!flag) {
-				ManejarIntervalos(true);
-				construirGrafico(tPromedio);
-				IconGrafico.Kind = MahApps.Metro.IconPacks.PackIconModernKind.EyeHide;
-				StrGrafico.Text = "  Ocultar grafico";
-				flagIntervalos = false;
-
-			} else {
-				grafico2.Visibility = Visibility.Hidden;
-				IconGrafico.Kind = MahApps.Metro.IconPacks.PackIconModernKind.Eye;
-				StrGrafico.Text = "  Mostrar grafico";
-			}
-		}
-
-		private void ManejarIntervalos(bool flag) {
-			if (!flag) {
-				ManejarGrafico(true);
-				List<double> lista;
-				List<string> intervalos;
-				(lista, intervalos) = Gestor.obtenerDatosIntervalos();
-				construirIntervalos(lista, intervalos.ToArray());
-				IconIntervalo.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.ChartBox;
-				StrIntervalos.Text = "  Ocultar intervalos";
-				flagGrafico = false;
-
-			} else {
-				grafico2.Visibility = Visibility.Hidden;
-				IconIntervalo.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.ChartBoxOutline;
-				StrIntervalos.Text = "  Mostrar intervalos";
-			}
-		}
-
 
 		#endregion
 
 
-		private void construirGrafico(List<double> promedios) {
-			grafico2 = new Grafico2();
-			dockPlot.Children.Clear();
-			dockPlot.Children.Add(grafico2);
-			grafico2.AgregarSerieLinea(promedios, "Promedio");
-			string[] intervalos = ConstruirLabels(promedios);
-			grafico2.AgregarIntervalos(intervalos, false);
-			grafico2.Visibility = Visibility.Visible;
-		}
 
-		private string[] ConstruirLabels(List<double> promedios) {
-			string[] labels = new string[promedios.Count];
-			for (int i = 1; i <= promedios.Count(); i++) {
-				labels[i - 1] = i.ToString();
-			}
-			return labels;
-		}
 
-		private void construirIntervalos(List<double> observadoLista, string[] intervalos) {
-			grafico2 = new Grafico2();
-			dockPlot.Children.Clear();
-			dockPlot.Children.Add(grafico2);
-			grafico2.AgregarSerieBarras(observadoLista, "Observados");
-			grafico2.AgregarIntervalos(intervalos, true);
-			grafico2.Visibility = Visibility.Visible;
-		}
-
-		private DataTable construirTabla(List<double> lista) {
+		private DataTable construirTabla(List<decimal> lista, string nombreFila ) {
 			DataTable tabla = new DataTable();
 			tabla.Columns.Add("col1");
 			tabla.Columns.Add("col2");
 
 			for (int i = 0; i < lista.Count; i++) {
 				DataRow _row = tabla.NewRow();
-				_row[0] = $"A{i + 1}";
-				_row[1] = Math.Round(lista[i], 4, MidpointRounding.AwayFromZero).ToString();
+				_row[0] = nombreFila + " " + (i+1).ToString();
+				_row[1] = Math.Round(lista[i], 2, MidpointRounding.AwayFromZero).ToString();
 				tabla.Rows.Add(_row);
 			}
 
 			return tabla;
 		}
 
-	}
+        private void BtnCalcular_Click(object sender, RoutedEventArgs e)
+        {
+			cantEnsambles = int.Parse(TxtEnsambles.Text);
+			//prob = MathNet.Numerics.Distributions.Normal.CDF(Gestor.promEnsamblesHora, (double)DE, cantEnsambles);
+		}
+    }
 
 
 }

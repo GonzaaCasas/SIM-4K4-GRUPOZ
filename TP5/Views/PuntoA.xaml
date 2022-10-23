@@ -130,7 +130,7 @@
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150"
                          HorizontalAlignment="Left"
-                         Text="15"
+                         Text="15000"
                          VerticalAlignment="Bottom"/>
                 <Button x:Name="BtnGenerar" 
                         Grid.Column="3" 

@@ -1,6 +1,4 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -153,6 +151,7 @@ namespace TP5.Mvvm {
 
 
 		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
+			puntoA = true;
 			inicializarDistribuciones(a1, b1, a2, b2, a4, b4, media3, media5);
 			InicializarServidores();
 			acumTiempoSistema = 0;
@@ -346,38 +345,38 @@ namespace TP5.Mvvm {
 
             //  ----------- variables a devolver ------
 
-            // promedioDuracionEnsamble (es un dato)
+            //promedioDuracionEnsamble
 
-            // propRealizadosSolicitados (es un dato)
+            //propRealizadosSolicitados
 
-            //cantMaxCola1 
+            //cantMaxCola1
             //cantMaxCola2
             //cantMaxCola3
             //cantMaxCola4
             //cantMaxCola5
 
-            // promedioPermanenciaColaSeccion1 (es un dato)
-            // promedioPermanenciaColaSeccion2  (es un dato)
-            // promedioPermanenciaColaSeccion3  (es un dato)
-            // promedioPermanenciaColaSeccion4  (es un dato)
-            // promedioPermanenciaColaSeccion5  (es un dato)
+            // promedioPermanenciaColaSeccion1(es un dato)
+            // promedioPermanenciaColaSeccion2(es un dato)
+            // promedioPermanenciaColaSeccion3(es un dato)
+            // promedioPermanenciaColaSeccion4(es un dato)
+            // promedioPermanenciaColaSeccion5(es un dato)
 
             // promedioProductosEnCola
             // promedioProductosEnSistema
 
-            // porcentajeOcupacioSeccion1 (es un dato)
-            // porcentajeOcupacioSeccion2 (es un dato)
-            // porcentajeOcupacioSeccion3 (es un dato)
-            // porcentajeOcupacioSeccion4 (es un dato)
-            // porcentajeOcupacioSeccion5 (es un dato)
+            // porcentajeOcupacioSeccion1(es un dato)
+            // porcentajeOcupacioSeccion2(es un dato)
+            // porcentajeOcupacioSeccion3(es un dato)
+            // porcentajeOcupacioSeccion4(es un dato)
+            // porcentajeOcupacioSeccion5(es un dato)
 
-            // proporcionTiempoBloqueo (es un dato)
+             //proporcionTiempoBloqueo(es un dato)
 
-            //  promedioEnsamblesPorHora  (es un dato)
-            //  ensamblesPorHora (es una lista que contiene cantidad ensambles por hora en cada indice)
+              //promedioEnsamblesPorHora(es un dato)
+              //ensamblesPorHora(es una lista que contiene cantidad ensambles por hora en cada indice)
 
 
-            // probabilidadDeCompletarxEnsambles
+             //probabilidadDeCompletarxEnsambles
 
 
         }
