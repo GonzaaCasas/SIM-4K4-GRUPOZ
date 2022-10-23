@@ -12,9 +12,11 @@ namespace TP5.Models
         public string nombre { get; set; }
         public string estado { get; set; }
 
-        public Nullable<double> finAtencion { get; set; }
+        public Nullable<decimal> finAtencion { get; set; }
 
         public Queue<Cliente> cola { get; set; }
+
+        public int maximoCola { get; set; } = 0;
 
         private IDistribucion distribucion { get; set; }
 
@@ -45,6 +47,12 @@ namespace TP5.Models
             {
                 cola.Enqueue(material);
             }
+
+            if (cola.Count > maximoCola) //obtiene el maximo de una cola
+            {
+                maximoCola = cola.Count;
+            }
+
         }
 
         public Cliente TerminarAtencion()
@@ -67,14 +75,17 @@ namespace TP5.Models
         private void AtenderCliente(Cliente material)
         {
             clienteActual = material;
-            this.finAtencion = GenerarFinAtencion() + Gestor.reloj;
+            decimal tiempoFinalizacion = GenerarFinAtencion();
+            finAtencion = null;
+            this.finAtencion = tiempoFinalizacion + Gestor.reloj;
 
-            material.tiempoEspera = Gestor.reloj - material.horaLlegada;
+            material.tiempoEspera = (Gestor.reloj - material.horaLlegada);
             material.horaFinAtencion = this.finAtencion ?? 0;
-            material.tiempoSistema = material.horaFinAtencion - material.horaLlegada;
+            material.tiempoSistema = (material.horaFinAtencion - material.horaLlegada);
+            material.tiempoEsperaAcumulado += material.tiempoEspera;
         }
 
-        private double GenerarFinAtencion()
+        private decimal GenerarFinAtencion()
         {
             return distribucion.Generar_x();
         }

@@ -8,7 +8,7 @@ namespace TP5.Models {
 	internal class DistribucionExponencial : IDistribucion {
 
 		private double lambda;
-		private RandomAux random = new RandomAux();
+		private RandomAux random;
 
 		public DistribucionExponencial(double _media, RandomAux rnd) {
 			lambda = 1 / _media;
@@ -16,8 +16,8 @@ namespace TP5.Models {
         }
 
 
-		public double Generar_x() {
-			return (-1 / lambda) * Math.Log(1 - random.generarRandom());
+		public decimal Generar_x() {
+			return (decimal)Math.Round((-1 / lambda) * Math.Log(1 - random.generarRandom()), 2, MidpointRounding.AwayFromZero);
 		}
 	}
 }

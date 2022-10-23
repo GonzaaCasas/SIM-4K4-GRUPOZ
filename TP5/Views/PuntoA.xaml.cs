@@ -25,7 +25,7 @@ namespace TP5.Views {
 
 		private double mediaA5;
 
-		private double cantidadSimular;
+		private int cantidadSimular;
 
 		public string strCarga { get; set; } = "";
 		public bool cargaActiva { get; set; } = false;
@@ -98,7 +98,7 @@ namespace TP5.Views {
 
 					mediaA5 = double.Parse(TxtMediaA5.Text);
 
-					cantidadSimular = double.Parse(TxtCantidad.Text);
+					cantidadSimular = int.Parse(TxtCantidad.Text);
 
 
 					animacionCarga.IsActive = true;

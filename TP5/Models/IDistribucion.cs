@@ -8,6 +8,6 @@ namespace TP5.Models
 {
     internal interface IDistribucion
     {
-        double Generar_x();
+        decimal Generar_x();
     }
 }

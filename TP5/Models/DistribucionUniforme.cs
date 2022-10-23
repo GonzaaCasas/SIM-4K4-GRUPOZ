@@ -18,8 +18,8 @@ namespace TP5.Models {
 			this.random = rnd;
 		}
 
-		public double Generar_x() {
-			return this.a + random.generarRandom() * (this.b - this.a);
+		public decimal Generar_x() {
+			return (decimal)Math.Round((this.a + random.generarRandom() * (this.b - this.a)), 2, MidpointRounding.AwayFromZero);
 		}
 
 	}

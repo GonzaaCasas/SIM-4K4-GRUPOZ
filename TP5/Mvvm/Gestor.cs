@@ -11,26 +11,27 @@ using TP5.ViewModels;
 namespace TP5.Mvvm {
 	internal class Gestor {
 
-        public static double reloj;
-		public static double proxLlegada;
+        public static decimal reloj;
+		public static decimal proxLlegada;
+
 		public static Servidor servidorFin;
 		public static Queue<Cliente> clientesSeccion2 = new Queue<Cliente>();
         public static Queue<Cliente> clientesSeccion3 = new Queue<Cliente>();
 		public static Queue<Cliente> clientesSeccion4 = new Queue<Cliente>();
 		public static Queue<Cliente> clientesSeccion5 = new Queue<Cliente>();
 
-		public static double acumTiempoSistema= 0;
+		public static decimal acumTiempoSistema= 0;
 		public static int acumEnsamblados = 0 ;
-		public static double promedioDuracionEnsamble;
+		public static int acumSolicitadas = 0;
+		public static int acumProductosEnSistema = 0;
+		public static int cantProductosEnSistema = 0;
 
-		public static int acumFin = 0;
-		public static int acumLlegadas = 0;
-
+		public static decimal propRealizadosSolicitados;
+		public static decimal promedioDuracionEnsamble;
+		public static decimal promedioProductosEnSistema;
 
 
 		public static List<Servidor> servidores = new List<Servidor>();
-
-
         static Servidor Seccion1;
 		static Servidor Seccion2;
 		static Servidor Seccion3;
@@ -79,17 +80,19 @@ namespace TP5.Mvvm {
 			_ExponencialActividad3 = new DistribucionExponencial(media3, rnd);
 			_uniformeActividad4 = new DistribucionUniforme(a4, b4, rnd);
 			_ExponencialActividad5 = new DistribucionExponencial(media5, rnd);
-			_ExponencialPedidos = new DistribucionExponencial(20, rnd); // cada 20 minutos se tiene un pedido
+			_ExponencialPedidos = new DistribucionExponencial(20, rnd); // 3 pedidos por hora = 3 pedidos en 60 minutos = 1 pedido en 20 minutos
 
 		}
 
 
 
 
-		public static void simular(double eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
+		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
 			inicializarDistribuciones(a1, b1, a2, b2, a4, b4, media3, media5);
 			InicializarServidores();
-
+			acumTiempoSistema = 0;
+			acumEnsamblados =0;
+			
 			Cliente clienteFin;
 			for (int i = 0; i < eventos; i++)
 			{
@@ -102,19 +105,18 @@ namespace TP5.Mvvm {
 						break;
 
 					case "llegada":
-						acumLlegadas++;
                         //Console.WriteLine("llegada");
 						reloj = proxLlegada;
 						proxLlegada = GenerarLlegadaCliente();
 						InicializarPedido();
+						acumSolicitadas++; //para obtener proporcion ensambladas / solicitadas 
 						break;
 
 					case "finAtencion":
-						acumFin++;
                         //Console.WriteLine("finatencion");
 						reloj = servidorFin.finAtencion ?? 0;
 						clienteFin = servidorFin.TerminarAtencion();
-						clienteFin.tiempoEsperaAcumulado += clienteFin.tiempoEspera;
+						//clienteFin.tiempoEsperaAcumulado += clienteFin.tiempoEspera;
 
 						if (servidorFin.Equals(Seccion1))
 						{
@@ -137,12 +139,13 @@ namespace TP5.Mvvm {
 							clientesSeccion5.Enqueue(clienteFin);
 						}
 
-						if (clientesSeccion2.Count() >= 1 && clientesSeccion4.Count() >= 1)
+						if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
 						{
 							Cliente cliente2 = clientesSeccion2.Dequeue();
 							Cliente cliente4 = clientesSeccion4.Dequeue();
+							cantProductosEnSistema--;
 
-							if (cliente4.tiempoEsperaAcumulado > cliente2.tiempoEsperaAcumulado)
+							if (cliente4.tiempoSistema > cliente2.tiempoSistema)
 							{
 								Seccion4.GenerarLlegadaCliente(Seccion5);
 							}
@@ -153,28 +156,25 @@ namespace TP5.Mvvm {
 
 						}
 
-						if (clientesSeccion5.Count() >= 1 && clientesSeccion3.Count() >= 1)
+						if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1)
 						{
 							Cliente cliente3 = clientesSeccion3.Dequeue();
 							Cliente cliente5 = clientesSeccion5.Dequeue();
 
 							acumEnsamblados++;
 
-							if (cliente3.tiempoEsperaAcumulado > cliente5.tiempoEsperaAcumulado)
+							if (cliente3.tiempoSistema > cliente5.tiempoSistema)
 							{
-								acumTiempoSistema += cliente3.tiempoSistema;
-							}
+                                //promedioDuracionEnsamble = (promedioDuracionEnsamble * (acumEnsamblados - 1) + cliente3.tiempoSistema)/acumEnsamblados;
+                                acumTiempoSistema += cliente3.tiempoSistema;
+                            }
 							else
 							{
-								acumTiempoSistema += cliente5.tiempoSistema;
-							}
-
-                            if (acumEnsamblados >= 1000)
-                            {
-                                Console.WriteLine("");
+                                //promedioDuracionEnsamble = (promedioDuracionEnsamble * (acumEnsamblados - 1) + cliente5.tiempoSistema) / acumEnsamblados;
+                                acumTiempoSistema += cliente5.tiempoSistema;
                             }
 
-							Console.WriteLine($"Prod ensamblados: {acumEnsamblados}");
+							Console.WriteLine($"Prod ensamblados: {acumEnsamblados}. \n minutos : {reloj}. \n Tiempo de espera acumulado: {acumTiempoSistema}\n\n");
 						}
 						break;
 
@@ -182,14 +182,21 @@ namespace TP5.Mvvm {
 						break;
 				}
 
-                //Console.WriteLine($"reloj : {reloj}");
+				//Console.WriteLine($"reloj : {reloj}");
+				acumProductosEnSistema += cantProductosEnSistema;
+
 			}
 
-			promedioDuracionEnsamble = acumTiempoSistema / acumEnsamblados;
+            promedioDuracionEnsamble = acumTiempoSistema / acumEnsamblados;
+
+
+            propRealizadosSolicitados = acumEnsamblados / acumSolicitadas;
+			promedioProductosEnSistema = acumProductosEnSistema / eventos;
 
             Console.WriteLine($"Promedio duracion ensamble: {promedioDuracionEnsamble}");
-			Console.WriteLine($"Acum llegadas: {acumLlegadas}");
-			Console.WriteLine($"Acum fin: {acumFin}");
+			//Console.WriteLine($"Acum llegadas: {acumLlegadas}");
+			//Console.WriteLine($"Acum llegadas* 3: {acumLlegadas*3}");
+			//Console.WriteLine($"Acum inicializadas: {acumInicializadas}");
 		}
 
 
@@ -248,9 +255,21 @@ namespace TP5.Mvvm {
 
         }
 
-        public static double GenerarLlegadaCliente()
+        public static decimal GenerarLlegadaCliente()
         {
-			double tiempo = _ExponencialPedidos.Generar_x();
+			decimal tiempo = _ExponencialPedidos.Generar_x();
+
+            if (tiempo > 600) // 0.1 pedidos por hora = 0.1 pedidos en 60 minutos = 1 pedido en 600 minutos.
+            {
+				tiempo = 600;
+            }
+            else
+            {
+				if (tiempo < 2) //30 pedidos por hora = 30 pedidos en 60 minutos = 1 pedido en 2 minutos
+				{
+					tiempo = 2;
+				}
+			} 
 			return (tiempo + reloj);
 
         }
