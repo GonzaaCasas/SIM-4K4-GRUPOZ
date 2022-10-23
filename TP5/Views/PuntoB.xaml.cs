@@ -14,20 +14,26 @@ namespace TP5.Views {
 
 	public partial class PuntoB : Page {
 
-		private List<double> tPromedio = new List<double>();
+		//private List<double> tPromedio = new List<double>();
 
+		private static int cantEnsambles;
+
+		//colas
 		private static List<decimal> listaOcupacionServidor = new List<decimal>();
 		private static List<decimal> listaMaxProductosEnEspera = new List<decimal>();
 		private static List<decimal> listaTPromedioPermanencia = new List<decimal>();
+		private static decimal cantPromProductosEnSistema;
+		private static decimal cantPromProductosEnCola;
 
-		private static int cantEnsambles;
+		//Ensamble
+
+		private static decimal propRealizadosSolicitados;
+		private static decimal promDuracionEnsamble;
+		private static decimal A3EsperaA5;
+		private static decimal A5EsperaA3;
+		private static List<decimal> ensamblesHora = new List<decimal>();
+		private static decimal promEnsamblesHora;
 		private static decimal prob;
-
-		private bool flagCola = false;
-		private bool flagIntervalos = false;
-
-		//private Grafico grafico = null;
-		//private Grafico2VM grafico2 = null;
 
 		public PuntoB() {
 
@@ -39,16 +45,56 @@ namespace TP5.Views {
 		private void cargarTodo(bool flag) {
 			if (flag) {
 
-				DataTable tablaOcupacionServidor = construirTabla(listaOcupacionServidor, "Cola");
-				DataTable tablaMaxProductosEnEspera = construirTabla(listaMaxProductosEnEspera, "Cola");
-				DataTable tablaTPromedioPermanencia = construirTabla(listaTPromedioPermanencia, "Cola");
+				//recuperarColas
+				listaOcupacionServidor = new List<decimal> { Gestor.porcentajeOcupacioSeccion1,
+					Gestor.porcentajeOcupacioSeccion2, Gestor.porcentajeOcupacioSeccion3,
+					Gestor.porcentajeOcupacioSeccion4, Gestor.porcentajeOcupacioSeccion5 };
+				listaMaxProductosEnEspera = new List<decimal> { Gestor.cantMaxCola1, Gestor.cantMaxCola2,
+					Gestor.cantMaxCola3, Gestor.cantMaxCola4, Gestor.cantMaxCola5 };
+				listaTPromedioPermanencia = new List<decimal> { Gestor.promedioPermanenciaColaSeccion1,
+					Gestor.promedioPermanenciaColaSeccion2, Gestor.promedioPermanenciaColaSeccion3,
+					Gestor.promedioPermanenciaColaSeccion4, Gestor.promedioPermanenciaColaSeccion5};
+				cantPromProductosEnSistema = Gestor.promedioProductosEnSistema;
+				cantPromProductosEnCola = Gestor.promedioProductosEnCola;
 
+				//recuperarEnsamble
+				propRealizadosSolicitados = Gestor.propRealizadosSolicitados;
+				promDuracionEnsamble = Gestor.promedioDuracionEnsamble;
+				//A3EsperaA5 = 
+				//A5EsperaA3 =
+				ensamblesHora = Gestor.ensamblesPorHora;
+				promEnsamblesHora = Gestor.promedioEnsamblesPorHora;
+				//prob se hace en PuntoB
+
+
+
+				//cargar Colas
+				DataTable tablaOcupacionServidor = construirTabla(listaOcupacionServidor, "Cola");
+				DgvOcupacionServidor.DataContext = tablaOcupacionServidor;
+				DataTable tablaMaxProductosEnEspera = construirTabla(listaMaxProductosEnEspera, "Cola");
+				DgvMaxProductosEspera.DataContext = tablaMaxProductosEnEspera;
+				DataTable tablaTPromedioPermanencia = construirTabla(listaTPromedioPermanencia, "Cola");
+				DgvTPromedioPermanencia.DataContext = tablaTPromedioPermanencia;
+
+				LblCantPromProductosEnSistema.Content = cantPromProductosEnSistema.ToString();
+				LblCantPromProductosEnCola.Content = Math.Round(cantPromProductosEnCola, 2, MidpointRounding.AwayFromZero).ToString();
+
+				//cargar Ensamble
+				LblPropRealizadoSolicitado.Content = propRealizadosSolicitados;
+				LblPromDuracionEnsamble.Content = Math.Round(promDuracionEnsamble, 2, MidpointRounding.AwayFromZero).ToString();
+				LblA3EsperaA5.Content = A3EsperaA5.ToString();
+				LblA5EsperaA3.Content = A5EsperaA3.ToString();
+				DataTable tablaEnsamblesHora = construirTabla(ensamblesHora, "Hora");
+				DgvEnsamblesHora.DataContext = tablaEnsamblesHora;
+				LblPromEnsambleHoras.Content = promEnsamblesHora.ToString();
+				//prob se hace en funcion OnClick
 			}
 		}
 
 		private void HabilitarBotones(bool flag) {
 			BtnCola.IsEnabled = flag;
 			BtnEnsamble.IsEnabled = flag;
+			BtnCalcular.IsEnabled = flag;
 		}
 
 		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) {
@@ -82,8 +128,8 @@ namespace TP5.Views {
 
 			for (int i = 0; i < lista.Count; i++) {
 				DataRow _row = tabla.NewRow();
-				_row[0] = nombreFila + " " + i.ToString();
-				_row[1] = Math.Round(lista[i], 4, MidpointRounding.AwayFromZero).ToString();
+				_row[0] = nombreFila + " " + (i+1).ToString();
+				_row[1] = Math.Round(lista[i], 2, MidpointRounding.AwayFromZero).ToString();
 				tabla.Rows.Add(_row);
 			}
 

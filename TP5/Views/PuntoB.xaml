@@ -44,14 +44,14 @@
 
                     <GroupBox Header="Promedio de" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" MaxWidth="420">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <GroupBox Header="Productos en cola"  Margin="5,5,5,5" HorizontalAlignment="Left" Width="150">
+                            <GroupBox Header="Productos en cola"  Margin="5,5,5,5" HorizontalAlignment="Left" Width="160">
                                 <StackPanel Orientation="Vertical">
                                     <Label Content="Cantidad promedio:" FontSize="16"></Label>
                                     <Label x:Name="LblCantPromProductosEnCola" Content="Cantidad prom." FontSize="16" FontWeight="Bold"></Label>
                                 </StackPanel>
                             </GroupBox>
                             <StackPanel Width="50"></StackPanel>
-                            <GroupBox Header="Productos en el sistema" Margin="5,5,5,5" HorizontalAlignment="Right" Width="150" >
+                            <GroupBox Header="Productos en el sistema" Margin="5,5,5,5" HorizontalAlignment="Right" Width="160" >
                                 <StackPanel Orientation="Vertical">
                                     <Label Content="Cantidad promedio:" FontSize="16"></Label>
                                     <Label x:Name="LblCantPromProductosEnSistema" Content="cant. prom" FontSize="16" FontWeight="Bold"></Label>
@@ -205,12 +205,12 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition ></RowDefinition>
-                        <RowDefinition ></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="1*" ></RowDefinition>
                     </Grid.RowDefinitions>
 
 
-                    <GroupBox Header="Probabilidad de haber completado X ensambles en 1 hora" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" MaxWidth="420">
+                    <GroupBox Header="Probabilidad de haber completado X ensambles en 1 hora" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="420" Margin="0,0,0,15">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <GroupBox Header="Cantidad ensambles"  Margin="5,5,5,5" HorizontalAlignment="Left" Width="150">
                                 <StackPanel Orientation="Vertical">
@@ -218,7 +218,7 @@
                                              MaxHeight="26" MaxWidth="120" 
                                              MinWidth="80" 
                                              HorizontalAlignment="Center"
-                                             Text="20"/>
+                                             Text="5"/>
                                     <StackPanel Height="10">
                                         
                                     </StackPanel>
@@ -238,26 +238,26 @@
                             <StackPanel Width="50"></StackPanel>
                             <GroupBox Header="Probabilidad" Margin="5,5,5,5" HorizontalAlignment="Right" Width="150" >
                                 <StackPanel Orientation="Vertical">
-                                    <Label x:Name="LblProb" Content="prob." FontSize="16" FontWeight="Bold"></Label>
-                                    <Label Content="de probabilidad" FontSize="16"></Label>
+                                    <Label x:Name="LblProb" Content="Haz click" FontSize="16" FontWeight="Bold"></Label>
+                                    <Label Content="en el boton generar" FontSize="16"></Label>
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Header="Proporcion" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="5,5,5,5" Width="200" >
+                    <GroupBox Header="Proporcion" Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,0,15" Width="250" >
                         <StackPanel Orientation="Vertical">
                             <TextBlock TextWrapping="WrapWithOverflow" FontSize="16">Proporcion ensambles realizados en relacion con los solicitados</TextBlock>
-                            <Label x:Name="LblPropSolicitadoRealizado" Content="prop." FontSize="16" FontWeight="Bold"></Label>
+                            <Label x:Name="LblPropRealizadoSolicitado" Content="prop." FontSize="16" FontWeight="Bold"></Label>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Duracion ensamble" Grid.Row="0" Grid.Column="2" Margin="5,5,5,5" Width="150" >
+                    <GroupBox Header="Duracion ensamble" Grid.Row="0" Grid.Column="2" VerticalAlignment="Stretch" Margin="5,5,5,10" Width="200" >
                         <StackPanel Orientation="Vertical">
                             <Label Content="Tiempo promedio:" FontSize="16"></Label>
                             <Label x:Name="LblPromDuracionEnsamble" Content="prom." FontSize="16" FontWeight="Bold"></Label>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="% Espera actividades" Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" Width="150" >
+                    <GroupBox Header="% Espera actividades" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Margin="5,5,5,10" Width="200" >
                         <StackPanel Orientation="Vertical">
                             <Label Content="A3 espera a A5:" FontSize="16"></Label>
                             <Label x:Name="LblA3EsperaA5" Content="perc." FontSize="16" FontWeight="Bold"></Label>
@@ -266,7 +266,7 @@
                         </StackPanel>
                     </GroupBox>
                     
-                    <GroupBox Header="Ensambles por hora" DockPanel.Dock="Bottom" VerticalAlignment="Top" >
+                    <GroupBox Header="Ensambles por hora" VerticalAlignment="Stretch" Margin="0,5,0,10" >
                         <DockPanel>
                             <DataGrid x:Name="DgvEnsamblesHora" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
                                 <DataGrid.Style>

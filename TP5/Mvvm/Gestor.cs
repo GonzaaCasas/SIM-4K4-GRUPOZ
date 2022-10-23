@@ -287,38 +287,38 @@ namespace TP5.Mvvm {
 
             //  ----------- variables a devolver ------
 
-            // promedioDuracionEnsamble (es un dato)
+            //promedioDuracionEnsamble
 
-            // propRealizadosSolicitados (es un dato)
+            //propRealizadosSolicitados
 
-            //cantMaxCola1 
+            //cantMaxCola1
             //cantMaxCola2
             //cantMaxCola3
             //cantMaxCola4
             //cantMaxCola5
 
-            // promedioPermanenciaColaSeccion1 (es un dato)
-            // promedioPermanenciaColaSeccion2  (es un dato)
-            // promedioPermanenciaColaSeccion3  (es un dato)
-            // promedioPermanenciaColaSeccion4  (es un dato)
-            // promedioPermanenciaColaSeccion5  (es un dato)
+            // promedioPermanenciaColaSeccion1(es un dato)
+            // promedioPermanenciaColaSeccion2(es un dato)
+            // promedioPermanenciaColaSeccion3(es un dato)
+            // promedioPermanenciaColaSeccion4(es un dato)
+            // promedioPermanenciaColaSeccion5(es un dato)
 
             // promedioProductosEnCola
             // promedioProductosEnSistema
 
-            // porcentajeOcupacioSeccion1 (es un dato)
-            // porcentajeOcupacioSeccion2 (es un dato)
-            // porcentajeOcupacioSeccion3 (es un dato)
-            // porcentajeOcupacioSeccion4 (es un dato)
-            // porcentajeOcupacioSeccion5 (es un dato)
+            // porcentajeOcupacioSeccion1(es un dato)
+            // porcentajeOcupacioSeccion2(es un dato)
+            // porcentajeOcupacioSeccion3(es un dato)
+            // porcentajeOcupacioSeccion4(es un dato)
+            // porcentajeOcupacioSeccion5(es un dato)
 
-            // proporcionTiempoBloqueo (es un dato)
+             //proporcionTiempoBloqueo(es un dato)
 
-            //  promedioEnsamblesPorHora  (es un dato)
-            //  ensamblesPorHora (es una lista que contiene cantidad ensambles por hora en cada indice)
+              //promedioEnsamblesPorHora(es un dato)
+              //ensamblesPorHora(es una lista que contiene cantidad ensambles por hora en cada indice)
 
 
-            // probabilidadDeCompletarxEnsambles
+             //probabilidadDeCompletarxEnsambles
 
 
         }
