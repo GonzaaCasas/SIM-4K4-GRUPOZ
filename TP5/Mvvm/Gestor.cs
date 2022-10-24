@@ -359,7 +359,7 @@ namespace TP5.Mvvm {
 
 		private static void calcularStdEnsamblesPorHora()
 		{
-            for (int i = 1; i <= ensamblesPorHora.Count; i++)
+            for (int i = 1; i < ensamblesPorHora.Count; i++)
             {
                 acumstdEnsamblesPorHora += (decimal)Math.Pow((double)(ensamblesPorHora[i] - promedioEnsamblesPorHora), 2);
 
