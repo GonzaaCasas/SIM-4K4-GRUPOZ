@@ -23,7 +23,7 @@ namespace TP5.Models
         private Cliente clienteActual { get; set; }
         private Cliente clienteAnterior { get; set; }
 
-        public int cantClientesPasaronACola { get; set; }
+        public int cantClientesPasaronPorCola { get; set; }
 
       
         
@@ -35,14 +35,14 @@ namespace TP5.Models
             distribucion = dist;
             finAtencion = null;
             nombre = _nombre;
-            cantClientesPasaronACola = 0;
+            cantClientesPasaronPorCola = 0;
             
         }
 
 
         public void NuevoCliente(Cliente material)
         {
-            cantClientesPasaronACola++;
+            
 
             if (estado == "libre")
             {
@@ -53,6 +53,7 @@ namespace TP5.Models
             else
             {
                 cola.Enqueue(material);
+
             }
 
             if (cola.Count > maximoCola) //obtiene el maximo de una cola
@@ -70,12 +71,14 @@ namespace TP5.Models
             if (cola.Count >= 1)
             {
                 AtenderCliente(cola.Dequeue());
+
             }
             else
             {
                 estado = "libre";
                 finAtencion = null;
             }
+            cantClientesPasaronPorCola++;
             return clienteAnterior;
         }
 
@@ -91,7 +94,6 @@ namespace TP5.Models
             material.tiempoEspera = (Gestor.reloj - material.horaLlegada);
             material.horaFinAtencion = this.finAtencion ?? 0;
             material.tiempoSistema = (material.horaFinAtencion - material.horaLlegada);
-            //material.tiempoSistemaAcumuladoDelCliente = (material.horaFinAtencion - material.horaLlegada);
             material.tiempoEsperaAcumulado += material.tiempoEspera;
         }
 
