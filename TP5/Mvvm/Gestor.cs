@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using TP5.Models;
 using TP5.ViewModels;
@@ -12,8 +13,9 @@ namespace TP5.Mvvm {
 
         public static decimal reloj;
 		public static decimal proxLlegada;
+		public static decimal _eventos;
 
-		public static Servidor servidorFin;
+        public static Servidor servidorFin;
 
         public static Queue<Cliente> clientesSeccion2 = new Queue<Cliente>();
         public static Queue<Cliente> clientesSeccion3 = new Queue<Cliente>();
@@ -74,6 +76,15 @@ namespace TP5.Mvvm {
         public static decimal porcentajeOcupacioSeccion3;
         public static decimal porcentajeOcupacioSeccion4;
         public static decimal porcentajeOcupacioSeccion5;
+
+
+
+        public static decimal acumuladorTiempoBloqueoSeccion5;
+        public static decimal acumuladorTiempoBloqueoSeccion3;
+
+
+
+
 
         public static decimal cantMaxCola1;
         public static decimal cantMaxCola2;
@@ -152,10 +163,12 @@ namespace TP5.Mvvm {
 
 		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
 			puntoA = true;
+			_eventos = eventos;
 			inicializarDistribuciones(a1, b1, a2, b2, a4, b4, media3, media5);
 			InicializarServidores();
 			acumTiempoSistema = 0;
 			acumEnsamblados =0;
+
 			
 			Cliente clienteFin;
 			for (int i = 0; i < eventos; i++)
@@ -233,6 +246,8 @@ namespace TP5.Mvvm {
 
                         }
 
+                      
+
                         if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
 						{
 							Cliente cliente2 = clientesSeccion2.Dequeue();
@@ -250,12 +265,20 @@ namespace TP5.Mvvm {
 
 						}
 
-						if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1)
+          
+
+
+                        if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1)
 						{
-							Cliente cliente3 = clientesSeccion3.Dequeue();
+                            
+
+                            Cliente cliente3 = clientesSeccion3.Dequeue();
 							Cliente cliente5 = clientesSeccion5.Dequeue();
 
-							acumEnsamblados++;
+							acumuladorTiempoBloqueoSeccion5 += reloj - cliente5.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion5
+                            acumuladorTiempoBloqueoSeccion3 += reloj - cliente3.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion3
+
+                            acumEnsamblados++;
 
 							if (cliente3.tiempoSistema > cliente5.tiempoSistema)
 							{
@@ -290,34 +313,51 @@ namespace TP5.Mvvm {
 
             }
 
-			porcentajeOcupacioSeccion1 = (tiempoAcumuladoOcupadoSeccion1 / tiempoAcumuladoSimulacionSeccion1) * 100;
-            porcentajeOcupacioSeccion2 = (tiempoAcumuladoOcupadoSeccion2 / tiempoAcumuladoSimulacionSeccion2) * 100;
-            porcentajeOcupacioSeccion3 = (tiempoAcumuladoOcupadoSeccion3 / tiempoAcumuladoSimulacionSeccion3) * 100;
-            porcentajeOcupacioSeccion4 = (tiempoAcumuladoOcupadoSeccion4 / tiempoAcumuladoSimulacionSeccion4) * 100;
-            porcentajeOcupacioSeccion5 = (tiempoAcumuladoOcupadoSeccion5 / tiempoAcumuladoSimulacionSeccion5) * 100;
+			calcularPorcentajeOcupacionSecciones();
+			
+			calcularPromedioEnsamblesPorHora();
+           
+            calcularPromedioDuracionEnsamble();
+       
+			calcularProporcionRealizadosSolicitados();
+         
+			calcularProductosEnSistemas();
+
+			calcularProductosEnCola();
+
+			calcularStdEnsamblesPorHora();
+      
+			determinarCantMaxColas();
+            
+			calcularProporcionTiempoBloqueo();
+            
 
 
-			promedioPermanenciaColaSeccion1 = tiempoAcumuladoEnEsperaSeccion1 / Seccion1.cantClientesPasaronACola;
-			promedioPermanenciaColaSeccion2 = tiempoAcumuladoEnEsperaSeccion2 / Seccion2.cantClientesPasaronACola;
-            promedioPermanenciaColaSeccion3 = tiempoAcumuladoEnEsperaSeccion3 / Seccion3.cantClientesPasaronACola;
-            promedioPermanenciaColaSeccion4 = tiempoAcumuladoEnEsperaSeccion4 / Seccion4.cantClientesPasaronACola;
-            promedioPermanenciaColaSeccion5 = tiempoAcumuladoEnEsperaSeccion5 / Seccion5.cantClientesPasaronACola;
+
+            Console.WriteLine($"Promedio duracion ensamble: {promedioDuracionEnsamble}");
 
 
-            promedioEnsamblesPorHora = ensamblesPorHora.Sum()/ 24;
+        }
 
+		private static void calcularProporcionTiempoBloqueo()
+		{
+            proporcionTiempoBloqueo = acumuladorTiempoBloqueoSeccion3 / (acumuladorTiempoBloqueoSeccion5 + acumuladorTiempoBloqueoSeccion3); // del tiempo total de bloqueo para encastrar, indica la proporcion que estuvo bloqueado los productos provenientes de la seccion 3
+        }
 
-            promedioDuracionEnsamble = acumTiempoSistema / acumEnsamblados;
+		private static void determinarCantMaxColas()
+		{
+            cantMaxCola1 = servidores[0].maximoCola;
+            cantMaxCola2 = servidores[1].maximoCola;
+            cantMaxCola3 = servidores[2].maximoCola;
+            cantMaxCola4 = servidores[3].maximoCola;
+            cantMaxCola5 = servidores[4].maximoCola;
+        }
 
-
-            propRealizadosSolicitados = acumEnsamblados / acumSolicitadas;
-			promedioProductosEnSistema = acumProductosEnSistema / eventos;
-
-			promedioProductosEnCola = acumProductosEnCola / eventos;
-
+		private static void calcularStdEnsamblesPorHora()
+		{
             for (int i = 1; i <= ensamblesPorHora.Count; i++)
             {
-                acumstdEnsamblesPorHora += (decimal)Math.Pow( (double)(ensamblesPorHora[i] - promedioEnsamblesPorHora), 2);
+                acumstdEnsamblesPorHora += (decimal)Math.Pow((double)(ensamblesPorHora[i] - promedioEnsamblesPorHora), 2);
 
                 if (i == 1)
                 {
@@ -328,62 +368,51 @@ namespace TP5.Mvvm {
                     stdEnsamblesPorHora = (decimal)Math.Sqrt((double)(acumstdEnsamblesPorHora / (i - 1)));
                 }
             }
+        }
 
-            cantMaxCola1 = servidores[0].maximoCola;
-            cantMaxCola2 = servidores[1].maximoCola;
-            cantMaxCola3 = servidores[2].maximoCola;
-            cantMaxCola4 = servidores[3].maximoCola;
-            cantMaxCola5 = servidores[4].maximoCola;
+		private static void calcularProductosEnCola()
+		{
+            promedioProductosEnCola = acumProductosEnCola / _eventos;
+        }
 
+		private static void calcularProductosEnSistemas()
+		{
+            promedioProductosEnSistema = acumProductosEnSistema / _eventos;
+        }
 
-
-            Console.WriteLine($"Promedio duracion ensamble: {promedioDuracionEnsamble}");
-
-            //Console.WriteLine($"Acum llegadas: {acumLlegadas}");
-            //Console.WriteLine($"Acum llegadas* 3: {acumLlegadas*3}");
-            //Console.WriteLine($"Acum inicializadas: {acumInicializadas}");
-
-            //  ----------- variables a devolver ------
-
-            //promedioDuracionEnsamble
-
-            //propRealizadosSolicitados
-
-            //cantMaxCola1
-            //cantMaxCola2
-            //cantMaxCola3
-            //cantMaxCola4
-            //cantMaxCola5
-
-            // promedioPermanenciaColaSeccion1(es un dato)
-            // promedioPermanenciaColaSeccion2(es un dato)
-            // promedioPermanenciaColaSeccion3(es un dato)
-            // promedioPermanenciaColaSeccion4(es un dato)
-            // promedioPermanenciaColaSeccion5(es un dato)
-
-            // promedioProductosEnCola
-            // promedioProductosEnSistema
-
-            // porcentajeOcupacioSeccion1(es un dato)
-            // porcentajeOcupacioSeccion2(es un dato)
-            // porcentajeOcupacioSeccion3(es un dato)
-            // porcentajeOcupacioSeccion4(es un dato)
-            // porcentajeOcupacioSeccion5(es un dato)
-
-             //proporcionTiempoBloqueo(es un dato)
-
-              //promedioEnsamblesPorHora(es un dato)
-              //ensamblesPorHora(es una lista que contiene cantidad ensambles por hora en cada indice)
-
-
-             //probabilidadDeCompletarxEnsambles
-
+		private static void calcularProporcionRealizadosSolicitados()
+		{
+            propRealizadosSolicitados = acumEnsamblados / acumSolicitadas;
 
         }
 
+        private static void calcularPromedioDuracionEnsamble()
+		{
+            promedioDuracionEnsamble = acumTiempoSistema / acumEnsamblados;
+        }
+
+		private static void calcularPromedioEnsamblesPorHora()
+		{
+            promedioEnsamblesPorHora = ensamblesPorHora.Sum() / 24;
+        }
+
+		private static void calcularPorcentajeOcupacionSecciones()
+		{
+            porcentajeOcupacioSeccion1 = (tiempoAcumuladoOcupadoSeccion1 / tiempoAcumuladoSimulacionSeccion1) * 100;
+            porcentajeOcupacioSeccion2 = (tiempoAcumuladoOcupadoSeccion2 / tiempoAcumuladoSimulacionSeccion2) * 100;
+            porcentajeOcupacioSeccion3 = (tiempoAcumuladoOcupadoSeccion3 / tiempoAcumuladoSimulacionSeccion3) * 100;
+            porcentajeOcupacioSeccion4 = (tiempoAcumuladoOcupadoSeccion4 / tiempoAcumuladoSimulacionSeccion4) * 100;
+            porcentajeOcupacioSeccion5 = (tiempoAcumuladoOcupadoSeccion5 / tiempoAcumuladoSimulacionSeccion5) * 100;
 
 
-        private static void InicializarPedido()
+            promedioPermanenciaColaSeccion1 = tiempoAcumuladoEnEsperaSeccion1 / Seccion1.cantClientesPasaronACola;
+            promedioPermanenciaColaSeccion2 = tiempoAcumuladoEnEsperaSeccion2 / Seccion2.cantClientesPasaronACola;
+            promedioPermanenciaColaSeccion3 = tiempoAcumuladoEnEsperaSeccion3 / Seccion3.cantClientesPasaronACola;
+            promedioPermanenciaColaSeccion4 = tiempoAcumuladoEnEsperaSeccion4 / Seccion4.cantClientesPasaronACola;
+            promedioPermanenciaColaSeccion5 = tiempoAcumuladoEnEsperaSeccion5 / Seccion5.cantClientesPasaronACola;
+        }
+
+		private static void InicializarPedido()
         {
 			Seccion1.NuevoCliente(new Cliente(reloj));
 			Seccion2.NuevoCliente(new Cliente(reloj));
