@@ -315,7 +315,7 @@ namespace TP5.Mvvm {
 
 			promedioProductosEnCola = acumProductosEnCola / eventos;
 
-            for (int i = 1; i <= ensamblesPorHora.Count; i++)
+            for (int i = 1; i < ensamblesPorHora.Count; i++)
             {
                 acumstdEnsamblesPorHora += (decimal)Math.Pow( (double)(ensamblesPorHora[i] - promedioEnsamblesPorHora), 2);
 
