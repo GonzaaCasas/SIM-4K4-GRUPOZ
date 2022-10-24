@@ -313,7 +313,11 @@ namespace TP5.Mvvm {
 
             }
 
-			calcularPorcentajeOcupacionSecciones();
+
+			
+
+
+            calcularPorcentajeOcupacionSecciones();
 			
 			calcularPromedioEnsamblesPorHora();
            
@@ -388,7 +392,7 @@ namespace TP5.Mvvm {
 
         private static void calcularPromedioDuracionEnsamble()
 		{
-            promedioDuracionEnsamble = acumTiempoSistema / acumEnsamblados;
+            promedioDuracionEnsamble = reloj / acumEnsamblados;
         }
 
 		private static void calcularPromedioEnsamblesPorHora()

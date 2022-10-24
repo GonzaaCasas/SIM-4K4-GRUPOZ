@@ -19,6 +19,8 @@ namespace TP5.Models
         public decimal tiempoSistema { get; set; }
         public decimal tiempoEsperaAcumulado { get; set; } = 0;
 
+       
+
 
         public Cliente(decimal reloj)
         {

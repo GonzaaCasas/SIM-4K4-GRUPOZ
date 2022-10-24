@@ -25,6 +25,9 @@ namespace TP5.Models
 
         public int cantClientesPasaronACola { get; set; }
 
+      
+        
+
         public Servidor(IDistribucion dist, string _nombre)
         {
             estado = "libre";
@@ -33,7 +36,7 @@ namespace TP5.Models
             finAtencion = null;
             nombre = _nombre;
             cantClientesPasaronACola = 0;
-
+            
         }
 
 
@@ -83,10 +86,12 @@ namespace TP5.Models
             finAtencion = null;
             this.finAtencion = tiempoFinalizacion + Gestor.reloj;
 
+            material.horaFinAtencion = tiempoFinalizacion + Gestor.reloj;
             material.horaEmpiezoAtencion = Gestor.reloj;
             material.tiempoEspera = (Gestor.reloj - material.horaLlegada);
             material.horaFinAtencion = this.finAtencion ?? 0;
             material.tiempoSistema = (material.horaFinAtencion - material.horaLlegada);
+            //material.tiempoSistemaAcumuladoDelCliente = (material.horaFinAtencion - material.horaLlegada);
             material.tiempoEsperaAcumulado += material.tiempoEspera;
         }
 
