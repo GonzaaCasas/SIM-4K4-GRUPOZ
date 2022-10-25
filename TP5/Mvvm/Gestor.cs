@@ -402,6 +402,7 @@ namespace TP5.Mvvm {
             ensamblesPorHora = new List<decimal>(new decimal[24]);
             acumProductosEnSistema = 0;
             acumProductosEnCola = 0;
+            acumstdEnsamblesPorHora = 0;
         }
         public static void inicializarDistribuciones(double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5)
         {
