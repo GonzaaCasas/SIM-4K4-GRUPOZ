@@ -18,6 +18,8 @@ namespace TP5.Views {
 
 		private static int cantEnsambles;
 
+		private static decimal DE;
+
 		//colas
 		private static List<decimal> listaOcupacionServidor = new List<decimal>();
 		private static List<decimal> listaMaxProductosEnEspera = new List<decimal>();
@@ -33,7 +35,7 @@ namespace TP5.Views {
 		private static decimal A5EsperaA3;
 		private static List<decimal> ensamblesHora = new List<decimal>();
 		private static decimal promEnsamblesHora;
-		private static decimal prob;
+		private static double prob;
 
 		public PuntoB() {
 
@@ -44,6 +46,8 @@ namespace TP5.Views {
 
 		private void cargarTodo(bool flag) {
 			if (flag) {
+
+				DE = Gestor.stdEnsamblesPorHora;
 
 				//recuperarColas
 				listaOcupacionServidor = new List<decimal> { Gestor.porcentajeOcupacioSeccion1,
@@ -60,9 +64,9 @@ namespace TP5.Views {
 				//recuperarEnsamble
 				propRealizadosSolicitados = Gestor.propRealizadosSolicitados;
 				promDuracionEnsamble = Gestor.promedioDuracionEnsamble;
-				//A3EsperaA5 = 
-				//A5EsperaA3 =
-				ensamblesHora = Gestor.ensamblesPorHora;
+				A3EsperaA5 = Gestor.proporcionTiempoBloqueoA5;
+				A5EsperaA3 = Gestor.proporcionTiempoBloqueo;
+                ensamblesHora = Gestor.ensamblesPorHora;
 				promEnsamblesHora = Gestor.promedioEnsamblesPorHora;
 				//prob se hace en PuntoB
 
@@ -76,14 +80,14 @@ namespace TP5.Views {
 				DataTable tablaTPromedioPermanencia = construirTabla(listaTPromedioPermanencia, "Cola");
 				DgvTPromedioPermanencia.DataContext = tablaTPromedioPermanencia;
 
-				LblCantPromProductosEnSistema.Content = cantPromProductosEnSistema.ToString();
+				LblCantPromProductosEnSistema.Content = Math.Round(cantPromProductosEnSistema, 2, MidpointRounding.AwayFromZero).ToString();
 				LblCantPromProductosEnCola.Content = Math.Round(cantPromProductosEnCola, 2, MidpointRounding.AwayFromZero).ToString();
 
 				//cargar Ensamble
-				LblPropRealizadoSolicitado.Content = propRealizadosSolicitados;
+				LblPropRealizadoSolicitado.Content = Math.Round(propRealizadosSolicitados, 4, MidpointRounding.AwayFromZero).ToString(); 
 				LblPromDuracionEnsamble.Content = Math.Round(promDuracionEnsamble, 2, MidpointRounding.AwayFromZero).ToString();
-				LblA3EsperaA5.Content = A3EsperaA5.ToString();
-				LblA5EsperaA3.Content = A5EsperaA3.ToString();
+				LblA3EsperaA5.Content = Math.Round(A3EsperaA5, 4, MidpointRounding.AwayFromZero).ToString();
+				LblA5EsperaA3.Content = Math.Round(A5EsperaA3, 4, MidpointRounding.AwayFromZero).ToString();
 				DataTable tablaEnsamblesHora = construirTabla(ensamblesHora, "Hora");
 				DgvEnsamblesHora.DataContext = tablaEnsamblesHora;
 				LblPromEnsambleHoras.Content = promEnsamblesHora.ToString();
@@ -139,8 +143,10 @@ namespace TP5.Views {
         private void BtnCalcular_Click(object sender, RoutedEventArgs e)
         {
 			cantEnsambles = int.Parse(TxtEnsambles.Text);
-			//prob = MathNet.Numerics.Distributions.Normal.CDF(Gestor.promEnsamblesHora, (double)DE, cantEnsambles);
-		}
+            prob = 1 - MathNet.Numerics.Distributions.Normal.CDF((double)promEnsamblesHora, (double)DE, cantEnsambles);
+			LblProb.Content = Math.Round(prob, 4, MidpointRounding.AwayFromZero).ToString();
+			LblTxtProb.Content = "de completar \n esos ensambles";
+        }
     }
 
 

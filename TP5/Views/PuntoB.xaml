@@ -218,7 +218,7 @@
                                              MaxHeight="26" MaxWidth="120" 
                                              MinWidth="80" 
                                              HorizontalAlignment="Center"
-                                             Text="5"/>
+                                             Text="75"/>
                                     <StackPanel Height="10">
                                         
                                     </StackPanel>
@@ -239,7 +239,7 @@
                             <GroupBox Header="Probabilidad" Margin="5,5,5,5" HorizontalAlignment="Right" Width="150" >
                                 <StackPanel Orientation="Vertical">
                                     <Label x:Name="LblProb" Content="Haz click" FontSize="16" FontWeight="Bold"></Label>
-                                    <Label Content="en el boton generar" FontSize="16"></Label>
+                                    <Label x:Name="LblTxtProb" Content="en el boton generar" FontSize="16"></Label>
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
