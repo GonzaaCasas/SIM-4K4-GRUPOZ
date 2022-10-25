@@ -80,6 +80,7 @@ namespace TP5.Mvvm {
         public static decimal promedioPermanenciaColaSeccion5;
 
 		public static decimal proporcionTiempoBloqueo;
+        public static decimal proporcionTiempoBloqueoA5;
 
 
         public static decimal probabilidadDeCompletarxEnsambles;
@@ -269,6 +270,7 @@ namespace TP5.Mvvm {
         private static void calcularProporcionTiempoBloqueo()
 		{
             proporcionTiempoBloqueo = acumuladorTiempoBloqueoSeccion3 / (acumuladorTiempoBloqueoSeccion5 + acumuladorTiempoBloqueoSeccion3); // del tiempo total de bloqueo para encastrar entre los productos de las dos secciones, indica la proporcion que estuvo bloqueado los productos provenientes de la seccion 3
+            proporcionTiempoBloqueoA5 = 1 - proporcionTiempoBloqueo;
         }
 
 		private static void determinarCantMaxColas()
@@ -309,7 +311,7 @@ namespace TP5.Mvvm {
 
 		private static void calcularProporcionRealizadosSolicitados()
 		{
-            propRealizadosSolicitados = acumEnsamblados / acumSolicitadas;
+            propRealizadosSolicitados = (decimal)acumEnsamblados / (decimal)acumSolicitadas;
 
         }
 
