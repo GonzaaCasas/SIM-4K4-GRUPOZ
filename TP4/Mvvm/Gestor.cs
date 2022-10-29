@@ -161,16 +161,6 @@ namespace TP4.Mvvm
                
                     duracionesFinalizacionTarea.Add(actividadF.mf);
 
-
-                    //fila_Actual = new List<object> { actividadI, actividad1, actividad2, actividad3, actividad4, actividad5, actividadF, calculo };
-                    // filasparaGrilla.Add(fila_Actual);
-              
-
-                    // fila_Anterior = fila_Actual;
-                    // primerSimulacion = false;
-
-
-                  //  continue;
                 }
                 else
                 {
@@ -215,7 +205,7 @@ namespace TP4.Mvvm
                     }
 
                 }
-               // tPromedio.Add(calculo.mediaDuracion);
+                tPromedio.Add(calculo.mediaDuracion);
 
                 fila_Actual = new List<object> { actividadI, actividad1, actividad2, actividad3, actividad4, actividad5, actividadF, calculo }; 
                 filasparaGrilla.Add(fila_Actual);
@@ -227,16 +217,47 @@ namespace TP4.Mvvm
 
             // filasparaGrilla
 
-            //indice 0 -> actividadI   }
-            //indice 1 -> actividad1   }
-            //indice 2 -> actividad2   }
-            //indice 3 -> actividad3   }  ------ >   Actividad -> rnd, d,  mi, mf, mi_Tarde, mf_Tarde
-            //indice 4 -> actividad4   }
-            //indice 5 -> actividad5   }
-            //indice 6 -> actividadF   }
-            //indice 7 -> calculo                    Calculo -> mediaDuracion, std, min, max, prob45Dias, fechaFijar, caminoCritico
+            //indice [0] -> actividadI   }
+            //indice [1] -> actividad1   }
+            //indice [2] -> actividad2   }
+            //indice [3] -> actividad3   }  ------ >   Actividad -> rnd, d,  mi, mf, mi_Tarde, mf_Tarde
+            //indice [4] -> actividad4   }
+            //indice [5] -> actividad5   }
+            //indice [6] -> actividadF   }
+            //indice [7] -> calculo                    Calculo -> mediaDuracion, std, min, max, prob45Dias, fechaFijar, caminoCritico
 
             // del punto de los 15 intervalos --> calculo.limites, calculo.frecuenciasAbsolutas, calculo.frecuenciasRelativas, calculo.probAcumuladas
+
+            // ** probando desp lo borro **
+
+            for (int fila = 50; fila < 100; fila++) 
+            {
+                Actividad actividad = filasparaGrilla[fila][1] as Actividad; // probando actividad 1 de cada fila desde la fila 50 a la 100
+                Calculo calculo = filasparaGrilla[fila][7] as Calculo; // probando calculo de cada fila
+
+
+                Console.WriteLine(actividad.d);
+                Console.WriteLine(actividad.mi);
+                Console.WriteLine(actividad.mi_tarde);
+                Console.WriteLine(actividad.mf);
+                Console.WriteLine(actividad.mf_tarde);
+                Console.WriteLine(actividad.rnd);
+
+                Console.WriteLine(calculo.min);
+                Console.WriteLine(calculo.max);
+                Console.WriteLine(calculo.mediaDuracion);
+                Console.WriteLine(calculo.std);
+                Console.WriteLine(calculo.probDias);
+                Console.WriteLine(calculo.fechaFijar);
+                Console.WriteLine(calculo.caminoCritico);
+
+                Console.WriteLine(calculo.limites);
+                Console.WriteLine(calculo.frecuenciasAbsolutas);
+                Console.WriteLine(calculo.frecuenciasRelativas);
+                Console.WriteLine(calculo.probAcumuladas);
+
+
+            }
 
 
 
@@ -247,8 +268,7 @@ namespace TP4.Mvvm
 
             puntoA = true; //flag
 
-            
-      
+
 
         }
 
