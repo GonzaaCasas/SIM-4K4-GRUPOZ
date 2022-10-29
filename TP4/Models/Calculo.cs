@@ -141,8 +141,9 @@ namespace TP4.Models
             }
 
 
-            this.simAnterior = simActual;
-            this.simActual++;
+            this.simActual = simActual + 1;
+            this.simAnterior = this.simActual - 1 ;
+
             this.intervalos = intervalos;
 
             this.limites = limites;

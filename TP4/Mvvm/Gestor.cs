@@ -236,10 +236,13 @@ namespace TP4.Mvvm
             //indice 6 -> actividadF   }
             //indice 7 -> calculo                    Calculo -> mediaDuracion, std, min, max, prob45Dias, fechaFijar, caminoCritico
 
+            // del punto de los 15 intervalos --> calculo.limites, calculo.frecuenciasAbsolutas, calculo.frecuenciasRelativas, calculo.probAcumuladas
+
 
 
 
             medios = obtenerMedios(duracionesFinalizacionTarea, 15);
+
         
 
             puntoA = true; //flag
