@@ -37,6 +37,20 @@ namespace TP4.Models
 
         public List<double> limites { get; set; }
 
+        public double acumCriticoA1 { get; set; }
+        public double acumCriticoA2 { get; set; }
+        public double acumCriticoA3 { get; set; }
+        public double acumCriticoA4 { get; set; }
+        public double acumCriticoA5 { get; set; }
+
+        public double probabCriticoA1 { get; set; }
+        public double probabCriticoA2 { get; set; }
+        public double probabCriticoA3 { get; set; }
+        public double probabCriticoA4 { get; set; }
+        public double probabCriticoA5 { get; set; }
+
+
+
 
         public Calculo() 
         {
@@ -88,6 +102,7 @@ namespace TP4.Models
             caminoCritico += Math.Round(actividad3.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad3.mf_tarde, 4, MidpointRounding.AwayFromZero) ? " Actividad 3 ---> Actividad F" : "";
             caminoCritico += Math.Round(actividad4.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad4.mf_tarde, 4, MidpointRounding.AwayFromZero) ? " Actividad 4 --->" : "";
             caminoCritico += Math.Round(actividad5.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad5.mf_tarde, 4, MidpointRounding.AwayFromZero) ? " Actividad 5 ---> Actividad F" : "";
+
 
         }
 
