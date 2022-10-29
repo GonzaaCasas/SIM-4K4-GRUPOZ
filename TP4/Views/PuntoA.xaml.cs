@@ -31,6 +31,9 @@ namespace TP4.Views
         private double minimoA4;
         private double maximoA4;
 
+        private double rangomin;
+        private double rangomax;
+
         private double mediaA5;
 
         private static readonly Action EmptyDelegate = delegate { };
@@ -120,13 +123,16 @@ namespace TP4.Views
 
                     //cantidadSimular = double.Parse(TxtCantidad.Text);
 
+                    rangomin = Slider.LowerValue;
+                    rangomax = Slider.UpperValue;
+
 
                     animacionCarga.IsActive = true;
                     animacionCarga.Visibility = Visibility.Visible;
                     lblCarga.Content = "Calculando...";
                     Task.Factory.StartNew(() =>
                     {
-                        Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5);
+                        Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5, rangomin, rangomax);
                     }).ContinueWith(task =>
                     {
                         animacionCarga.IsActive = false;
@@ -155,7 +161,7 @@ namespace TP4.Views
                 double.TryParse(TxtCantidad.Text, out cantidadSimular);
 
                 Slider.Maximum = cantidadSimular;
-                Slider.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
+                //Slider.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
             }
            
         }

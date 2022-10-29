@@ -152,19 +152,20 @@
                  controls:SliderHelper.EnableMouseWheel="MouseHover"
                  AutoToolTipPlacement="TopLeft"
                  LargeChange="10"
-                 LowerValue="40"
+                 UpperValue="15"
+                 LowerValue="1"
                  Maximum="15"
                  Minimum="1"
                  Orientation="Horizontal"
                  SmallChange="1"
                  Style="{DynamicResource MahApps.Styles.RangeSlider.Win10}"
-                 UpperValue="60">
+                    >
                     <controls:RangeSlider.AutoToolTipRangeValuesTemplate>
                         <DataTemplate DataType="mah:RangeSliderAutoTooltipValues">
                             <UniformGrid Columns="2" Rows="2">
-                                <TextBlock HorizontalAlignment="Right" Text="From:" />
+                                <TextBlock HorizontalAlignment="Right" Text="Desde:" />
                                 <TextBlock HorizontalAlignment="Right" Text="{Binding LowerValue, StringFormat='{}{0:N2}'}" />
-                                <TextBlock HorizontalAlignment="Right" Text="To:" />
+                                <TextBlock HorizontalAlignment="Right" Text="Hasta:" />
                                 <TextBlock HorizontalAlignment="Right" Text="{Binding UpperValue, StringFormat='{}{0:N2}'}" />
                             </UniformGrid>
                         </DataTemplate>

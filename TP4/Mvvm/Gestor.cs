@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Documents;
 using TP4.Models;
 using TP4.ViewModels;
+using TP4.Views;
 
 
 
@@ -79,7 +80,7 @@ namespace TP4.Mvvm
 
         }
 
-        public static void simular(double simulaciones, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5)
+        public static void simular(double simulaciones, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5, double rangomin, double rangomax)
         {
 
             inicializarDistribuciones( a1,  b1,  a2,  b2,  a4,  b4,  media3,  media5);
@@ -208,8 +209,15 @@ namespace TP4.Mvvm
                 }
                 tPromedio.Add(calculo.mediaDuracion);
 
-                fila_Actual = new List<object> { actividadI, actividad1, actividad2, actividad3, actividad4, actividad5, actividadF, calculo }; 
-                filasparaGrilla.Add(fila_Actual);
+
+
+                fila_Actual = new List<object> { actividadI, actividad1, actividad2, actividad3, actividad4, actividad5, actividadF, calculo };
+                //filasparaGrilla.Add(fila_Actual);
+
+                if (n_simulacion <= rangomax && n_simulacion >= rangomin)
+                {
+                    HojaGrilla.CargarFila(fila_Actual, n_simulacion);
+                }
 
                 fila_Anterior = fila_Actual;
 

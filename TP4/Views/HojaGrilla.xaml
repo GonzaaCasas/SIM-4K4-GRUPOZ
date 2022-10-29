@@ -19,7 +19,7 @@
             Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
             Kind= "AlphaIBox" />
 
-        <StackPanel  Margin="10,50,10,50">
+        <DockPanel  Margin="10,50,10,50">
 
             <!--<Grid.Resources >
                 <Style TargetType="StackPanel" >
@@ -621,13 +621,117 @@
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
-                          
+                            <DataGridTextColumn Header="Media" Binding="{Binding media}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Desviacion&#x0a;Estandar" Binding="{Binding std}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Minimo" Binding="{Binding min}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Maximo" Binding="{Binding max}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Prob. completarse&#x0a;en 45 dias" Binding="{Binding prob45d}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Fecha a&#x0a;fijar" Binding="{Binding fecha90}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Camino&#x0a;critico" Binding="{Binding crit}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
             </GroupBox>
 
-        </StackPanel>
+        </DockPanel>
     </Grid>
 </Page>
 
