@@ -3,16 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Windows.Documents;
 using TP4.Models;
 using TP4.ViewModels;
-using System.Linq;
+
 
 
 namespace TP4.Mvvm
 {
     internal class Gestor
     {
- 
+
+        static Calculo calculo;
+   
+
 
         static Actividad actividadI;
         static Actividad actividad1;
@@ -32,7 +36,7 @@ namespace TP4.Mvvm
 
         private static List<object> vectorEstado = new List<object>();
         private static List<object> fila = new List<object>();
-        private static List<List<Actividad>> listaDatos = new List<List<Actividad>>();
+       // private static List<List<Actividad>> listaDatos = new List<List<Actividad>>();
         private static List<object> listaResultados = new List<object>();
         private static List<double> duracionesFinalizacionTarea = new List<double>();
         private static List<double> freqDuraciones = new List<double>();
@@ -43,10 +47,24 @@ namespace TP4.Mvvm
         private static List<double> actividadesCriticasProbalidades = new List<double>();
 
 
+        // private static List<object> fila_Anterior1 = new List<object>();
+        private static List<object> fila_Anterior = new List<object>();
+
+        private static List<object> fila_Actual = new List<object>();
+
+        private static List<List<object>> filasparaGrilla = new List<List<object>>();
+
+
+        
+
         private static double min = 0;
         private static double max = 0;
         private static double prob45d;
         private static double fecha90;
+
+
+
+
 
         public static bool puntoA { get; set; }
         static Random random = new Random();
@@ -63,12 +81,14 @@ namespace TP4.Mvvm
 
         public static void simular(double simulaciones, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5)
         {
+
             inicializarDistribuciones( a1,  b1,  a2,  b2,  a4,  b4,  media3,  media5);
             tPromedio.Clear();
-            listaDatos.Clear();
-            bool flag = false;
+           // listaDatos.Clear();
+            bool primerSimulacion = true;
             min = 0;
             max = 0;
+
             double media;
             double acum = 0;
 
@@ -106,122 +126,129 @@ namespace TP4.Mvvm
             double acumstd = 0;
             double DE = 0;
 
-            for (int i = 1; i <= simulaciones; i++) 
+            
+
+
+            for (int n_simulacion = 1; n_simulacion <= simulaciones; n_simulacion++) 
             {
-                
-                
+                calculo = new Calculo(); // objeto calculo de la fila actual
                 crearActividades();
                 determinarMomentosTempranosTardes();
-    
 
-                listaDatos.Add(new List<Actividad> {actividadI, actividad1,actividad2, actividad3, actividad4, actividad5, actividadF });
 
-                if (!flag)
+                if (primerSimulacion)
                 {
-                    min = actividadF.mf;
-                    max = actividadF.mf;
-                    acum = actividadF.mf;
-                    acumMI_tardeA1 = actividad1.mi_tarde;
-                    acumMI_tardeA2 = actividad2.mi_tarde;
-                    acumMI_tardeA3 = actividad3.mi_tarde;
-                    acumMI_tardeA4 = actividad4.mi_tarde;
-                    acumMI_tardeA5 = actividad5.mi_tarde;
+                    calculo.min = actividadF.mf;
+                    calculo.max = actividadF.mf;
 
-                    acumCriticoA1 = actividad1.mi == actividad1.mi_tarde ? 1 : 0;
-                    acumCriticoA2 = actividad2.mi == actividad2.mi_tarde ? 1 : 0;
-                    acumCriticoA3 = actividad3.mi == actividad3.mi_tarde ? 1 : 0;
-                    acumCriticoA4 = actividad4.mi == actividad4.mi_tarde ? 1 : 0;
-                    acumCriticoA5 = actividad5.mi == actividad5.mi_tarde ? 1 : 0;
+                    calculo.acumDuracion = actividadF.mf;
+                    calculo.mediaDuracion = actividadF.mf;
+                    calculo.acumstd = Math.Pow(actividadF.mf - calculo.mediaDuracion, 2);
+                    calculo.std = Math.Sqrt(calculo.acumstd / n_simulacion);
+
+                    calculo.determinarProbDias(45);
+                    calculo.determinarFecha(0.90);
 
 
-                    media = actividadF.mf;
-                    acumstd = actividadF.mf;
-                    flag = true;
-                    //listaResultados = new List<object> { min, max };
-                }
-                else
-                {
-                    acum += actividadF.mf;
-                    media = acum / listaDatos.Count;
+                    //acumCriticoA1 = actividad1.mi == actividad1.mi_tarde ? 1 : 0;
+                    //acumCriticoA2 = actividad2.mi == actividad2.mi_tarde ? 1 : 0;
+                    //acumCriticoA3 = actividad3.mi == actividad3.mi_tarde ? 1 : 0;
+                    //acumCriticoA4 = actividad4.mi == actividad4.mi_tarde ? 1 : 0;
+                    //acumCriticoA5 = actividad5.mi == actividad5.mi_tarde ? 1 : 0;
 
-                    acumMI_tardeA1 += actividad1.mi_tarde;
-                    acumMI_tardeA2 += actividad2.mi_tarde;
-                    acumMI_tardeA3 += actividad3.mi_tarde;
-                    acumMI_tardeA4 += actividad4.mi_tarde;
-                    acumMI_tardeA5 += actividad5.mi_tarde;
+                    calculo.determinarCaminoCritico(actividad1, actividad2, actividad3, actividad4, actividad5);
 
-
-                    mediaMI_tardeA1 = acumMI_tardeA1 / listaDatos.Count;
-                    mediaMI_tardeA2 = acumMI_tardeA2 / listaDatos.Count;
-                    mediaMI_tardeA3 = acumMI_tardeA3 / listaDatos.Count;
-                    mediaMI_tardeA4 = acumMI_tardeA4 / listaDatos.Count;
-                    mediaMI_tardeA5 = acumMI_tardeA5 / listaDatos.Count;
-
-
-                    acumCriticoA1 += actividad1.mi == actividad1.mi_tarde ? 1 : 0;
-                    acumCriticoA2 += actividad2.mi == actividad2.mi_tarde ? 1 : 0;
-                    acumCriticoA3 += actividad3.mi == actividad3.mi_tarde ? 1 : 0;
-                    acumCriticoA4 += actividad4.mi == actividad4.mi_tarde ? 1 : 0;
-                    acumCriticoA5 += actividad5.mi == actividad5.mi_tarde ? 1 : 0;
-
-
-                    probabCriticoA1 = acumCriticoA1 / listaDatos.Count;
-                    probabCriticoA2 = acumCriticoA2 / listaDatos.Count;
-                    probabCriticoA3 = acumCriticoA3 / listaDatos.Count;
-                    probabCriticoA4 = acumCriticoA4 / listaDatos.Count;
-                    probabCriticoA5 = acumCriticoA5 / listaDatos.Count;
-
-                    //acumstd += (decimal)Math.Pow((double)(actividadF.mf - media),2);
-                    //DE = acumstd / (i - 1);
-                    if (actividadF.mf < min)
-                    {
-                        min = actividadF.mf;
-                    }
-                    if (actividadF.mf > max)
-                    {
-                        max = actividadF.mf;
-                    }
-                }
-                tPromedio.Add(media);
-       
-             
-                if (i <= 14)
-                {
+               
                     duracionesFinalizacionTarea.Add(actividadF.mf);
 
-                }
 
-                vectorEstado.Add(fila);
-               
-            }
+                    //fila_Actual = new List<object> { actividadI, actividad1, actividad2, actividad3, actividad4, actividad5, actividadF, calculo };
+                    // filasparaGrilla.Add(fila_Actual);
+              
 
-            for (int i = 1; i <= listaDatos.Count; i++)
-            {
-                acumstd += Math.Pow(listaDatos[i-1][6].mf - tPromedio.Last(), 2);
+                    // fila_Anterior = fila_Actual;
+                    // primerSimulacion = false;
 
-                if (i == 1)
-                {
-                    DE = Math.Sqrt((double)(acumstd / i));
+
+                  //  continue;
                 }
                 else
                 {
-                    DE = Math.Sqrt((double)(acumstd / (i-1)));
-                }               
+                    Calculo calculofilaAnterior = fila_Anterior[7] as Calculo; // objeto calculo de la fila anterior
+
+                    
+                    calculo.acumDuracion = calculofilaAnterior.acumDuracion + actividadF.mf;
+                    calculo.mediaDuracion = calculo.acumDuracion / n_simulacion;
+                    calculo.acumstd = calculofilaAnterior.acumstd + Math.Pow(actividadF.mf - calculo.mediaDuracion, 2) ;
+                    calculo.std = Math.Sqrt(calculo.acumstd / (n_simulacion - 1) );
+
+                    calculo.determinarMinMax(actividadF, calculofilaAnterior.min, calculofilaAnterior.max);
+                    calculo.determinarProbDias(45);
+                    calculo.determinarFecha(0.90);
+
+
+                    //acumCriticoA1 += actividad1.mi == actividad1.mi_tarde ? 1 : 0;
+                    //acumCriticoA2 += actividad2.mi == actividad2.mi_tarde ? 1 : 0;
+                    //acumCriticoA3 += actividad3.mi == actividad3.mi_tarde ? 1 : 0;
+                    //acumCriticoA4 += actividad4.mi == actividad4.mi_tarde ? 1 : 0;
+                    //acumCriticoA5 += actividad5.mi == actividad5.mi_tarde ? 1 : 0;
+
+                    calculo.determinarCaminoCritico(actividad1, actividad2, actividad3, actividad4, actividad5);
+
+
+                    probabCriticoA1 = acumCriticoA1 / n_simulacion;
+                    probabCriticoA2 = acumCriticoA2 / n_simulacion;
+                    probabCriticoA3 = acumCriticoA3 / n_simulacion;
+                    probabCriticoA4 = acumCriticoA4 / n_simulacion;
+                    probabCriticoA5 = acumCriticoA5 / n_simulacion;
+
+
+                    if (n_simulacion <= 14)
+                    {
+                        duracionesFinalizacionTarea.Add(actividadF.mf);
+
+                    }
+                    else
+                    {
+               
+                        calculo.CalcularfreqAbsolutas(actividadF.mf, duracionesFinalizacionTarea.OrderBy(duracion => duracion).ToList(), n_simulacion, calculofilaAnterior.simAnterior, calculofilaAnterior.simActual,calculofilaAnterior.intervalos);
+                    }
+
+                }
+               // tPromedio.Add(calculo.mediaDuracion);
+
+                fila_Actual = new List<object> { actividadI, actividad1, actividad2, actividad3, actividad4, actividad5, actividadF, calculo }; 
+                filasparaGrilla.Add(fila_Actual);
+
+                fila_Anterior = fila_Actual;
+                primerSimulacion = false;
+
             }
-            //listaResultados = new List<object> { min, max };
-            freqDuraciones = CalcularfreqAbsolutas(duracionesFinalizacionTarea, 15, 14);
+
+            // filasparaGrilla
+
+            //indice 0 -> actividadI   }
+            //indice 1 -> actividad1   }
+            //indice 2 -> actividad2   }
+            //indice 3 -> actividad3   }  ------ >   Actividad -> rnd, d,  mi, mf, mi_Tarde, mf_Tarde
+            //indice 4 -> actividad4   }
+            //indice 5 -> actividad5   }
+            //indice 6 -> actividadF   }
+            //indice 7 -> calculo                    Calculo -> mediaDuracion, std, min, max, prob45Dias, fechaFijar, caminoCritico
+
+
+
+
             medios = obtenerMedios(duracionesFinalizacionTarea, 15);
-            Console.WriteLine(vectorEstado);
-
-            prob45d = MathNet.Numerics.Distributions.Normal.CDF((double)tPromedio.Last(), (double)DE, 45);
-            fecha90 = MathNet.Numerics.Distributions.Normal.InvCDF((double)tPromedio.Last(), (double)DE, 0.9);
-
-            actividadesMI_tardePromedios.AddRange(new List<double> { mediaMI_tardeA1, mediaMI_tardeA2, mediaMI_tardeA3,
-                                                                    mediaMI_tardeA4, mediaMI_tardeA5});
-            actividadesCriticasProbalidades.AddRange(new List<double> { probabCriticoA1, probabCriticoA2, 0,                                                                             probabCriticoA4, probabCriticoA5 });
+        
 
             puntoA = true; //flag
+
+            
+      
+
         }
+
 
         #region obtener variables
         public static List<double> ObtenerTiempoPromedio()
@@ -320,39 +347,51 @@ namespace TP4.Mvvm
 
             // Se crea  la Actividad I 
 
-             actividadI = new Actividad(0);
-            
+             actividadI = new Actividad();
+             actividadI.d = 0;
+
 
             // Se crea  la Actividad 1 que tiene comportamiento Uniforme
 
-            double t1 = _uniformeActividad1.generar_x_uniforme(random.NextDouble());
-            actividad1 = new Actividad(t1);
-
+            actividad1 = new Actividad();
+            actividad1.rnd = random.NextDouble();
+            actividad1.d = _uniformeActividad1.generar_x_uniforme(actividad1.rnd);
+            
+ 
 
             // Se crea la Actividad 2 que tiene comportamiento Uniforme
 
-            double t2 = _uniformeActividad2.generar_x_uniforme(random.NextDouble());
-            actividad2 = new Actividad(t2);
+            actividad2 = new Actividad();
+            actividad2.rnd = random.NextDouble();
+            actividad2.d= _uniformeActividad2.generar_x_uniforme(actividad2.rnd);
+
 
 
             // Se crea la Actividad 3 que tiene comportamiento Exponencial
 
-            double t3 = _ExponencialActividad3.generar_x_Exponencial(random.NextDouble());
-            actividad3 = new Actividad(t3);
+            actividad3 = new Actividad();
+            actividad3.rnd = random.NextDouble();
+            actividad3.d = _ExponencialActividad3.generar_x_Exponencial(actividad3.rnd);
+
 
             // Se crea la actividad 4 que tiene comportamiento Uniforme
 
-            double t4 = _uniformeActividad4.generar_x_uniforme(random.NextDouble());
-            actividad4 = new Actividad(t4);
+            actividad4 = new Actividad();
+            actividad4.rnd = random.NextDouble();
+            actividad4.d= _uniformeActividad4.generar_x_uniforme(actividad4.rnd);
+
 
             // Se crea la actividad 5 que tiene comportamiento Exponecial
 
-            double t5 = _ExponencialActividad5.generar_x_Exponencial(random.NextDouble());
-            actividad5 = new Actividad(t5);
+            actividad5 = new Actividad();
+            actividad5.rnd = random.NextDouble();
+            actividad5.d = _ExponencialActividad5.generar_x_Exponencial(actividad5.rnd);
+  
 
             // Se crea la actividad F
 
-            actividadF = new Actividad(0);
+            actividadF = new Actividad();
+            actividadF.d = 0;
 
 
         }
@@ -396,7 +435,7 @@ namespace TP4.Mvvm
 
             //  momentos mas tempranos de la actividadF
 
-            actividadF.mi = actividad5.mf > actividad2.mf ? actividad5.mf : actividad2.mf;
+            actividadF.mi = actividad5.mf > actividad3.mf ? actividad5.mf : actividad3.mf;
             actividadF.mf = actividadF.d + actividadF.mi;
 
             // momentos mas tarde de la actividadF
@@ -417,12 +456,12 @@ namespace TP4.Mvvm
 
             // momentos mas tarde la actividad3
 
-            actividad3.mf_tarde = 0; /// (?)
-            actividad3.mi_tarde = 0; // (?)
+            actividad3.mf_tarde = actividadF.mi_tarde; /// (?)
+            actividad3.mi_tarde = actividad3.mf_tarde - actividad3.d; // (?)
 
             // momentos mas tarde la actividad2
 
-            actividad2.mf_tarde = actividad5.mi_tarde < actividadF.mi_tarde ? actividad5.mi_tarde : actividadF.mi_tarde;
+            actividad2.mf_tarde = actividad5.mi_tarde;
             actividad2.mi_tarde = actividad2.mf_tarde - actividad2.d;
 
             // momentos mas tarde la actividad1
@@ -433,39 +472,26 @@ namespace TP4.Mvvm
 
             // momentos mas tarde la actividadI
 
-            actividadI.mf_tarde = actividad1.mi_tarde < actividad2.mi_tarde ? actividad1.mi_tarde : actividad2.mi_tarde;
+            actividadI.mf_tarde = actividad1.mi_tarde < actividad2.mi_tarde && actividad1.mi_tarde < actividad3.mi_tarde ? actividad1.mi_tarde : actividad2.mi_tarde <                       actividad3.mi_tarde ? actividad2.mi_tarde : actividad3.mi_tarde;
+
             actividadI.mi_tarde = actividadI.mf_tarde - actividadI.d;
 
 
         }
 
-        public static List<double> CalcularfreqAbsolutas(List<double> serie, int subintervalos, int muestra)
+
+        public static List<double> CalcularfreqAbsolutas(int numero, List<double> limites, int muestra, int simAnterior, int simActual)
         {
 
 
-            double[] arr = new double[subintervalos];
-            List<double> frequencias = new List<double>(arr);
+            double[] arr = new double[15]; 
+            List<double> frequencias = new List<double>(arr); // 15 intervalos, el indice cero corresponde al intervalo 1 y asi ..
 
+            // 0 - 3 - 6 - 9 - 12 - 15 - 18 - 21- 24 - 27 - 30 - 33 - 36 -39 - 42  
 
-            double min = serie.Min();
-            double max = serie.Max();
-
-
-            double paso = (max - min) / subintervalos;
-
-            double lim_inferior = min;
-            double lim_superior = lim_inferior + paso;
-
-            int simActual = 1;
-            int simAnterior = 0;
-
-
-
-            foreach (var random in serie)
-            {
-                for (int i = 0; i < subintervalos; i++)
+                for (int i = 0; i < 15; i++)
                 {
-                    if (random >= lim_inferior && random <= lim_superior)
+                    if (numero > limites[i] && numero <= limites[i+1]) // menor a algun de las primeras 14 simulaciones
                     {
                         frequencias[i] = (frequencias[i] * simAnterior + 1) / simActual; // observados
                     }
@@ -473,24 +499,84 @@ namespace TP4.Mvvm
                     {
                         frequencias[i] = (frequencias[i] * simAnterior + 0) / simActual;
                     }
-
-                    lim_inferior = lim_superior;
-                    lim_superior = lim_inferior + paso;
-
-
-                }
-
-                simAnterior = simActual;
-                simActual++;
-                lim_inferior = min;
-                lim_superior = lim_inferior + paso;
+                   
 
             }
+
+            if (numero > limites.Last()) // intervalo 15 - todo lo demas
+            {
+                frequencias[14] = (frequencias[14] * simAnterior + 1) / simActual; // observados
+
+            }
+            else
+            {
+                frequencias[14] = (frequencias[14] * simAnterior + 0) / simActual;
+
+            }
+
+
+            simAnterior = simActual;
+            simActual++;
+
 
 
             return frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
 
         }
+
+
+        //public static List<double> CalcularfreqAbsolutas(List<double> serie, int subintervalos, int muestra)
+        //{
+
+
+        //    double[] arr = new double[subintervalos];
+        //    List<double> frequencias = new List<double>(arr);
+
+
+        //    double min = serie.Min();
+        //    double max = serie.Max();
+
+
+        //    double paso = (max - min) / subintervalos;
+
+        //    double lim_inferior = min;
+        //    double lim_superior = lim_inferior + paso;
+
+        //    int simActual = 1;
+        //    int simAnterior = 0;
+
+
+
+        //    foreach (var random in serie)
+        //    {
+        //        for (int i = 0; i < subintervalos; i++)
+        //        {
+        //            if (random >= lim_inferior && random <= lim_superior)
+        //            {
+        //                frequencias[i] = (frequencias[i] * simAnterior + 1) / simActual; // observados
+        //            }
+        //            else
+        //            {
+        //                frequencias[i] = (frequencias[i] * simAnterior + 0) / simActual;
+        //            }
+
+        //            lim_inferior = lim_superior;
+        //            lim_superior = lim_inferior + paso;
+
+
+        //        }
+
+        //        simAnterior = simActual;
+        //        simActual++;
+        //        lim_inferior = min;
+        //        lim_superior = lim_inferior + paso;
+
+        //    }
+
+
+        //    return frequencias.ConvertAll(obs => (Math.Round(obs * muestra, 4, MidpointRounding.AwayFromZero))); ; //cada indice de la lista corresponde a la freq relativa de un intervalo, al multiplicarla por la muestra tenemos la absoluta
+
+        //}
 
     }
 
