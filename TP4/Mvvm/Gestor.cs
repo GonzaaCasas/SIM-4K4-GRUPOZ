@@ -230,34 +230,34 @@ namespace TP4.Mvvm
 
             // ** probando desp lo borro **
 
-            for (int fila = 50; fila < 100; fila++) 
-            {
-                Actividad actividad = filasparaGrilla[fila][1] as Actividad; // probando actividad 1 de cada fila desde la fila 50 a la 100
-                Calculo calculo = filasparaGrilla[fila][7] as Calculo; // probando calculo de cada fila
+            //for (int fila = 50; fila < 100; fila++)
+            //{
+            //    Actividad actividad = filasparaGrilla[fila][1] as Actividad; // probando actividad 1 de cada fila desde la fila 50 a la 100
+            //    Calculo calculo = filasparaGrilla[fila][7] as Calculo; // probando calculo de cada fila
 
 
-                Console.WriteLine(actividad.d);
-                Console.WriteLine(actividad.mi);
-                Console.WriteLine(actividad.mi_tarde);
-                Console.WriteLine(actividad.mf);
-                Console.WriteLine(actividad.mf_tarde);
-                Console.WriteLine(actividad.rnd);
+            //    Console.WriteLine(actividad.d);
+            //    Console.WriteLine(actividad.mi);
+            //    Console.WriteLine(actividad.mi_tarde);
+            //    Console.WriteLine(actividad.mf);
+            //    Console.WriteLine(actividad.mf_tarde);
+            //    Console.WriteLine(actividad.rnd);
 
-                Console.WriteLine(calculo.min);
-                Console.WriteLine(calculo.max);
-                Console.WriteLine(calculo.mediaDuracion);
-                Console.WriteLine(calculo.std);
-                Console.WriteLine(calculo.probDias);
-                Console.WriteLine(calculo.fechaFijar);
-                Console.WriteLine(calculo.caminoCritico);
+            //    Console.WriteLine(calculo.min);
+            //    Console.WriteLine(calculo.max);
+            //    Console.WriteLine(calculo.mediaDuracion);
+            //    Console.WriteLine(calculo.std);
+            //    Console.WriteLine(calculo.probDias);
+            //    Console.WriteLine(calculo.fechaFijar);
+            //    Console.WriteLine(calculo.caminoCritico);
 
-                Console.WriteLine(calculo.limites);
-                Console.WriteLine(calculo.frecuenciasAbsolutas);
-                Console.WriteLine(calculo.frecuenciasRelativas);
-                Console.WriteLine(calculo.probAcumuladas);
+            //    Console.WriteLine(calculo.limites);
+            //    Console.WriteLine(calculo.frecuenciasAbsolutas);
+            //    Console.WriteLine(calculo.frecuenciasRelativas);
+            //    Console.WriteLine(calculo.probAcumuladas);
 
 
-            }
+            //}
 
 
 
