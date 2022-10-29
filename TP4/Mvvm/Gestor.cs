@@ -149,17 +149,23 @@ namespace TP4.Mvvm
                     calculo.determinarProbDias(45);
                     calculo.determinarFecha(0.90);
 
+                    calculo.acumCriticoA1 = actividad1.mf == actividad1.mf_tarde ? 1 : 0;
+                    calculo.acumCriticoA2 = actividad2.mf == actividad2.mf_tarde ? 1 : 0;
+                    calculo.acumCriticoA3 = actividad3.mf == actividad3.mf_tarde ? 1 : 0;
+                    calculo.acumCriticoA4 = actividad4.mf == actividad4.mf_tarde ? 1 : 0;
+                    calculo.acumCriticoA5 = actividad5.mf == actividad5.mf_tarde ? 1 : 0;
 
-                    //acumCriticoA1 = actividad1.mi == actividad1.mi_tarde ? 1 : 0;
-                    //acumCriticoA2 = actividad2.mi == actividad2.mi_tarde ? 1 : 0;
-                    //acumCriticoA3 = actividad3.mi == actividad3.mi_tarde ? 1 : 0;
-                    //acumCriticoA4 = actividad4.mi == actividad4.mi_tarde ? 1 : 0;
-                    //acumCriticoA5 = actividad5.mi == actividad5.mi_tarde ? 1 : 0;
+                    calculo.probabCriticoA1 = calculo.acumCriticoA1 / n_simulacion;
+                    calculo.probabCriticoA2 = calculo.acumCriticoA2 / n_simulacion;
+                    calculo.probabCriticoA3 = calculo.acumCriticoA3 / n_simulacion;
+                    calculo.probabCriticoA4 = calculo.acumCriticoA4 / n_simulacion;
+                    calculo.probabCriticoA5 = calculo.acumCriticoA5 / n_simulacion;
 
                     calculo.determinarCaminoCritico(actividad1, actividad2, actividad3, actividad4, actividad5);
-
-               
+       
                     duracionesFinalizacionTarea.Add(actividadF.mf);
+
+                    primerSimulacion = false;
 
                 }
                 else
@@ -176,31 +182,26 @@ namespace TP4.Mvvm
                     calculo.determinarProbDias(45);
                     calculo.determinarFecha(0.90);
 
-
-                    //acumCriticoA1 += actividad1.mi == actividad1.mi_tarde ? 1 : 0;
-                    //acumCriticoA2 += actividad2.mi == actividad2.mi_tarde ? 1 : 0;
-                    //acumCriticoA3 += actividad3.mi == actividad3.mi_tarde ? 1 : 0;
-                    //acumCriticoA4 += actividad4.mi == actividad4.mi_tarde ? 1 : 0;
-                    //acumCriticoA5 += actividad5.mi == actividad5.mi_tarde ? 1 : 0;
-
                     calculo.determinarCaminoCritico(actividad1, actividad2, actividad3, actividad4, actividad5);
 
+                    calculo.acumCriticoA1 = actividad1.mf == actividad1.mf_tarde ? calculofilaAnterior.acumCriticoA1 + 1 : calculofilaAnterior.acumCriticoA1;
+                    calculo.acumCriticoA2 = actividad2.mf == actividad2.mf_tarde ? calculofilaAnterior.acumCriticoA2 + 1 : calculofilaAnterior.acumCriticoA2;
+                    calculo.acumCriticoA3 = actividad3.mf == actividad3.mf_tarde ? calculofilaAnterior.acumCriticoA3 + 1 : calculofilaAnterior.acumCriticoA3;
+                    calculo.acumCriticoA4 = actividad4.mf == actividad4.mf_tarde ? calculofilaAnterior.acumCriticoA4 + 1 : calculofilaAnterior.acumCriticoA4;
+                    calculo.acumCriticoA5 = actividad5.mf == actividad5.mf_tarde ? calculofilaAnterior.acumCriticoA5 + 1 : calculofilaAnterior.acumCriticoA5;
 
-                    probabCriticoA1 = acumCriticoA1 / n_simulacion;
-                    probabCriticoA2 = acumCriticoA2 / n_simulacion;
-                    probabCriticoA3 = acumCriticoA3 / n_simulacion;
-                    probabCriticoA4 = acumCriticoA4 / n_simulacion;
-                    probabCriticoA5 = acumCriticoA5 / n_simulacion;
-
+                    calculo.probabCriticoA1 = calculo.acumCriticoA1 / n_simulacion;
+                    calculo.probabCriticoA2 = calculo.acumCriticoA2 / n_simulacion;
+                    calculo.probabCriticoA3 = calculo.acumCriticoA3 / n_simulacion;
+                    calculo.probabCriticoA4 = calculo.acumCriticoA4 / n_simulacion;
+                    calculo.probabCriticoA5 = calculo.acumCriticoA5 / n_simulacion;
 
                     if (n_simulacion <= 14)
                     {
                         duracionesFinalizacionTarea.Add(actividadF.mf);
-
                     }
                     else
                     {
-               
                         calculo.CalcularfreqAbsolutas(actividadF.mf, duracionesFinalizacionTarea.OrderBy(duracion => duracion).ToList(), n_simulacion, calculofilaAnterior.simAnterior, calculofilaAnterior.simActual,calculofilaAnterior.intervalos);
                     }
 
@@ -211,7 +212,6 @@ namespace TP4.Mvvm
                 filasparaGrilla.Add(fila_Actual);
 
                 fila_Anterior = fila_Actual;
-                primerSimulacion = false;
 
             }
 
@@ -250,25 +250,27 @@ namespace TP4.Mvvm
             //    Console.WriteLine(calculo.probDias);
             //    Console.WriteLine(calculo.fechaFijar);
             //    Console.WriteLine(calculo.caminoCritico);
+            //    Console.WriteLine(calculo.caminoCritico);
+
 
             //    Console.WriteLine(calculo.limites);
             //    Console.WriteLine(calculo.frecuenciasAbsolutas);
             //    Console.WriteLine(calculo.frecuenciasRelativas);
             //    Console.WriteLine(calculo.probAcumuladas);
+            //    Console.WriteLine(calculo.probabCriticoA1);
+            //    Console.WriteLine(calculo.probabCriticoA2);
+            //    Console.WriteLine(calculo.probabCriticoA3);
+            //    Console.WriteLine(calculo.probabCriticoA4);
+            //    Console.WriteLine(calculo.probabCriticoA5);
 
 
             //}
 
 
+            // medios = obtenerMedios(duracionesFinalizacionTarea, 15);
 
-
-            medios = obtenerMedios(duracionesFinalizacionTarea, 15);
-
-        
 
             puntoA = true; //flag
-
-
 
         }
 
@@ -312,7 +314,10 @@ namespace TP4.Mvvm
             return (freqDuraciones, medios);
         }
         #endregion
+        public void limpiarVariables()
+        {
 
+        }
 
 
 
@@ -479,8 +484,8 @@ namespace TP4.Mvvm
 
             // momentos mas tarde la actividad3
 
-            actividad3.mf_tarde = actividadF.mi_tarde; /// (?)
-            actividad3.mi_tarde = actividad3.mf_tarde - actividad3.d; // (?)
+            actividad3.mf_tarde = actividadF.mi_tarde; 
+            actividad3.mi_tarde = actividad3.mf_tarde - actividad3.d; 
 
             // momentos mas tarde la actividad2
 
