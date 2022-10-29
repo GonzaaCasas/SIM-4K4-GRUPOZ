@@ -129,21 +129,11 @@
                 <TextBox x:Name="TxtCantidad"
                          MaxHeight="26" MaxWidth="175" 
                          MinWidth="150"
-                         HorizontalAlignment="Left"
+                         HorizontalAlignment="Center"
                          Text="15"
                          VerticalAlignment="Bottom"
                          TextChanged="TxtCantidad_TextChanged"/>
-                <Button x:Name="BtnGenerar" 
-                        Grid.Column="3" 
-                        Grid.Row="1" 
-                        IsDefault="True" 
-                        MaxWidth="100"
-                        Height="30" 
-                        Click="BtnGenerar_Click"
-                        Command="{Binding generarCommand}" Margin="47,10,48,0"
-                        >Generar</Button>
-            </StackPanel>
-            <StackPanel x:Name="stackCarga" Grid.Row="1" Grid.Column="3" Panel.ZIndex="20" >
+                <StackPanel Margin="10,20,10,20"></StackPanel>
                 <Label Content="Simulaciones a visualizar" FontSize="14" VerticalAlignment="Bottom"/>
                 <controls:RangeSlider 
                  x:Name="Slider"
@@ -158,6 +148,7 @@
                  Minimum="1"
                  Orientation="Horizontal"
                  SmallChange="1"
+                 IsSnapToTickEnabled="True"
                  Style="{DynamicResource MahApps.Styles.RangeSlider.Win10}"
                     >
                     <controls:RangeSlider.AutoToolTipRangeValuesTemplate>
@@ -171,7 +162,18 @@
                         </DataTemplate>
                     </controls:RangeSlider.AutoToolTipRangeValuesTemplate>
                 </controls:RangeSlider>
-
+            </StackPanel>
+            <StackPanel x:Name="stackCarga" Grid.Row="1" Grid.Column="3" Panel.ZIndex="20" >
+                <Button x:Name="BtnGenerar" 
+                        Grid.Column="3" 
+                        Grid.Row="1" 
+                        IsDefault="True" 
+                        MaxWidth="100"
+                        Height="30" 
+                        Click="BtnGenerar_Click"
+                        Command="{Binding generarCommand}" Margin="47,10,48,0"
+                        >Generar</Button>
+                <StackPanel Margin="10,20,10,20"></StackPanel>
                 <controls:ProgressRing  x:Name="animacionCarga" Foreground="{DynamicResource AccentColorBrush}"
                   IsActive="{Binding cargaActiva}" Visibility="{Binding visibilidadCarga}"/>
                 <Label x:Name="lblCarga" FontSize="14" Content="{Binding strCarga}" HorizontalAlignment="Center"></Label>

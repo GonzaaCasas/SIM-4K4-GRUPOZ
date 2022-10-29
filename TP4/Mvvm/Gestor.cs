@@ -90,6 +90,9 @@ namespace TP4.Mvvm
             min = 0;
             max = 0;
 
+            HojaGrilla.grilla = new DataTable();
+            HojaGrilla.tablaCreada = false;
+
             double media;
             double acum = 0;
 

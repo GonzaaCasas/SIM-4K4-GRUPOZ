@@ -125,6 +125,7 @@ namespace TP4.Views
 
                     rangomin = Slider.LowerValue;
                     rangomax = Slider.UpperValue;
+                    cantidadSimular = double.Parse(TxtCantidad.Text);
 
 
                     animacionCarga.IsActive = true;

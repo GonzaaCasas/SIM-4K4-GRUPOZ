@@ -13,9 +13,9 @@ namespace TP4.Views
     /// </summary>
     public partial class HojaGrilla : Page
     {
-        static DataTable grilla;
+        public static DataTable grilla;
 
-        static bool tablaCreada = false;
+        public static bool tablaCreada = false;
 
         public HojaGrilla()
         {
@@ -103,38 +103,35 @@ namespace TP4.Views
 
         public static void CargarFila(List<object> fila, int num)
         {
-            if (tablaCreada)
-            {
-                DataRow dr = grilla.NewRow();
-                dr[0] = num;
-
-                for (int i = 0; i <= 6; i++)
-                {
-                    Actividad actividad = (Actividad)fila[i];
-
-                    dr[(i * 5) + 1] = Math.Round(actividad.d, 4, MidpointRounding.AwayFromZero).ToString();
-                    dr[(i * 5) + 2] = Math.Round(actividad.mi, 4, MidpointRounding.AwayFromZero).ToString(); 
-                    dr[(i * 5) + 3] = Math.Round(actividad.mf, 4, MidpointRounding.AwayFromZero).ToString(); 
-                    dr[(i * 5) + 4] = Math.Round(actividad.mf_tarde, 4, MidpointRounding.AwayFromZero).ToString();
-                    dr[(i * 5) + 5] = Math.Round(actividad.mi_tarde, 4, MidpointRounding.AwayFromZero).ToString();
-                }
-
-                Calculo calculo = (Calculo)fila[7];
-                dr[36] = Math.Round(calculo.mediaDuracion, 4, MidpointRounding.AwayFromZero).ToString();
-                dr[37] = Math.Round(calculo.std, 4, MidpointRounding.AwayFromZero).ToString();
-                dr[38] = Math.Round(calculo.min, 4, MidpointRounding.AwayFromZero).ToString();
-                dr[39] = Math.Round(calculo.max, 4, MidpointRounding.AwayFromZero).ToString();
-                dr[40] = Math.Round(calculo.probDias, 4, MidpointRounding.AwayFromZero).ToString();
-                dr[41] = Math.Round(calculo.fechaFijar, 4, MidpointRounding.AwayFromZero).ToString();
-                dr[42] = calculo.caminoCritico;
-
-                grilla.Rows.Add(dr);
-            }
-            else
+            if (!tablaCreada)
             {
                 grilla = CrearTabla();
             }
-           
+
+            DataRow dr = grilla.NewRow();
+            dr[0] = num;
+
+            for (int i = 0; i <= 6; i++)
+            {
+                Actividad actividad = (Actividad)fila[i];
+
+                dr[(i * 5) + 1] = Math.Round(actividad.d, 4, MidpointRounding.AwayFromZero).ToString();
+                dr[(i * 5) + 2] = Math.Round(actividad.mi, 4, MidpointRounding.AwayFromZero).ToString();
+                dr[(i * 5) + 3] = Math.Round(actividad.mf, 4, MidpointRounding.AwayFromZero).ToString();
+                dr[(i * 5) + 4] = Math.Round(actividad.mf_tarde, 4, MidpointRounding.AwayFromZero).ToString();
+                dr[(i * 5) + 5] = Math.Round(actividad.mi_tarde, 4, MidpointRounding.AwayFromZero).ToString();
+            }
+
+            Calculo calculo = (Calculo)fila[7];
+            dr[36] = Math.Round(calculo.mediaDuracion, 4, MidpointRounding.AwayFromZero).ToString();
+            dr[37] = Math.Round(calculo.std, 4, MidpointRounding.AwayFromZero).ToString();
+            dr[38] = Math.Round(calculo.min, 4, MidpointRounding.AwayFromZero).ToString();
+            dr[39] = Math.Round(calculo.max, 4, MidpointRounding.AwayFromZero).ToString();
+            dr[40] = Math.Round(calculo.probDias, 4, MidpointRounding.AwayFromZero).ToString();
+            dr[41] = Math.Round(calculo.fechaFijar, 4, MidpointRounding.AwayFromZero).ToString();
+            dr[42] = calculo.caminoCritico;
+
+            grilla.Rows.Add(dr);
         }
 
         
