@@ -272,6 +272,9 @@
     <Compile Include="Views\Grafico2.xaml.cs">
       <DependentUpon>Grafico2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HojaGrilla.xaml.cs">
+      <DependentUpon>HojaGrilla.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PuntoA.xaml.cs">
       <DependentUpon>PuntoA.xaml</DependentUpon>
     </Compile>
@@ -291,6 +294,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Grafico2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HojaGrilla.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

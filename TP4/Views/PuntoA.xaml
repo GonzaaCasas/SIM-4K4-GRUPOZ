@@ -131,7 +131,8 @@
                          MinWidth="150"
                          HorizontalAlignment="Left"
                          Text="15"
-                         VerticalAlignment="Bottom"/>
+                         VerticalAlignment="Bottom"
+                         TextChanged="TxtCantidad_TextChanged"/>
                 <Button x:Name="BtnGenerar" 
                         Grid.Column="3" 
                         Grid.Row="1" 
@@ -143,6 +144,33 @@
                         >Generar</Button>
             </StackPanel>
             <StackPanel x:Name="stackCarga" Grid.Row="1" Grid.Column="3" Panel.ZIndex="20" >
+                <Label Content="Simulaciones a visualizar" FontSize="14" VerticalAlignment="Bottom"/>
+                <controls:RangeSlider 
+                 x:Name="Slider"
+                 Margin="4"
+                 controls:SliderHelper.ChangeValueBy="LargeChange"
+                 controls:SliderHelper.EnableMouseWheel="MouseHover"
+                 AutoToolTipPlacement="TopLeft"
+                 LargeChange="10"
+                 LowerValue="40"
+                 Maximum="15"
+                 Minimum="1"
+                 Orientation="Horizontal"
+                 SmallChange="1"
+                 Style="{DynamicResource MahApps.Styles.RangeSlider.Win10}"
+                 UpperValue="60">
+                    <controls:RangeSlider.AutoToolTipRangeValuesTemplate>
+                        <DataTemplate DataType="mah:RangeSliderAutoTooltipValues">
+                            <UniformGrid Columns="2" Rows="2">
+                                <TextBlock HorizontalAlignment="Right" Text="From:" />
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding LowerValue, StringFormat='{}{0:N2}'}" />
+                                <TextBlock HorizontalAlignment="Right" Text="To:" />
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding UpperValue, StringFormat='{}{0:N2}'}" />
+                            </UniformGrid>
+                        </DataTemplate>
+                    </controls:RangeSlider.AutoToolTipRangeValuesTemplate>
+                </controls:RangeSlider>
+
                 <controls:ProgressRing  x:Name="animacionCarga" Foreground="{DynamicResource AccentColorBrush}"
                   IsActive="{Binding cargaActiva}" Visibility="{Binding visibilidadCarga}"/>
                 <Label x:Name="lblCarga" FontSize="14" Content="{Binding strCarga}" HorizontalAlignment="Center"></Label>

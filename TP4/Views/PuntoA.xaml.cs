@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using TP4.Mvvm;
 
 namespace TP4.Views
@@ -18,6 +19,7 @@ namespace TP4.Views
 
     public partial class PuntoA : Page
     {
+        
         private double minimoA1;
         private double maximoA1;
 
@@ -31,8 +33,11 @@ namespace TP4.Views
 
         private double mediaA5;
 
+        private static readonly Action EmptyDelegate = delegate { };
+
         private double cantidadSimular;
 
+        //public string cantidadSimular { get; set; }
         public string strCarga { get; set; } = "";
         public bool cargaActiva { get; set; } = false;
         public Visibility visibilidadCarga { get; set; } = Visibility.Collapsed;
@@ -96,7 +101,7 @@ namespace TP4.Views
 
             if (ValidarCamposForm())
             {
-
+                
 
                 if (true) //validaciones n>algo
                 {
@@ -113,7 +118,7 @@ namespace TP4.Views
 
                     mediaA5 = double.Parse(TxtMediaA5.Text);
 
-                    cantidadSimular = double.Parse(TxtCantidad.Text);
+                    //cantidadSimular = double.Parse(TxtCantidad.Text);
 
 
                     animacionCarga.IsActive = true;
@@ -141,6 +146,18 @@ namespace TP4.Views
                 MessageBox.Show("Intente escribir valores correctos", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+        }
+
+        private void TxtCantidad_TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.IsInitialized)
+            {
+                double.TryParse(TxtCantidad.Text, out cantidadSimular);
+
+                Slider.Maximum = cantidadSimular;
+                Slider.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
+            }
+           
         }
 
         //private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
