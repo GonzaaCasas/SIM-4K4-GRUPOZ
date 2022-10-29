@@ -264,6 +264,7 @@
     <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\DistribucionExponencial.cs" />
     <Compile Include="Models\DistribucionUniforme.cs" />
+    <Compile Include="Models\Calculo.cs" />
     <Compile Include="Navigation\FrameAnimator.cs" />
     <Compile Include="Navigation\NavigationServiceEx.cs" />
     <Compile Include="ViewModels\MenuItem.cs" />
