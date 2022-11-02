@@ -64,7 +64,7 @@ namespace TP4.Mvvm
         private static double fecha90;
 
 
-
+        private static bool primeras14 = false;
 
 
         public static bool puntoA { get; set; }
@@ -89,6 +89,8 @@ namespace TP4.Mvvm
             bool primerSimulacion = true;
             min = 0;
             max = 0;
+
+            bool primeras14 = false;
 
             HojaGrilla.grilla = new DataTable();
             HojaGrilla.tablaCreada = false;
@@ -126,6 +128,7 @@ namespace TP4.Mvvm
             actividadesCriticasProbalidades.Clear();
             actividadesMI_tardePromedios.Clear();
 
+            duracionesFinalizacionTarea.Clear();
 
             double acumstd = 0;
             double DE = 0;
@@ -153,11 +156,11 @@ namespace TP4.Mvvm
                     calculo.determinarProbDias(45);
                     calculo.determinarFecha(0.90);
 
-                    calculo.acumCriticoA1 = actividad1.mf == actividad1.mf_tarde ? 1 : 0;
-                    calculo.acumCriticoA2 = actividad2.mf == actividad2.mf_tarde ? 1 : 0;
-                    calculo.acumCriticoA3 = actividad3.mf == actividad3.mf_tarde ? 1 : 0;
-                    calculo.acumCriticoA4 = actividad4.mf == actividad4.mf_tarde ? 1 : 0;
-                    calculo.acumCriticoA5 = actividad5.mf == actividad5.mf_tarde ? 1 : 0;
+                    calculo.acumCriticoA1 =Math.Round(actividad1.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad1.mf_tarde, 4, MidpointRounding.AwayFromZero) ? 1 : 0;
+                    calculo.acumCriticoA2 =Math.Round(actividad2.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad2.mf_tarde, 4, MidpointRounding.AwayFromZero) ? 1 : 0;
+                    calculo.acumCriticoA3 =Math.Round(actividad3.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad3.mf_tarde, 4, MidpointRounding.AwayFromZero) ? 1 : 0;
+                    calculo.acumCriticoA4 =Math.Round(actividad4.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad4.mf_tarde, 4, MidpointRounding.AwayFromZero) ? 1 : 0;
+                    calculo.acumCriticoA5 =Math.Round(actividad5.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad5.mf_tarde, 4, MidpointRounding.AwayFromZero) ? 1 : 0;
 
                     calculo.probabCriticoA1 = calculo.acumCriticoA1 / n_simulacion;
                     calculo.probabCriticoA2 = calculo.acumCriticoA2 / n_simulacion;
@@ -188,11 +191,11 @@ namespace TP4.Mvvm
 
                     calculo.determinarCaminoCritico(actividad1, actividad2, actividad3, actividad4, actividad5);
 
-                    calculo.acumCriticoA1 = actividad1.mf == actividad1.mf_tarde ? calculofilaAnterior.acumCriticoA1 + 1 : calculofilaAnterior.acumCriticoA1;
-                    calculo.acumCriticoA2 = actividad2.mf == actividad2.mf_tarde ? calculofilaAnterior.acumCriticoA2 + 1 : calculofilaAnterior.acumCriticoA2;
-                    calculo.acumCriticoA3 = actividad3.mf == actividad3.mf_tarde ? calculofilaAnterior.acumCriticoA3 + 1 : calculofilaAnterior.acumCriticoA3;
-                    calculo.acumCriticoA4 = actividad4.mf == actividad4.mf_tarde ? calculofilaAnterior.acumCriticoA4 + 1 : calculofilaAnterior.acumCriticoA4;
-                    calculo.acumCriticoA5 = actividad5.mf == actividad5.mf_tarde ? calculofilaAnterior.acumCriticoA5 + 1 : calculofilaAnterior.acumCriticoA5;
+                    calculo.acumCriticoA1 = Math.Round(actividad1.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad1.mf_tarde, 4, MidpointRounding.AwayFromZero) ? calculofilaAnterior.acumCriticoA1 + 1 : calculofilaAnterior.acumCriticoA1;
+                    calculo.acumCriticoA2 = Math.Round(actividad2.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad2.mf_tarde, 4, MidpointRounding.AwayFromZero) ? calculofilaAnterior.acumCriticoA2 + 1 : calculofilaAnterior.acumCriticoA2;
+                    calculo.acumCriticoA3 = Math.Round(actividad3.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad3.mf_tarde, 4, MidpointRounding.AwayFromZero) ? calculofilaAnterior.acumCriticoA3 + 1 : calculofilaAnterior.acumCriticoA3;
+                    calculo.acumCriticoA4 = Math.Round(actividad4.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad4.mf_tarde, 4, MidpointRounding.AwayFromZero) ? calculofilaAnterior.acumCriticoA4 + 1 : calculofilaAnterior.acumCriticoA4;
+                    calculo.acumCriticoA5 = Math.Round(actividad5.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad5.mf_tarde, 4, MidpointRounding.AwayFromZero) ? calculofilaAnterior.acumCriticoA5 + 1 : calculofilaAnterior.acumCriticoA5;
 
                     calculo.probabCriticoA1 = calculo.acumCriticoA1 / n_simulacion;
                     calculo.probabCriticoA2 = calculo.acumCriticoA2 / n_simulacion;
@@ -206,7 +209,29 @@ namespace TP4.Mvvm
                     }
                     else
                     {
-                        calculo.CalcularfreqAbsolutas(actividadF.mf, duracionesFinalizacionTarea.OrderBy(duracion => duracion).ToList(), n_simulacion, calculofilaAnterior.simAnterior, calculofilaAnterior.simActual,calculofilaAnterior.intervalos);
+                        if (!primeras14)
+                        {
+                            primeras14 = true;
+
+                            List<double> intervalosFor = new List<double>(new double[15]);
+
+                            for (int i = 0; i < 14; i++) // todos los intervalos menos el ultimo
+                            {
+                                intervalosFor[i] = 0.07142857;
+                            }
+                           
+                            calculo.intervalos = intervalosFor;
+                            calculo.simActual = 15;
+                            calculo.simAnterior = 14;
+
+                            calculo.CalcularfreqAbsolutas(actividadF.mf, duracionesFinalizacionTarea.OrderBy(duracion => duracion).ToList(), calculo.simAnterior, calculo.simActual, calculo.intervalos);
+
+                        }
+                        else
+                        {
+                            calculo.CalcularfreqAbsolutas(actividadF.mf, duracionesFinalizacionTarea.OrderBy(duracion => duracion).ToList(), calculofilaAnterior.simAnterior, calculofilaAnterior.simActual, calculofilaAnterior.intervalos);
+                        }
+
                     }
 
                 }
@@ -225,6 +250,8 @@ namespace TP4.Mvvm
                 fila_Anterior = fila_Actual;
 
             }
+
+
 
             // filasparaGrilla
 
@@ -280,7 +307,21 @@ namespace TP4.Mvvm
 
             // medios = obtenerMedios(duracionesFinalizacionTarea, 15);
 
+            freqDuraciones = calculo.frecuenciasAbsolutas;
+            medios = obtenerMedios(duracionesFinalizacionTarea.OrderBy(duracion => duracion).ToList());
+            min = calculo.min;
+            max = calculo.max;
+            prob45d = calculo.probDias;
+            fecha90 = calculo.fechaFijar;
+            actividadesCriticasProbalidades = new List<double>
+            {
+                calculo.probabCriticoA1,
+                calculo.probabCriticoA2,
+                calculo.probabCriticoA3,
+                calculo.probabCriticoA4,
+                calculo.probabCriticoA5,
 
+            };
             puntoA = true; //flag
 
         }
@@ -332,17 +373,18 @@ namespace TP4.Mvvm
 
 
 
-        public static List<string> obtenerMedios(List<double> conjuntoNumeros, int intervalos)
+        public static List<string> obtenerMedios(List<double> conjuntoNumeros)
         {
             // 0 - 1 , 1 - 5, 5, 9
             List<string> valoresMediosIntervalos = new List<string>();
+            valoresMediosIntervalos.Add("<= " + Math.Round(conjuntoNumeros[0], 2, MidpointRounding.AwayFromZero).ToString());
 
-            List<double> limites = calcularLimites(conjuntoNumeros, intervalos);
-
-            for (int i = 0; i < limites.Count() - 1; i++)
+            for (int i = 0; i < 13 ; i++)
             {
-                valoresMediosIntervalos.Add(Math.Round(((limites[i] + limites[i + 1]) / 2), 4, MidpointRounding.AwayFromZero).ToString()); // (limite inferior + limite superior) / 2
+                valoresMediosIntervalos.Add(Math.Round(((conjuntoNumeros[i] + conjuntoNumeros[i + 1]) / 2), 2, MidpointRounding.AwayFromZero).ToString()); // (limite inferior + limite superior) / 2
             }
+
+            valoresMediosIntervalos.Add("> " + Math.Round(conjuntoNumeros[13], 2, MidpointRounding.AwayFromZero).ToString());
 
             return valoresMediosIntervalos;
         }

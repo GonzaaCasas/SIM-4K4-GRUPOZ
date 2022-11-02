@@ -65,10 +65,8 @@ namespace TP4.Views
 
                 MITardio = Gestor.ObtenerMITardio();
                 actCriticas = Gestor.ObtenerActCriticas();
-                
-                DataTable tablaMITardio = construirTabla(MITardio);
+
                 DataTable tablaActCriticas = construirTabla(actCriticas);
-                DgvMITarido.DataContext = tablaMITardio;
                 DgvTCriticas.DataContext = tablaActCriticas;
 
 

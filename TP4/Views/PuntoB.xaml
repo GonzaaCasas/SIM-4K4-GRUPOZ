@@ -75,93 +75,45 @@
                     <TextBlock TextWrapping="WrapWithOverflow" FontSize="16">Con un nivel de confianza de 90%</TextBlock>
                 </StackPanel>
             </GroupBox>
-
-            <GroupBox Header="Analisis de las actividades" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="15,40,15,15" MaxHeight="550">
+            <GroupBox Header="Tareas criticas" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="15,40,15,15" MaxHeight="250">
                 <DockPanel>
-                    <GroupBox Header="Tiempo de inicio mas tardio posible " DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="5,3,5,5">
-                        <DockPanel>
-                            <DataGrid x:Name="DgvMITarido" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
-                                <DataGrid.Style>
-                                    <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
-                                        <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                    <DataGrid x:Name="DgvTCriticas" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
+                        <DataGrid.Style>
+                            <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+                                <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                            </Style>
+                        </DataGrid.Style>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="Background" Value="LightBlue"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Actividad" Binding="{Binding col1}">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Probabilidad" Binding="{Binding col2}"  MinWidth="100" CanUserResize="False">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
                                     </Style>
-                                </DataGrid.Style>
-                                <DataGrid.CellStyle>
-                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
-                                        
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="Black"/>
-                                                <Setter Property="Background" Value="LightBlue"/>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Foreground" Value="Black"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGrid.CellStyle>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Actividad" Binding="{Binding col1}">
-                                    </DataGridTextColumn>
-                                    <DataGridTextColumn Header="Tiempo inicio tardío" Binding="{Binding col2}"  MinWidth="100" CanUserResize="False">
-                                        <DataGridTextColumn.CellStyle>
-                                            <Style TargetType="DataGridCell">
-                                                <Setter Property="FontWeight" Value="Bold"></Setter>
-                                            </Style>
-                                        </DataGridTextColumn.CellStyle>
-                                        <DataGridTextColumn.HeaderStyle>
-                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
-                                                <Setter Property="HorizontalContentAlignment"
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
                                                         Value="Center" />
-                                                
-                                            </Style>
-                                        </DataGridTextColumn.HeaderStyle>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </DockPanel>
-                    </GroupBox>
-                    <GroupBox Header="Tareas criticas" DockPanel.Dock="Bottom" VerticalAlignment="Center" Margin="5,5,5,5">
-                        <DockPanel>
-                            <DataGrid x:Name="DgvTCriticas" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
-                                <DataGrid.Style>
-                                    <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
-                                        <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
                                     </Style>
-                                </DataGrid.Style>
-                                <DataGrid.CellStyle>
-                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="Black"/>
-                                                <Setter Property="Background" Value="LightBlue"/>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Foreground" Value="Black"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGrid.CellStyle>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Actividad" Binding="{Binding col1}">
-                                    </DataGridTextColumn>
-                                    <DataGridTextColumn Header="Probabilidad" Binding="{Binding col2}"  MinWidth="100" CanUserResize="False">
-                                        <DataGridTextColumn.CellStyle>
-                                            <Style TargetType="DataGridCell">
-                                                <Setter Property="FontWeight" Value="Bold"></Setter>
-                                            </Style>
-                                        </DataGridTextColumn.CellStyle>
-                                        <DataGridTextColumn.HeaderStyle>
-                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
-                                                <Setter Property="HorizontalContentAlignment"
-                                                        Value="Center" />
-                                            </Style>
-                                        </DataGridTextColumn.HeaderStyle>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </DockPanel>
-                    </GroupBox>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </DockPanel>
             </GroupBox>
             <StackPanel Grid.Row="1" Grid.Column="4" VerticalAlignment="Top"   Margin="0,0,0,0">

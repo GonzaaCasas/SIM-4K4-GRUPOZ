@@ -93,9 +93,7 @@ namespace TP4.Models
         public void determinarCaminoCritico(Actividad actividad1, Actividad actividad2, Actividad actividad3, Actividad actividad4, Actividad actividad5)
         {
             caminoCritico = "";
-
-
-         
+        
 
             caminoCritico += Math.Round(actividad1.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad1.mf_tarde, 4, MidpointRounding.AwayFromZero) ? " Actividad 1 --->" : "";
             caminoCritico += Math.Round(actividad2.mf, 4, MidpointRounding.AwayFromZero) == Math.Round(actividad2.mf_tarde, 4, MidpointRounding.AwayFromZero) ? " Actividad 2 --->" : "";
@@ -106,7 +104,7 @@ namespace TP4.Models
 
         }
 
-        public void CalcularfreqAbsolutas(double numero, List<double> limites, int muestra, int simAnterior, int simActual, List<double> intervalos)
+        public void CalcularfreqAbsolutas(double numero, List<double> limites, int simAnterior, int simActual, List<double> intervalos)
         {
 
 
@@ -162,7 +160,8 @@ namespace TP4.Models
             this.intervalos = intervalos;
 
             this.limites = limites;
-            this.frecuenciasAbsolutas = intervalos.ConvertAll(obs => (Math.Round(obs * (muestra - 14), 4, MidpointRounding.AwayFromZero)));
+            //this.frecuenciasAbsolutas = intervalos.ConvertAll(obs => (Math.Round(obs * (muestra - 14), 4, MidpointRounding.AwayFromZero)));
+            this.frecuenciasAbsolutas = intervalos.ConvertAll(obs => (Math.Round(obs * simActual, 4, MidpointRounding.AwayFromZero)));
             this.frecuenciasRelativas = intervalos.ConvertAll(obs => (Math.Round(obs, 4, MidpointRounding.AwayFromZero)));
 
             double total = 0;
