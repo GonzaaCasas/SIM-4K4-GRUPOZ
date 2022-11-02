@@ -86,7 +86,7 @@ namespace TP5.Models
         public Calculo()
 
         {
-            this.ensamblesPorHora = new List<decimal>(new decimal[24]);
+            this.ensamblesPorHora = new List<decimal>();
         }
 
         public Calculo(Calculo calculoAnterior)
@@ -149,11 +149,13 @@ namespace TP5.Models
 
         public void calcularPromedioEnsamblesPorHora()
         {
-            if (ensamblesPorHora != null)
+            if (this.ensamblesPorHora.Count > 0)
             {
-                this.promedioEnsamblesPorHora = this.ensamblesPorHora.Sum() / 24;
+            this.promedioEnsamblesPorHora = this.ensamblesPorHora.Average();
 
             }
+
+            //this.promedioEnsamblesPorHora = this.acumEnsamblados / (this.reloj / 60);
         }
 
         public void calcularPermanenciaColaSecciones(List<Servidor> servidores)
