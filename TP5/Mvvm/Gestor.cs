@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using TP5.Models;
 using TP5.ViewModels;
-
+using TP5.Views;
 
 namespace TP5.Mvvm {
 	internal class Gestor {
@@ -122,7 +122,7 @@ namespace TP5.Mvvm {
 		public static bool puntoA { get; set; }
 
 
-		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
+		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5, double rangomin, double rangomax) {
             
             puntoA = true;
 			_eventos = eventos;
@@ -335,8 +335,16 @@ namespace TP5.Mvvm {
                 calculoAnterior = calculo;
 
                 //aca guarddar filaActual y calculo en grilla
-                filaCompleta = new List<object> { filaActual, calculo };
-                filasparaGrilla.Add(filaCompleta);
+
+                if (i >= rangomin && i <= rangomax)
+                {
+                    filaCompleta = new List<object> { filaActual, calculo };
+
+                    HojaGrilla.CargarFila(filaCompleta, i);
+
+                }
+
+                //filasparaGrilla.Add(filaCompleta);
             }
 
             // filaActual es un objeto que contiene todos los datos de reloj,evento,  las columnas de Llegadas de materiales y las columnas 5 servidores -> en las propiedades de la clase esta cada dato

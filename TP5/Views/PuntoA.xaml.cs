@@ -25,6 +25,10 @@ namespace TP5.Views {
 
 		private double mediaA5;
 
+		private double rangomin;
+		private double rangomax;
+
+
 		private int cantidadSimular;
 
 		public string strCarga { get; set; } = "";
@@ -101,11 +105,14 @@ namespace TP5.Views {
 					cantidadSimular = int.Parse(TxtCantidad.Text);
 
 
+					rangomin = Slider.LowerValue;
+					rangomax = Slider.UpperValue;
+
 					animacionCarga.IsActive = true;
 					animacionCarga.Visibility = Visibility.Visible;
 					lblCarga.Content = "Calculando...";
 					Task.Factory.StartNew(() => {
-						Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5);
+						Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5, rangomin, rangomax);
 					}).ContinueWith(task => {
 						animacionCarga.IsActive = false;
 						animacionCarga.Visibility = Visibility.Hidden;

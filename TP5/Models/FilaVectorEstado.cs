@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TP5.Mvvm;
 
 namespace TP5.Models
@@ -113,6 +110,8 @@ namespace TP5.Models
             this.tiempoAtencionS5 = filaAnterior.tiempoAtencionS5;
             this.proximoFinAtencionS5 = filaAnterior.proximoFinAtencionS5;
             this.colaS5 = filaAnterior.colaS5;
+
+
 
         }
 
