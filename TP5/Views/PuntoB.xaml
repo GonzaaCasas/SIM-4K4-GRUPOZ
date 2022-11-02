@@ -31,7 +31,7 @@
                 <RowDefinition ></RowDefinition>
             </Grid.RowDefinitions>
 
-            <DockPanel x:Name="DockColas" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible">
+            <!--<DockPanel x:Name="DockColas" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -190,36 +190,35 @@
                         </DockPanel>
                     </GroupBox>
                 </Grid>
-            </DockPanel>
+            </DockPanel>-->
             
             
             
             
             
             
-            <DockPanel x:Name="DockEnsambles" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Hidden">
+            <DockPanel x:Name="DockEnsambles" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="400"></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"></RowDefinition>
-                        <RowDefinition Height="1*" ></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
 
 
-                    <GroupBox Header="Probabilidad de haber completado X ensambles en 1 hora" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="420" Margin="0,0,0,15">
+                    <GroupBox Header="Probabilidad de haber completado X ensambles en 1 hora" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="240" MaxWidth="420" Margin="5,0,5,15">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <GroupBox Header="Cantidad ensambles"  Margin="5,5,5,5" HorizontalAlignment="Left" Width="150">
+                            <GroupBox Header="Cantidad ensambles"  Margin="10,5,5,5" HorizontalAlignment="Left" Width="150">
                                 <StackPanel Orientation="Vertical">
                                     <TextBox x:Name="TxtEnsambles" 
                                              MaxHeight="26" MaxWidth="120" 
                                              MinWidth="80" 
                                              HorizontalAlignment="Center"
-                                             Text="75"/>
-                                    <StackPanel Height="10">
+                                             Text="75" Margin="0,20,0,0"/>
+                                    <StackPanel Height="30">
                                         
                                     </StackPanel>
                                     <Button x:Name="BtnCalcular"
@@ -236,16 +235,16 @@
                                 </StackPanel>
                             </GroupBox>
                             <StackPanel Width="50"></StackPanel>
-                            <GroupBox Header="Probabilidad" Margin="5,5,5,5" HorizontalAlignment="Right" Width="150" >
+                            <GroupBox Header="Probabilidad" Margin="5,5,10,5" HorizontalAlignment="Right" Width="150" >
                                 <StackPanel Orientation="Vertical">
-                                    <Label x:Name="LblProb" Content="Haz click" FontSize="16" FontWeight="Bold"></Label>
+                                    <Label x:Name="LblProb" Content="Haz click" FontSize="16" FontWeight="Bold" Margin="0,10,0,0"></Label>
                                     <Label x:Name="LblTxtProb" Content="en el boton generar" FontSize="16"></Label>
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
                     </GroupBox>
 
-                    <GroupBox Header="Proporcion" Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,0,15" Width="250" >
+                    <!--<GroupBox Header="Proporcion" Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,0,15" Width="250" >
                         <StackPanel Orientation="Vertical">
                             <TextBlock TextWrapping="WrapWithOverflow" FontSize="16">Proporcion ensambles realizados en relacion con los solicitados</TextBlock>
                             <Label x:Name="LblPropRealizadoSolicitado" Content="prop." FontSize="16" FontWeight="Bold"></Label>
@@ -264,11 +263,11 @@
                             <Label Content="A5 espera a A3:" FontSize="16"></Label>
                             <Label x:Name="LblA5EsperaA3" Content="perc" FontSize="16" FontWeight="Bold"></Label>
                         </StackPanel>
-                    </GroupBox>
+                    </GroupBox>-->
                     
-                    <GroupBox Header="Ensambles por hora" VerticalAlignment="Stretch" Margin="0,5,0,10" >
+                    <!--<GroupBox Header="Ensambles por hora" VerticalAlignment="Center" Margin="5,5,5,10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" >
                         <DockPanel>
-                            <DataGrid x:Name="DgvEnsamblesHora" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="10,30,10,30">
+                            <DataGrid x:Name="DgvEnsamblesHora" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Center" Margin="10,30,10,30">
                                 <DataGrid.Style>
                                     <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
                                         <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
@@ -305,19 +304,19 @@
                                     </DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            <GroupBox Header="Promedio"  Margin="5,5,5,5" HorizontalAlignment="Center" Width="150">
+                            --><!--<GroupBox Header="Promedio"  Margin="5,5,5,5" HorizontalAlignment="Center" Width="150">
                                 <StackPanel Orientation="Vertical">
                                     <Label Content="Cantidad promedio:" FontSize="16"></Label>
                                     <Label x:Name="LblPromEnsambleHoras" Content="Cantidad prom." FontSize="16" FontWeight="Bold"></Label>
                                 </StackPanel>
-                            </GroupBox>
+                            </GroupBox>--><!--
                             
                         </DockPanel>
-                    </GroupBox>
+                    </GroupBox>-->
                 </Grid>
             </DockPanel>
 
-            <StackPanel Grid.Column="0" VerticalAlignment="Top" Height="80" Margin="0,10,0,0">
+            <!--<StackPanel Grid.Column="0" VerticalAlignment="Top" Height="80" Margin="0,10,0,0">
                 <Button x:Name="BtnCola"
                         Width="120"
                         Height="30"
@@ -340,7 +339,7 @@
                         <TextBlock x:Name="StrIntervalos" Text="  Mostrar ensambles" ></TextBlock>
                     </StackPanel>
                 </Button>
-            </StackPanel>
+            </StackPanel>-->
         </Grid>
     </Grid>
 </Page>
