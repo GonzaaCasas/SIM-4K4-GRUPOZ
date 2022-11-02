@@ -246,7 +246,6 @@ namespace TP5.Mvvm {
 
                         break;
 
-
                     default:
 						break;
 				}
@@ -327,6 +326,8 @@ namespace TP5.Mvvm {
                     calculo.calcularProductosEnSistemas(eventos);
 
                     calculo.determinarCantMaxColas(servidores, clientesSeccion3, clientesSeccion5);
+
+                    calculo.calcularStdEnsamblesPorHora();
                 }
 
 
