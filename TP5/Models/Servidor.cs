@@ -13,6 +13,8 @@ namespace TP5.Models
         public string estado { get; set; }
 
         public Nullable<decimal> finAtencion { get; set; }
+        public Nullable<decimal> tiempoAtencion { get; set; }
+
 
         public Queue<Cliente> cola { get; set; }
 
@@ -20,7 +22,7 @@ namespace TP5.Models
 
         private IDistribucion distribucion { get; set; }
 
-        private Cliente clienteActual { get; set; }
+        public Cliente clienteActual { get; set; }
         private Cliente clienteAnterior { get; set; }
 
         public int cantClientesPasaronPorCola { get; set; }
@@ -76,7 +78,8 @@ namespace TP5.Models
             else
             {
                 estado = "libre";
-                finAtencion = null;
+                this.finAtencion = null;
+                this.tiempoAtencion = null;
             }
             cantClientesPasaronPorCola++;
             return clienteAnterior;
@@ -84,17 +87,24 @@ namespace TP5.Models
 
         private void AtenderCliente(Cliente material)
         {
-            clienteActual = material;
-            decimal tiempoFinalizacion = GenerarFinAtencion();
-            finAtencion = null;
-            this.finAtencion = tiempoFinalizacion + Gestor.reloj;
+             clienteActual = material;
+             this.tiempoAtencion = GenerarFinAtencion();
+             this.finAtencion = this.tiempoAtencion + Gestor.reloj;
 
-            material.horaFinAtencion = tiempoFinalizacion + Gestor.reloj;
+            //finAtencion = null;
+
+            //this.horaInicioAtencion = Gestor.reloj;
+            //this.tiempoEspera = (Gestor.reloj - material.horaLlegada);
+
+            //this.tiempoSistema = (material.horaFinAtencion - material.horaLlegada);
+            //this.tiempoEsperaAcumulado += material.tiempoEspera;
+
+            material.horaFinAtencion = (decimal)this.tiempoAtencion + Gestor.reloj;
             material.horaEmpiezoAtencion = Gestor.reloj;
             material.tiempoEspera = (Gestor.reloj - material.horaLlegada);
             material.horaFinAtencion = this.finAtencion ?? 0;
             material.tiempoSistema = (material.horaFinAtencion - material.horaLlegada);
-            material.tiempoEsperaAcumulado += material.tiempoEspera;
+            material.tiempoEsperaAcumulado += (decimal)material.tiempoEspera;
         }
 
         private decimal GenerarFinAtencion()

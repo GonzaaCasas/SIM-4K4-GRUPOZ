@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using TP5.Models;
 using TP5.ViewModels;
 
@@ -11,7 +12,7 @@ using TP5.ViewModels;
 namespace TP5.Mvvm {
 	internal class Gestor {
 
-        public static decimal reloj;
+        public static decimal reloj = 0;
 		public static decimal proxLlegada;
 		public static decimal _eventos;
 
@@ -99,18 +100,25 @@ namespace TP5.Mvvm {
 		private static DistribucionExponencial _ExponencialActividad3;
 		private static DistribucionUniforme _uniformeActividad4;
 		private static DistribucionExponencial _ExponencialActividad5;
-		private static DistribucionExponencial _ExponencialPedidos;
+		public static DistribucionExponencial _ExponencialPedidos;
 
 
-		private static double min = 0;
+        private static FilaVectorEstado filaActual;
+        private static FilaVectorEstado filaAnterior;
+
+        private static bool esInicio = true;
+
+        private static double min = 0;
 		private static double max = 0;
 	
 		public static bool puntoA { get; set; }
 
 
 		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
-			puntoA = true;
+            
+            puntoA = true;
 			_eventos = eventos;
+            filaAnterior = new FilaVectorEstado();
             limpiarVariables();
             inicializarDistribuciones(a1, b1, a2, b2, a4, b4, media3, media5);
 			InicializarServidores();
@@ -120,124 +128,153 @@ namespace TP5.Mvvm {
 			for (int i = 0; i < eventos; i++)
 			{
 
-				switch (DeterminarEvento())
+                filaActual = new FilaVectorEstado(filaAnterior);
+
+                determinarRelojActual();
+                filaActual.reloj = reloj;
+
+                switch (filaActual.DeterminarEvento(filaAnterior.proximaLlegada))
 				{
-					case "inicio":
-						proxLlegada = GenerarLlegadaCliente();
-						reloj = proxLlegada;
-						break;
+					case "Inicio":
+                        //proxLlegada = GenerarLlegadaCliente();
+                        //filaActual.evento = "Inicio";
+                        filaActual.GenerarLlegadaCliente();
+                       // reloj = filaActual.proximaLlegada;
+                        break;
 
-					case "llegada":
+					case "Llegada Materiales":
 
-						reloj = proxLlegada;
-						proxLlegada = GenerarLlegadaCliente();
-						InicializarPedido();
+						//reloj = proxLlegada;
+                        //filaActual.reloj = reloj;
+                        //proxLlegada = GenerarLlegadaCliente();
+                        filaActual.GenerarLlegadaCliente();
+                        InicializarPedido();
 						acumSolicitadas++; //para obtener proporcion ensambladas / solicitadas 
-						break;
+                       // reloj = filaActual.proximaLlegada;
+                        break;
 
-					case "finAtencion":
+					case "Fin Atencion Servidor 1":
 
-						reloj = servidorFin.finAtencion ?? 0;
+					 //	reloj = servidorFin.finAtencion ?? 0;
 						clienteFin = servidorFin.TerminarAtencion();
 
+						servidorFin.GenerarLlegadaCliente(Seccion4);
 
-						if (servidorFin.Equals(Seccion1))
-						{
-							servidorFin.GenerarLlegadaCliente(Seccion4);
+                        tiempoAcumuladoOcupadoSeccion1 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion; // del cliente que termino su atencion, calcula cuanto tiempo estuvo ocupado en el servidor y acumula
+						tiempoAcumuladoEnEsperaSeccion1 += (decimal)clienteFin.tiempoEspera;
 
-                            tiempoAcumuladoOcupadoSeccion1 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion; // del cliente que termino su atencion, calcula cuanto tiempo estuvo ocupado en el servidor y acumula
-							tiempoAcumuladoEnEsperaSeccion1 += clienteFin.tiempoEspera;
-
-                        }
-						if (servidorFin.Equals(Seccion2))
-						{
-							clientesSeccion2.Enqueue(clienteFin);
-
-                            tiempoAcumuladoOcupadoSeccion2 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
-							tiempoAcumuladoEnEsperaSeccion2 += clienteFin.tiempoEspera;
-
-                        }
-                        if (servidorFin.Equals(Seccion3))
-						{
-							clientesSeccion3.Enqueue(clienteFin);
-
-                            tiempoAcumuladoOcupadoSeccion3 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
-							tiempoAcumuladoEnEsperaSeccion3 += clienteFin.tiempoEspera;
-
-                        }
-                        if (servidorFin.Equals(Seccion4))
-						{
-							clientesSeccion4.Enqueue(clienteFin);
-
-                            tiempoAcumuladoOcupadoSeccion4 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
-							tiempoAcumuladoEnEsperaSeccion4 += clienteFin.tiempoEspera;
-
-                        }
-                        if (servidorFin.Equals(Seccion5))
-						{
-							clientesSeccion5.Enqueue(clienteFin);
-
-                            tiempoAcumuladoOcupadoSeccion5 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
-							tiempoAcumuladoEnEsperaSeccion5 += clienteFin.tiempoEspera;
-
-                        }
-
-                     
-                        if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
-						{
-							Cliente cliente2 = clientesSeccion2.Dequeue();
-							Cliente cliente4 = clientesSeccion4.Dequeue();
-							cantProductosEnSistema--;
-
-							if (cliente4.tiempoSistema > cliente2.tiempoSistema)
-							{
-								Seccion4.GenerarLlegadaCliente(Seccion5);
-							}
-							else
-							{
-								Seccion2.GenerarLlegadaCliente(Seccion5);
-							}
-
-						}
-
-
-                        if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1)
-						{
-                            
-
-                            Cliente cliente3 = clientesSeccion3.Dequeue();
-							Cliente cliente5 = clientesSeccion5.Dequeue();
-
-							acumuladorTiempoBloqueoSeccion5 += reloj - cliente5.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion5
-                            acumuladorTiempoBloqueoSeccion3 += reloj - cliente3.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion3
-
-                            acumEnsamblados++;
-
-							if (cliente3.tiempoSistema > cliente5.tiempoSistema)
-							{
-
-                                acumTiempoSistema += cliente3.tiempoSistema;
-                            }
-							else
-							{
-                                acumTiempoSistema += cliente5.tiempoSistema;
-                            }
-
-							diaCalculado = Math.Floor(reloj / (60 * 24)) ; // si paso mas de un dia calcula cuantos paso
-                            horaCalculada = Math.Floor( ( (reloj - (60 * 24 * diaCalculado) ) / 60  )); // si la hora cae en 23.5 entonces es la hora 23 ; la lista va de 0 a 23 horas (24 horas total)
-							ensamblesPorHora[(int)horaCalculada]++;
-
-						}
+                  
 						break;
 
-					default:
+                    case "Fin Atencion Servidor 2":
+
+                        clienteFin = servidorFin.TerminarAtencion();
+
+                        clientesSeccion2.Enqueue(clienteFin);
+
+                        tiempoAcumuladoOcupadoSeccion2 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
+                        tiempoAcumuladoEnEsperaSeccion2 += (decimal)clienteFin.tiempoEspera;
+
+
+                        break;
+
+                    case "Fin Atencion Servidor 3":
+
+                        clienteFin = servidorFin.TerminarAtencion();
+
+                        clientesSeccion3.Enqueue(clienteFin);
+
+                        tiempoAcumuladoOcupadoSeccion3 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
+                        tiempoAcumuladoEnEsperaSeccion3 += (decimal)clienteFin.tiempoEspera;
+
+
+                        break;
+
+                    case "Fin Atencion Servidor 4":
+
+                        clienteFin = servidorFin.TerminarAtencion();
+
+                        clientesSeccion4.Enqueue(clienteFin);
+
+                        tiempoAcumuladoOcupadoSeccion4 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
+                        tiempoAcumuladoEnEsperaSeccion4 += (decimal)clienteFin.tiempoEspera;
+
+
+
+                        break;
+
+                    case "Fin Atencion Servidor 5":
+
+                        clienteFin = servidorFin.TerminarAtencion();
+
+                        clientesSeccion5.Enqueue(clienteFin);
+
+                        tiempoAcumuladoOcupadoSeccion5 += clienteFin.horaFinAtencion - clienteFin.horaEmpiezoAtencion;
+                        tiempoAcumuladoEnEsperaSeccion5 += (decimal)clienteFin.tiempoEspera;
+
+                
+
+                        break;
+
+
+                    default:
 						break;
 				}
 
-				acumProductosEnSistema += cantProductosEnSistema;
+                if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
+                {
+                    Cliente cliente2 = clientesSeccion2.Dequeue();
+                    Cliente cliente4 = clientesSeccion4.Dequeue();
+                    cantProductosEnSistema--;
+
+                    if (cliente4.tiempoSistema > cliente2.tiempoSistema)
+                    {
+                        Seccion4.GenerarLlegadaCliente(Seccion5);
+                    }
+                    else
+                    {
+                        Seccion2.GenerarLlegadaCliente(Seccion5);
+                    }
+
+                }
+
+                if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1)
+                {
+
+
+                    Cliente cliente3 = clientesSeccion3.Dequeue();
+                    Cliente cliente5 = clientesSeccion5.Dequeue();
+
+                    acumuladorTiempoBloqueoSeccion5 += reloj - cliente5.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion5
+                    acumuladorTiempoBloqueoSeccion3 += reloj - cliente3.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion3
+
+                    acumEnsamblados++;
+
+                    if (cliente3.tiempoSistema > cliente5.tiempoSistema)
+                    {
+
+                        acumTiempoSistema += cliente3.tiempoSistema;
+                    }
+                    else
+                    {
+                        acumTiempoSistema += cliente5.tiempoSistema;
+                    }
+
+                    diaCalculado = Math.Floor(reloj / (60 * 24)); // si paso mas de un dia calcula cuantos paso
+                    horaCalculada = Math.Floor(((reloj - (60 * 24 * diaCalculado)) / 60)); // si la hora cae en 23.5 entonces es la hora 23 ; la lista va de 0 a 23 horas (24 horas total)
+                    ensamblesPorHora[(int)horaCalculada]++;
+
+                }
+
+
+                acumProductosEnSistema += cantProductosEnSistema;
 
 				acumProductosEnCola += servidores.Sum(servidor => servidor.cola.Count());
 
+
+                guardarDatosServidoresEnVectorEstado();
+
+                filaAnterior = filaActual;
             }
 
             calcularPorcentajeOcupacionSecciones();
@@ -356,6 +393,8 @@ namespace TP5.Mvvm {
 		}
 
 
+
+
         private static string DeterminarEvento()
         {
 			if (reloj == 0)
@@ -363,9 +402,7 @@ namespace TP5.Mvvm {
 				return "inicio";
             }
 			
-			servidorFin = servidores.Where( x => x.finAtencion != null).OrderBy(servidor => servidor.finAtencion).FirstOrDefault();
             
-
 			if ( servidorFin == null || proxLlegada <= servidorFin.finAtencion )
 			{
 
@@ -376,6 +413,75 @@ namespace TP5.Mvvm {
 
 
         }
+
+        public static void determinarRelojActual()
+        {
+            decimal finAtencion;
+            if (esInicio)
+            {
+                filaActual.reloj = 0;
+                esInicio = false;
+            }
+            else
+            {
+              
+                determinarServidorFin();
+                if (servidorFin == null)
+                {
+                    reloj= filaAnterior.proximaLlegada;
+                }
+                else
+                {
+                 reloj = (decimal)(filaAnterior.proximaLlegada <= servidorFin.finAtencion ? filaAnterior.proximaLlegada : servidorFin.finAtencion);
+
+                }
+            }
+
+            
+        }
+
+        public static void determinarServidorFin()
+        {
+            servidorFin = servidores.Where(x => x.finAtencion != null).OrderBy(servidor => servidor.finAtencion).FirstOrDefault();
+
+        }
+
+        public static void guardarDatosServidoresEnVectorEstado()
+        {
+                
+            // cuando devuelve null, habria que devoler un string vacio en el front end
+
+            filaActual.estadoS1 = Seccion1.estado;
+            filaActual.materialS1 = Seccion1.clienteActual == null  || Seccion1.estado == "libre" ? null : Seccion1.clienteActual.ClienteId;
+            filaActual.tiempoAtencionS1 = Seccion1.estado == "libre" ? null : Seccion1.tiempoAtencion;
+            filaActual.proximoFinAtencionS1 = Seccion1.finAtencion;
+            filaActual.colaS1 = Seccion1.cola.Count();  
+
+            filaActual.estadoS2 = Seccion2.estado;
+            filaActual.materialS2 = Seccion2.clienteActual == null || Seccion2.estado == "libre" ? null : Seccion2.clienteActual.ClienteId;
+            filaActual.tiempoAtencionS2 = Seccion2.estado == "libre" ? null : Seccion2.tiempoAtencion;
+            filaActual.proximoFinAtencionS2 = Seccion2.finAtencion;
+            filaActual.colaS2 = Seccion2.cola.Count();
+
+            filaActual.estadoS3 = Seccion3.estado;
+            filaActual.materialS3 = Seccion3.clienteActual == null || Seccion3.estado == "libre" ? null : Seccion3.clienteActual.ClienteId;
+            filaActual.tiempoAtencionS3 = Seccion3.estado == "libre" ? null : Seccion3.tiempoAtencion;
+            filaActual.proximoFinAtencionS3 = Seccion3.finAtencion;
+            filaActual.colaS3 = Seccion3.cola.Count();
+
+            filaActual.estadoS4 = Seccion4.estado;
+            filaActual.materialS4 = Seccion4.clienteActual == null || Seccion4.estado == "libre" ? null : Seccion4.clienteActual.ClienteId;
+            filaActual.tiempoAtencionS4 = Seccion4.estado == "libre" ? null : Seccion4.tiempoAtencion;
+            filaActual.proximoFinAtencionS4 = Seccion4.finAtencion;
+            filaActual.colaS4 = Seccion4.cola.Count();
+
+            filaActual.estadoS5 = Seccion5.estado;
+            filaActual.materialS5 = Seccion5.clienteActual == null || Seccion5.estado == "libre" ? null : Seccion5.clienteActual.ClienteId;
+            filaActual.tiempoAtencionS5 = Seccion5.estado == "libre" ? null : Seccion5.tiempoAtencion;
+            filaActual.proximoFinAtencionS5 = Seccion5.finAtencion;
+            filaActual.colaS5 = Seccion5.cola.Count();
+        }
+
 
         private static void limpiarVariables()
         {
@@ -436,7 +542,7 @@ namespace TP5.Mvvm {
 
         }
 
-        public static decimal GenerarLlegadaCliente()
+        public static decimal GenerarLlegadaCliente()                    // pedido entre 0.1 y 30 por hora
         {
 			decimal tiempo = _ExponencialPedidos.Generar_x();
 
