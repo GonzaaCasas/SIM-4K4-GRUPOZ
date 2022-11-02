@@ -276,8 +276,8 @@ namespace TP5.Mvvm {
                     Cliente cliente5 = clientesSeccion5.Dequeue();
 
 
-                    acumuladorTiempoBloqueoSeccion5 += reloj - cliente5.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion5
-                    acumuladorTiempoBloqueoSeccion3 += reloj - cliente3.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion3
+                    calculo.acumuladorTiempoBloqueoSeccion5 += reloj - cliente5.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion5
+                    calculo.acumuladorTiempoBloqueoSeccion3 += reloj - cliente3.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion3
 
 
                     calculo.acumEnsamblados++;            
@@ -337,6 +337,8 @@ namespace TP5.Mvvm {
                     calculo.determinarCantMaxColas(servidores, clientesSeccion3, clientesSeccion5);
 
                     calculo.calcularStdEnsamblesPorHora();
+
+                    calculo.calcularProporcionTiempoBloqueo();
                 }
 
 
@@ -391,10 +393,10 @@ namespace TP5.Mvvm {
 
             // faltan hacer estas 2 funciones 
 
-            calcularStdEnsamblesPorHora();
+            //calcularStdEnsamblesPorHora();
       
             
-			calcularProporcionTiempoBloqueo();
+			//calcularProporcionTiempoBloqueo();
             
 
 

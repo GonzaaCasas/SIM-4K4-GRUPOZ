@@ -64,7 +64,15 @@ namespace TP5.Models
         public decimal acumstdEnsamblesPorHora { get; set; }
         public decimal stdEnsamblesPorHora { get; set; }
 
+        public decimal proporcionTiempoBloqueoA3 { get; set; }
+        public decimal proporcionTiempoBloqueoA5 { get; set; }
+
+        public decimal acumuladorTiempoBloqueoSeccion3 { get; set; }
+        public decimal acumuladorTiempoBloqueoSeccion5 { get; set; }
+
+
         public Calculo()
+
         {
             this.ensamblesPorHora = new List<decimal>();
         }
@@ -86,6 +94,10 @@ namespace TP5.Models
             this.tiempoAcumuladoOcupadoSeccion3 = calculoAnterior.tiempoAcumuladoOcupadoSeccion3;
             this.tiempoAcumuladoOcupadoSeccion4 = calculoAnterior.tiempoAcumuladoOcupadoSeccion4;
             this.tiempoAcumuladoOcupadoSeccion5 = calculoAnterior.tiempoAcumuladoOcupadoSeccion5;
+
+            this.acumuladorTiempoBloqueoSeccion3 = calculoAnterior.acumuladorTiempoBloqueoSeccion3;
+            this.acumuladorTiempoBloqueoSeccion5 = calculoAnterior.acumuladorTiempoBloqueoSeccion5;
+
 
             this.acumProductosEnCola = calculoAnterior.acumProductosEnCola;
             this.acumProductosEnSistema = calculoAnterior.acumProductosEnSistema;
@@ -209,6 +221,18 @@ namespace TP5.Models
                     this.stdEnsamblesPorHora = (decimal)Math.Sqrt((double)(this.acumstdEnsamblesPorHora / (i - 1)));
                 }
             }
+        }
+
+        public  void calcularProporcionTiempoBloqueo()
+
+        {
+            if ( (this.acumuladorTiempoBloqueoSeccion5 + this.acumuladorTiempoBloqueoSeccion3) != 0)
+            {
+                this.proporcionTiempoBloqueoA3 = this.acumuladorTiempoBloqueoSeccion3 / (this.acumuladorTiempoBloqueoSeccion5 + this.acumuladorTiempoBloqueoSeccion3); // del tiempo total de bloqueo para encastrar entre los productos de las dos secciones, indica la proporcion que estuvo bloqueado los productos provenientes de la seccion 3
+                this.proporcionTiempoBloqueoA5 = 1 - this.proporcionTiempoBloqueoA3;
+            }
+
+            
         }
 
     }
