@@ -16,7 +16,6 @@
 
         <DockPanel  Margin="10,50,10,50">
 
-
             <GroupBox Header="Grilla con todos los datos de la simulacion " DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="5,3,5,5">
                 <DockPanel>
                     <DataGrid x:Name="DgvGrilla"
@@ -31,6 +30,7 @@
                         <DataGrid.Style>
                             <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
                                 <Setter Property="AlternatingRowBackground" Value="#f2f4f7"/>
+                                <Setter Property="GridLinesVisibility" Value="Vertical"></Setter>
                             </Style>
                         </DataGrid.Style>
                         <DataGrid.CellStyle>
@@ -76,9 +76,11 @@
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Evento" Binding="{Binding evento}">
+
                                 <DataGridTextColumn.CellStyle>
-                                    <Style TargetType="DataGridCell">
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
                                         <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="5,1,1,1"></Setter>
                                     </Style>
                                 </DataGridTextColumn.CellStyle>
                                 <DataGridTextColumn.HeaderStyle>
@@ -91,17 +93,19 @@
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Material" Binding="{Binding material}">
                                 <DataGridTextColumn.CellStyle>
-                                    <Style TargetType="DataGridCell">
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
                                         <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="5"></Setter>
                                     </Style>
                                 </DataGridTextColumn.CellStyle>
-                                <DataGridTextColumn.HeaderStyle>
+                                    <DataGridTextColumn.HeaderStyle>
                                     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment"
                                                         Value="Center" />
                                         <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
                                     </Style>
                                 </DataGridTextColumn.HeaderStyle>
+                                
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Tiempo entre&#x0a;Llegadas" Binding="{Binding tEntreLlegadas}">
                                 <DataGridTextColumn.CellStyle>

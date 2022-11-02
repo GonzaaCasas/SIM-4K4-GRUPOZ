@@ -217,7 +217,7 @@
                                              MaxHeight="26" MaxWidth="120" 
                                              MinWidth="80" 
                                              HorizontalAlignment="Center"
-                                             Text="75" Margin="0,20,0,0"/>
+                                             Text="3" Margin="0,20,0,0"/>
                                     <StackPanel Height="30">
                                         
                                     </StackPanel>
