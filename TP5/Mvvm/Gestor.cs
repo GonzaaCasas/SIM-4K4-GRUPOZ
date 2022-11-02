@@ -90,6 +90,9 @@ namespace TP5.Mvvm {
 
         public static decimal probabilidadDeCompletarxEnsambles;
 
+        public static Cliente cliente2 { get; set; }
+        public static Cliente cliente4 { get; set; }
+
 
         public static List<Servidor> servidores = new List<Servidor>();
         static Servidor Seccion1;
@@ -119,6 +122,7 @@ namespace TP5.Mvvm {
         private static double min = 0;
 		private static double max = 0;
 	
+
 		public static bool puntoA { get; set; }
 
 
@@ -195,7 +199,24 @@ namespace TP5.Mvvm {
 
                         clienteFin = servidorFin.TerminarAtencion();
 
+                        clienteFin.horaLlegadaDesdeS2 = reloj;
                         clientesSeccion2.Enqueue(clienteFin);
+
+
+                        if (clientesSeccion4.Count > 0) // si ya hay cola en producto proveniente de s4 que se genere una llegada de cliente a s5
+                        {
+                            Seccion2.GenerarLlegadaCliente(Seccion5);
+                            cliente4 = clientesSeccion4.Dequeue();
+                            cliente2 = clientesSeccion2.Dequeue();
+                            cantProductosEnSistema--;
+
+                        }
+                        else // si todavia no hay cola de producto  proveniente de s4 que permanezca en cola de s2
+                        {
+                            calculo.cantClientesPasaronporColaDesdeS2++;
+
+                        }
+
 
                         calculo. tiempoAcumuladoOcupadoSeccion2 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
 
@@ -221,9 +242,26 @@ namespace TP5.Mvvm {
 
                     case "Fin Atencion Servidor 4":
 
-                        clienteFin = servidorFin.TerminarAtencion();
+                        clienteFin = servidorFin.TerminarAtencion(); // cliente4 es cliente fin
 
+                        clienteFin.horaLlegadaDesdeS4 = reloj;
                         clientesSeccion4.Enqueue(clienteFin);
+
+
+                        if (clientesSeccion2.Count > 0) // si ya hay cola en producto proveniente de s2 que se genere una llegada de cliente a s5
+                        {
+                            Seccion4.GenerarLlegadaCliente(Seccion5);
+                            cliente2 = clientesSeccion2.Dequeue();
+                            cliente4 = clientesSeccion4.Dequeue();
+                            cantProductosEnSistema--;
+
+                        }
+                        else // sino permanece en cola
+                        {
+                            calculo.cantClientesPasaronporColaDesdeS4++;
+                        }
+
+
 
                         calculo.tiempoAcumuladoOcupadoSeccion4 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
 
@@ -241,7 +279,11 @@ namespace TP5.Mvvm {
 
                         calculo.tiempoAcumuladoOcupadoSeccion5 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
 
-                        calculo.tiempoAcumuladoEnEsperaSeccion5 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s1, calcula cuanto tiempo estuvo esperando en cola
+                        calculo.tiempoAcumuladoEnEsperaSeccion5DesdeS4 += clienteFin.horaInicioAtencion - cliente4.horaLlegadaDesdeS4;
+                        calculo.tiempoAcumuladoEnEsperaSeccion5DesdeS2 += clienteFin.horaInicioAtencion - cliente2.horaLlegadaDesdeS2;
+
+
+                      //  calculo.tiempoAcumuladoEnEsperaSeccion5 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s2 o s4, calcula cuanto tiempo estuvo esperando en cola
 
                         filaActual.material = clienteFin.ClienteId.ToString();
 
@@ -251,22 +293,27 @@ namespace TP5.Mvvm {
 						break;
 				}
 
-                if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
-                {
-                    Cliente cliente2 = clientesSeccion2.Dequeue();
-                    Cliente cliente4 = clientesSeccion4.Dequeue();
-                    cantProductosEnSistema--;
+                //if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
+                //{
+                //     cliente2 = clientesSeccion2.Dequeue();
+                //     cliente4 = clientesSeccion4.Dequeue();
 
-                    if (cliente4.tiempoSistema > cliente2.tiempoSistema)
-                    {
-                        Seccion4.GenerarLlegadaCliente(Seccion5);
-                    }
-                    else
-                    {
-                        Seccion2.GenerarLlegadaCliente(Seccion5);
-                    }
+                //     calculo.cantClientesPasaronporColaDesdeS2++;
+                //     calculo.cantClientesPasaronporColaDesdeS4++;
+                //     cantProductosEnSistema--;
 
-                }
+                //    if (cliente4.tiempoSistema > cliente2.tiempoSistema)
+                //    {
+                //        Seccion4.GenerarLlegadaCliente(Seccion5);
+                //    }
+                //    else
+                //    {
+                //        Seccion2.GenerarLlegadaCliente(Seccion5);
+                //    }
+
+                    
+
+                //}
 
                 if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1)
                 {
@@ -326,7 +373,7 @@ namespace TP5.Mvvm {
 
                     calculo.calcularProductosEnSistemas(eventos);
 
-                    calculo.determinarCantMaxColas(servidores, clientesSeccion3, clientesSeccion5);
+                    calculo.determinarCantMaxColas(servidores, clientesSeccion3, clientesSeccion5, clientesSeccion2, clientesSeccion4);
 
                     calculo.calcularStdEnsamblesPorHora();
 
@@ -408,7 +455,10 @@ namespace TP5.Mvvm {
             calculo.cantMaxCola2 = servidores[1].maximoCola;
             calculo.cantMaxCola3 = servidores[2].maximoCola;
             calculo.cantMaxCola4 = servidores[3].maximoCola;
-            calculo.cantMaxCola5 = servidores[4].maximoCola;
+            //calculo.cantMaxCola5 = servidores[4].maximoCola;
+            calculo.cantMaxColaS5_ProductoDesdeS2 = clientesSeccion2.Count > calculoAnterior.cantMaxColaS5_ProductoDesdeS2 ? clientesSeccion2.Count : calculoAnterior.cantMaxColaS5_ProductoDesdeS2;
+            calculo.cantMaxColaS5_ProductoDesdeS4 = clientesSeccion4.Count > calculoAnterior.cantMaxColaS5_ProductoDesdeS4 ? clientesSeccion4.Count : calculoAnterior.cantMaxColaS5_ProductoDesdeS4;
+
 
             calculo.cantMaxColaEncastre = clientesSeccion3.Count + clientesSeccion5.Count > calculo.cantMaxColaEncastre ? clientesSeccion3.Count + clientesSeccion5.Count : calculo.cantMaxColaEncastre;
         }
@@ -511,7 +561,7 @@ namespace TP5.Mvvm {
 
         public static void determinarRelojActual()
         {
-            decimal finAtencion;
+            
             if (esInicio)
             {
                 filaActual.reloj = 0;

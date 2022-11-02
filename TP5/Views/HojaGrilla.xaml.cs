@@ -225,7 +225,7 @@ namespace TP5.Views
             dr[54] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion2, 2, MidpointRounding.AwayFromZero).ToString(); 
             dr[55] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion3, 2, MidpointRounding.AwayFromZero).ToString(); 
             dr[56] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion4, 2, MidpointRounding.AwayFromZero).ToString(); 
-            dr[57] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion5, 2, MidpointRounding.AwayFromZero).ToString(); 
+            //dr[57] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion5, 2, MidpointRounding.AwayFromZero).ToString(); 
 
             dr[58] = Math.Round(calculoTabla.porcentajeOcupacioSeccion1, 2, MidpointRounding.AwayFromZero).ToString();
             dr[59] = Math.Round(calculoTabla.porcentajeOcupacioSeccion2, 2, MidpointRounding.AwayFromZero).ToString();
