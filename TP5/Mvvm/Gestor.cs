@@ -280,15 +280,26 @@ namespace TP5.Mvvm {
 
                         clienteFin = servidorFin.TerminarAtencion();
 
+            
+
                         clientesSeccion5.Enqueue(clienteFin);
 
                         calculo.tiempoAcumuladoOcupadoSeccion5 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
 
-                        calculo.tiempoAcumuladoEnEsperaSeccion5DesdeS4 += clienteFin.horaInicioAtencion - cliente4.horaLlegadaDesdeS4;
-                        calculo.tiempoAcumuladoEnEsperaSeccion5DesdeS2 += clienteFin.horaInicioAtencion - cliente2.horaLlegadaDesdeS2;
+                        if (clienteFin.horaInicioAtencion > cliente4.horaLlegadaDesdeS4 )
+                        {
+                            calculo.tiempoAcumuladoEnEsperaSeccion5DesdeS4 += clienteFin.horaInicioAtencion - cliente4.horaLlegadaDesdeS4;
+
+                        }
+                        if (clienteFin.horaInicioAtencion > cliente2.horaLlegadaDesdeS2)
+                        {
+                            calculo.tiempoAcumuladoEnEsperaSeccion5DesdeS2 += clienteFin.horaInicioAtencion - cliente2.horaLlegadaDesdeS2;
+
+                        }
 
 
-                      //  calculo.tiempoAcumuladoEnEsperaSeccion5 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s2 o s4, calcula cuanto tiempo estuvo esperando en cola
+
+                        //  calculo.tiempoAcumuladoEnEsperaSeccion5 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s2 o s4, calcula cuanto tiempo estuvo esperando en cola
 
                         filaActual.material = clienteFin.ClienteId.ToString();
 
