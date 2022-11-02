@@ -61,7 +61,8 @@ namespace TP5.Models
         public decimal acumProductosEnSistema { get; set; }
         public decimal promedioProductosEnSistema { get; set; }
 
-
+        public decimal acumstdEnsamblesPorHora { get; set; }
+        public decimal stdEnsamblesPorHora { get; set; }
 
         public Calculo()
         {
@@ -189,6 +190,23 @@ namespace TP5.Models
         public  void calcularProductosEnSistemas(decimal cantEventos)
         {
             this.promedioProductosEnSistema = this.acumProductosEnSistema / cantEventos;
+        }
+
+        public void calcularStdEnsamblesPorHora()
+        {
+            for (int i = 1; i < ensamblesPorHora.Count; i++)
+            {
+                this.acumstdEnsamblesPorHora += (decimal)Math.Pow((double)(ensamblesPorHora[i - 1] - promedioEnsamblesPorHora), 2);
+
+                if (i == 1)
+                {
+                    this.stdEnsamblesPorHora = (decimal)Math.Sqrt((double)(this.acumstdEnsamblesPorHora / i));
+                }
+                else
+                {
+                    this.stdEnsamblesPorHora = (decimal)Math.Sqrt((double)(this.acumstdEnsamblesPorHora / (i - 1)));
+                }
+            }
         }
 
     }
