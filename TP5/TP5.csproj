@@ -253,6 +253,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Actividad.cs" />
+    <Compile Include="Models\Calculo.cs" />
     <Compile Include="Models\DistribucionExponencial.cs" />
     <Compile Include="Models\DistribucionUniforme.cs" />
     <Compile Include="Models\Cliente.cs" />

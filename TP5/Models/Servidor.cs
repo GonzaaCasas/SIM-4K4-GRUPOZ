@@ -27,7 +27,7 @@ namespace TP5.Models
 
         public int cantClientesPasaronPorCola { get; set; }
 
-      
+       public Nullable<int> materialEnLlegada { get; set; }
         
 
         public Servidor(IDistribucion dist, string _nombre)
@@ -55,6 +55,7 @@ namespace TP5.Models
             else
             {
                 cola.Enqueue(material);
+                cantClientesPasaronPorCola++;
 
             }
 
@@ -63,6 +64,7 @@ namespace TP5.Models
                 maximoCola = cola.Count;
             }
 
+            this.materialEnLlegada = material.ClienteId; // Para saber que materiales llegaron en el evento Llegada de Materiales
         }
 
         public Cliente TerminarAtencion()
@@ -81,7 +83,6 @@ namespace TP5.Models
                 this.finAtencion = null;
                 this.tiempoAtencion = null;
             }
-            cantClientesPasaronPorCola++;
             return clienteAnterior;
         }
 
@@ -100,8 +101,8 @@ namespace TP5.Models
             //this.tiempoEsperaAcumulado += material.tiempoEspera;
 
             material.horaFinAtencion = (decimal)this.tiempoAtencion + Gestor.reloj;
-            material.horaEmpiezoAtencion = Gestor.reloj;
-            material.tiempoEspera = (Gestor.reloj - material.horaLlegada);
+            material.horaInicioAtencion = Gestor.reloj;
+           // material.tiempoEspera = (Gestor.reloj - material.horaLlegada);
             material.horaFinAtencion = this.finAtencion ?? 0;
             material.tiempoSistema = (material.horaFinAtencion - material.horaLlegada);
             material.tiempoEsperaAcumulado += (decimal)material.tiempoEspera;
@@ -114,6 +115,8 @@ namespace TP5.Models
 
         public void GenerarLlegadaCliente(Servidor servidor)
         {
+            // Si pasa de s1 a s4 por ejemplo, la "hora de llegada" cambia, esto es para despues calcular bien los tiempos de esperars entre los distintos servidores
+            clienteAnterior.horaLlegada = clienteAnterior.horaFinAtencion; // hora fin atencion de s1 o s2 es la hora de llegada si pasa a s4 o s5 por ejemplo
             servidor.NuevoCliente(clienteAnterior);
         }
 
