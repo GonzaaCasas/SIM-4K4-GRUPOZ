@@ -359,12 +359,14 @@ namespace TP5.Mvvm {
             //    Console.WriteLine(filaActual.evento);
             //    Console.WriteLine(filaActual.material);
             //    Console.WriteLine(filaActual.estadoS1);
+            //    Console.WriteLine(filaActual.colaS5_ProductoDesdeS2);
+            //    Console.WriteLine(filaActual.colaS5_ProductoDesdeS4);
 
             //    Console.WriteLine(calculoActual.promedioProductosEnCola);
             //    Console.WriteLine(calculoActual.ensamblesPorHora[0]); // hora 1 de 24
             //    Console.WriteLine(calculoActual.propRealizadosSolicitados);
 
-
+            // algunos datos devuelve null cuando hay ciertos eventos, eso se deberia ver como un string vacio
 
             //}
 
