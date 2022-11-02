@@ -144,7 +144,7 @@ namespace TP5.Views
             }
 
             DataRow dr = grilla.NewRow();
-            dr[0] = num;
+            dr[0] = num +1;
 
             FilaVectorEstado filaTabla = (FilaVectorEstado)fila[0];
 

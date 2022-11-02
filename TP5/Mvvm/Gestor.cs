@@ -131,10 +131,11 @@ namespace TP5.Mvvm {
             limpiarVariables();
             inicializarDistribuciones(a1, b1, a2, b2, a4, b4, media3, media5);
 			InicializarServidores();
-		
-			
 
-			Cliente clienteFin;
+            HojaGrilla.grilla = new DataTable();
+            HojaGrilla.tablaCreada = false;
+
+            Cliente clienteFin;
 			for (int i = 0; i < eventos; i++)
 			{
 
@@ -336,7 +337,7 @@ namespace TP5.Mvvm {
 
                 //aca guarddar filaActual y calculo en grilla
 
-                if (i >= rangomin && i <= rangomax)
+                if (i >= rangomin -1 && i <= rangomax)
                 {
                     filaCompleta = new List<object> { filaActual, calculo };
 
