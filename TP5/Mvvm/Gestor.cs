@@ -37,7 +37,7 @@ namespace TP5.Mvvm {
 		public static decimal promedioDuracionEnsamble;
 		public static decimal promedioProductosEnSistema;
 
-        public static List<decimal> ensamblesPorHora = new List<decimal>(new decimal[24]); // cada indice corresponde a una hora de las 24
+        public static List<decimal> ensamblesPorHora = new List<decimal>(); // cada indice corresponde a una hora de las 24
 
         public static decimal diaCalculado;
         public static decimal horaCalculada;
@@ -292,10 +292,18 @@ namespace TP5.Mvvm {
                         acumTiempoSistema += cliente5.tiempoSistema;
                     }
 
-                    diaCalculado = Math.Floor(reloj / (60 * 24)); // si paso mas de un dia calcula cuantos paso
-                    horaCalculada = Math.Floor(((reloj - (60 * 24 * diaCalculado)) / 60)); // si la hora cae en 23.5 entonces es la hora 23 ; la lista va de 0 a 23 horas (24 horas total)
+                    //diaCalculado = Math.Floor(reloj / (60 * 24)); // si paso mas de un dia calcula cuantos paso
+                    horaCalculada = Math.Floor(reloj / 60); // si la hora cae en 23.5 entonces es la hora 23 ; la lista va de 0 a 23 horas (24 horas total)
 
-                    calculo.ensamblesPorHora[(int)horaCalculada]++;
+                    if (horaCalculada >= 0 && horaCalculada < calculo.ensamblesPorHora.Count)
+                    {
+                        calculo.ensamblesPorHora[(int)horaCalculada]++;
+                    }
+                    else
+                    {
+                        calculo.ensamblesPorHora.Add(1);
+                    }
+
 
                 }
 
@@ -654,11 +662,23 @@ namespace TP5.Mvvm {
 
         }
 
-    
+
+        public static decimal ObtenerPromEnsamblesHora()
+        {
+            return calculo.promedioEnsamblesPorHora;
+        }
 
 
+        public static decimal ObtenerDEEnsamblesHora()
+        {
+            return calculo.stdEnsamblesPorHora;
+        }
 
+        public static List<decimal> ObtenerEnsamblesHora()
+        {
+            return calculo.ensamblesPorHora;
+        }
 
-	}
+    }
 
 }

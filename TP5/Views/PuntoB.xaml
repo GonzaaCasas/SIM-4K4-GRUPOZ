@@ -209,7 +209,7 @@
                     </Grid.RowDefinitions>
 
 
-                    <GroupBox Header="Probabilidad de haber completado X ensambles en 1 hora" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="240" MaxWidth="420" Margin="5,0,5,15">
+                    <GroupBox Header="Probabilidad de haber completado X ensambles en 1 hora" Grid.RowSpan="2"  Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="240" MaxWidth="420" Margin="5,0,5,15">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <GroupBox Header="Cantidad ensambles"  Margin="10,5,5,5" HorizontalAlignment="Left" Width="150">
                                 <StackPanel Orientation="Vertical">
@@ -265,7 +265,7 @@
                         </StackPanel>
                     </GroupBox>-->
                     
-                    <!--<GroupBox Header="Ensambles por hora" VerticalAlignment="Center" Margin="5,5,5,10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" >
+                    <GroupBox Header="Ensambles por hora" VerticalAlignment="Center" Margin="5,5,5,10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" >
                         <DockPanel>
                             <DataGrid x:Name="DgvEnsamblesHora" ItemsSource="{Binding}" AutoGenerateColumns="False" FontSize="16" IsReadOnly="True" DockPanel.Dock="Top" VerticalAlignment="Center" Margin="10,30,10,30">
                                 <DataGrid.Style>
@@ -304,15 +304,15 @@
                                     </DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            --><!--<GroupBox Header="Promedio"  Margin="5,5,5,5" HorizontalAlignment="Center" Width="150">
+                            <!--<GroupBox Header="Promedio"  Margin="5,5,5,5" HorizontalAlignment="Center" Width="150">
                                 <StackPanel Orientation="Vertical">
                                     <Label Content="Cantidad promedio:" FontSize="16"></Label>
                                     <Label x:Name="LblPromEnsambleHoras" Content="Cantidad prom." FontSize="16" FontWeight="Bold"></Label>
                                 </StackPanel>
-                            </GroupBox>--><!--
+                            </GroupBox>-->
                             
                         </DockPanel>
-                    </GroupBox>-->
+                    </GroupBox>
                 </Grid>
             </DockPanel>
 
