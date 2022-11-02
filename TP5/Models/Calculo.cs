@@ -28,6 +28,8 @@ namespace TP5.Models
         public decimal cantMaxCola3 { get; set; }
         public decimal cantMaxCola4 { get; set; }
         public decimal cantMaxCola5 { get; set; }
+        public decimal cantMaxColaS5_ProductoDesdeS2 { get; set; }
+        public decimal cantMaxColaS5_ProductoDesdeS4 { get; set; }
 
         public decimal cantMaxColaEncastre { get; set; }
 
@@ -43,11 +45,21 @@ namespace TP5.Models
         public decimal tiempoAcumuladoOcupadoSeccion4 { get; set; }
         public decimal tiempoAcumuladoOcupadoSeccion5 { get; set; }
 
+        public decimal tiempoAcumuladoEnEsperaSeccion5DesdeS4 { get; set; }
+        public decimal tiempoAcumuladoEnEsperaSeccion5DesdeS2 { get; set; }
+
+
         public decimal promedioPermanenciaColaSeccion1 { get; set; }
         public decimal promedioPermanenciaColaSeccion2 { get; set; }
         public decimal promedioPermanenciaColaSeccion3 { get; set; }
         public decimal promedioPermanenciaColaSeccion4 { get; set; }
-        public decimal promedioPermanenciaColaSeccion5 { get; set; }
+        public decimal promedioPermanenciaColaSeccion5DesdeS2 { get; set; }
+        public decimal promedioPermanenciaColaSeccion5DesdeS4 { get; set; }
+
+        public int cantClientesPasaronporColaDesdeS2 { get; set; }
+        public int cantClientesPasaronporColaDesdeS4 { get; set; }
+
+        // public decimal promedioPermanenciaColaSeccion5 { get; set; }
 
         public decimal porcentajeOcupacioSeccion1 { get; set; }
         public decimal porcentajeOcupacioSeccion2 { get; set; }
@@ -87,7 +99,12 @@ namespace TP5.Models
             this.tiempoAcumuladoEnEsperaSeccion2 = calculoAnterior.tiempoAcumuladoEnEsperaSeccion2;
             this.tiempoAcumuladoEnEsperaSeccion3 = calculoAnterior.tiempoAcumuladoEnEsperaSeccion3;
             this.tiempoAcumuladoEnEsperaSeccion4 = calculoAnterior.tiempoAcumuladoEnEsperaSeccion4;
-            this.tiempoAcumuladoEnEsperaSeccion5 = calculoAnterior.tiempoAcumuladoEnEsperaSeccion5;
+            this.tiempoAcumuladoEnEsperaSeccion5DesdeS2 = calculoAnterior.tiempoAcumuladoEnEsperaSeccion5DesdeS2;
+            this.tiempoAcumuladoEnEsperaSeccion5DesdeS4 = calculoAnterior.tiempoAcumuladoEnEsperaSeccion5DesdeS4;
+            //this.tiempoAcumuladoEnEsperaSeccion5 = calculoAnterior.tiempoAcumuladoEnEsperaSeccion5;
+
+            this.cantClientesPasaronporColaDesdeS2 = calculoAnterior.cantClientesPasaronporColaDesdeS2;
+            this.cantClientesPasaronporColaDesdeS4 = calculoAnterior.cantClientesPasaronporColaDesdeS4;
 
             this.tiempoAcumuladoOcupadoSeccion1 = calculoAnterior.tiempoAcumuladoOcupadoSeccion1;
             this.tiempoAcumuladoOcupadoSeccion2 = calculoAnterior.tiempoAcumuladoOcupadoSeccion2;
@@ -165,9 +182,17 @@ namespace TP5.Models
                 promedioPermanenciaColaSeccion4 = this.tiempoAcumuladoEnEsperaSeccion1 / servidores[3].cantClientesPasaronPorCola;
 
             }
-            if (servidores[4].cantClientesPasaronPorCola != 0)
+
+            if (this.cantClientesPasaronporColaDesdeS2 != 0)
             {
-                promedioPermanenciaColaSeccion5 = this.tiempoAcumuladoEnEsperaSeccion1 / servidores[4].cantClientesPasaronPorCola;
+                this.promedioPermanenciaColaSeccion5DesdeS2 = this.tiempoAcumuladoEnEsperaSeccion5DesdeS2 / this.cantClientesPasaronporColaDesdeS2;
+
+            }
+
+            if ( this.cantClientesPasaronporColaDesdeS4 != 0)
+            {
+
+                this.promedioPermanenciaColaSeccion5DesdeS4 = this.tiempoAcumuladoEnEsperaSeccion5DesdeS4 / this.cantClientesPasaronporColaDesdeS4;
 
             }
 
@@ -185,13 +210,18 @@ namespace TP5.Models
 
         }
 
-        public  void determinarCantMaxColas(List<Servidor> servidores, Queue<Cliente> productosProvenientesSeccion3, Queue<Cliente> productosProvenientesSeccion5 )
+        public  void determinarCantMaxColas(List<Servidor> servidores, Queue<Cliente> productosProvenientesSeccion3, Queue<Cliente> productosProvenientesSeccion5,
+                                            Queue<Cliente> productosProvenientesSeccion2, Queue<Cliente> productosProvenientesSeccion4)
         {
             this.cantMaxCola1 = servidores[0].maximoCola;
             this.cantMaxCola2 = servidores[1].maximoCola;
             this.cantMaxCola3 = servidores[2].maximoCola;
             this.cantMaxCola4 = servidores[3].maximoCola;
-            this.cantMaxCola5 = servidores[4].maximoCola;
+            //  this.cantMaxCola5 = servidores[4].maximoCola;
+
+            this.cantMaxColaS5_ProductoDesdeS2 = productosProvenientesSeccion2.Count > this.cantMaxColaS5_ProductoDesdeS2 ? productosProvenientesSeccion2.Count : this.cantMaxColaS5_ProductoDesdeS2;
+
+            this.cantMaxColaS5_ProductoDesdeS4 = productosProvenientesSeccion4.Count > this.cantMaxColaS5_ProductoDesdeS4 ? productosProvenientesSeccion4.Count : this.cantMaxColaS5_ProductoDesdeS4;
 
             this.cantMaxColaEncastre = productosProvenientesSeccion3.Count + productosProvenientesSeccion5.Count > this.cantMaxColaEncastre ? productosProvenientesSeccion3.Count + productosProvenientesSeccion5.Count : this.cantMaxColaEncastre;
         }
