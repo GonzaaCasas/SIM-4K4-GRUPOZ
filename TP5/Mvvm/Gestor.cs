@@ -184,12 +184,14 @@ namespace TP5.Mvvm {
 					    //	reloj = servidorFin.finAtencion ?? 0;
 						clienteFin = servidorFin.TerminarAtencion();
 
-						servidorFin.GenerarLlegadaCliente(Seccion4);
 
                         calculo.tiempoAcumuladoOcupadoSeccion1 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion; // del cliente que termino su atencion, calcula cuanto tiempo estuvo ocupado en el servidor y acumula
 
 
                         calculo.tiempoAcumuladoEnEsperaSeccion1 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s1, calcula cuanto tiempo estuvo esperando en cola
+
+                        servidorFin.GenerarLlegadaCliente(Seccion4);
+
 
                         filaActual.material = clienteFin.ClienteId.ToString(); // como no hay 
                             
@@ -199,9 +201,14 @@ namespace TP5.Mvvm {
 
                         clienteFin = servidorFin.TerminarAtencion();
 
+                        calculo.tiempoAcumuladoOcupadoSeccion2 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
+
+                        calculo.tiempoAcumuladoEnEsperaSeccion2 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada;
+
+
+
                         clienteFin.horaLlegadaDesdeS2 = reloj;
                         clientesSeccion2.Enqueue(clienteFin);
-
 
                         if (clientesSeccion4.Count > 0) // si ya hay cola en producto proveniente de s4 que se genere una llegada de cliente a s5
                         {
@@ -218,9 +225,7 @@ namespace TP5.Mvvm {
                         }
 
 
-                        calculo. tiempoAcumuladoOcupadoSeccion2 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
-
-                        calculo.tiempoAcumuladoEnEsperaSeccion2 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s2, calcula cuanto tiempo estuvo esperando en cola
+                         // del cliente que termino su atencion en s2, calcula cuanto tiempo estuvo esperando en cola
 
                         filaActual.material = clienteFin.ClienteId.ToString();
 
@@ -244,6 +249,11 @@ namespace TP5.Mvvm {
 
                         clienteFin = servidorFin.TerminarAtencion(); // cliente4 es cliente fin
 
+
+                        calculo.tiempoAcumuladoOcupadoSeccion4 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
+
+                        calculo.tiempoAcumuladoEnEsperaSeccion4 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s4, calcula cuanto tiempo estuvo esperando en cola
+
                         clienteFin.horaLlegadaDesdeS4 = reloj;
                         clientesSeccion4.Enqueue(clienteFin);
 
@@ -261,11 +271,6 @@ namespace TP5.Mvvm {
                             calculo.cantClientesPasaronporColaDesdeS4++;
                         }
 
-
-
-                        calculo.tiempoAcumuladoOcupadoSeccion4 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
-
-                        calculo.tiempoAcumuladoEnEsperaSeccion4 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s4, calcula cuanto tiempo estuvo esperando en cola
 
                         filaActual.material = clienteFin.ClienteId.ToString();
 
@@ -406,137 +411,9 @@ namespace TP5.Mvvm {
                 //filasparaGrilla.Add(filaCompleta);
             }
 
-            // filaActual es un objeto que contiene todos los datos de reloj,evento,  las columnas de Llegadas de materiales y las columnas 5 servidores -> en las propiedades de la clase esta cada dato
-
-            // filaActual.Evento
-            // filaActual.colaS1
-
-
-            // calculo es un objeto que contiene todos los estadisticos -> en las propiedades de la clase esta cada estadistico
-
-            // calculo.promedioPermanenciaColaSeccion1
-            // calculo.porcentajeOcupacioSeccion1
-
-            //for (int fila = 50; fila < 100; fila++)
-            //{
-            //    FilaVectorEstado filaActual = filasparaGrilla[fila][0] as FilaVectorEstado;
-            //    Calculo calculoActual = filasparaGrilla[fila][1] as Calculo;
-
-            //    Console.WriteLine(filaActual.reloj);
-            //    Console.WriteLine(filaActual.evento);
-            //    Console.WriteLine(filaActual.material);
-            //    Console.WriteLine(filaActual.estadoS1);
-            //    Console.WriteLine(filaActual.colaS5_ProductoDesdeS2);
-            //    Console.WriteLine(filaActual.colaS5_ProductoDesdeS4);
-
-            //    Console.WriteLine(calculoActual.promedioProductosEnCola);
-            //    Console.WriteLine(calculoActual.ensamblesPorHora[0]); // hora 1 de 24
-            //    Console.WriteLine(calculoActual.propRealizadosSolicitados);
-
-            // algunos datos devuelve null cuando hay ciertos eventos, eso se deberia ver como un string vacio
-
-            //}
-
-
-            // faltan hacer estas 2 funciones 
-
-            //calcularStdEnsamblesPorHora();
-      
-            
-			//calcularProporcionTiempoBloqueo();
-            
-
-
 
         }
-
 	
-        private static void calcularProporcionTiempoBloqueo()
-		{
-            proporcionTiempoBloqueo = acumuladorTiempoBloqueoSeccion3 / (acumuladorTiempoBloqueoSeccion5 + acumuladorTiempoBloqueoSeccion3); // del tiempo total de bloqueo para encastrar entre los productos de las dos secciones, indica la proporcion que estuvo bloqueado los productos provenientes de la seccion 3
-            proporcionTiempoBloqueoA5 = 1 - proporcionTiempoBloqueo;
-        }
-
-		private static void determinarCantMaxColas()
-		{
-            calculo.cantMaxCola1 = servidores[0].maximoCola;
-            calculo.cantMaxCola2 = servidores[1].maximoCola;
-            calculo.cantMaxCola3 = servidores[2].maximoCola;
-            calculo.cantMaxCola4 = servidores[3].maximoCola;
-            //calculo.cantMaxCola5 = servidores[4].maximoCola;
-            calculo.cantMaxColaS5_ProductoDesdeS2 = clientesSeccion2.Count > calculoAnterior.cantMaxColaS5_ProductoDesdeS2 ? clientesSeccion2.Count : calculoAnterior.cantMaxColaS5_ProductoDesdeS2;
-            calculo.cantMaxColaS5_ProductoDesdeS4 = clientesSeccion4.Count > calculoAnterior.cantMaxColaS5_ProductoDesdeS4 ? clientesSeccion4.Count : calculoAnterior.cantMaxColaS5_ProductoDesdeS4;
-
-
-            calculo.cantMaxColaEncastre = clientesSeccion3.Count + clientesSeccion5.Count > calculo.cantMaxColaEncastre ? clientesSeccion3.Count + clientesSeccion5.Count : calculo.cantMaxColaEncastre;
-        }
-
-		private static void calcularStdEnsamblesPorHora()
-		{
-            for (int i = 1; i < ensamblesPorHora.Count; i++)
-            {
-                acumstdEnsamblesPorHora += (decimal)Math.Pow((double)(ensamblesPorHora[i-1] - promedioEnsamblesPorHora), 2);
-
-                if (i == 1)
-                {
-                    stdEnsamblesPorHora = (decimal)Math.Sqrt((double)(acumstdEnsamblesPorHora / i));
-                }
-                else
-                {
-                    stdEnsamblesPorHora = (decimal)Math.Sqrt((double)(acumstdEnsamblesPorHora / (i - 1)));
-                }
-            }
-        }
-
-		private static void calcularProductosEnCola()
-		{
-            promedioProductosEnCola = acumProductosEnCola / _eventos;
-        }
-
-		private static void calcularProductosEnSistemas()
-		{
-            promedioProductosEnSistema = acumProductosEnSistema / _eventos;
-        }
-
-		private static void calcularProporcionRealizadosSolicitados()
-		{
-            propRealizadosSolicitados = (decimal)acumEnsamblados / (decimal)acumSolicitadas;
-
-        }
-
-        private static void calcularPromedioDuracionEnsamble()
-		{
-            promedioDuracionEnsamble = reloj / acumEnsamblados;
-        }
-
-		private static void calcularPromedioEnsamblesPorHora()
-		{
-            promedioEnsamblesPorHora = ensamblesPorHora.Sum() / 24;
-        }
-
-		private static void calcularPorcentajeOcupacionSecciones()
-		{
-
-			porcentajeOcupacioSeccion1 = (tiempoAcumuladoOcupadoSeccion1 / reloj) * 100;
-			porcentajeOcupacioSeccion2 = (tiempoAcumuladoOcupadoSeccion2 / reloj) * 100;
-			porcentajeOcupacioSeccion3 = (tiempoAcumuladoOcupadoSeccion3 / reloj) * 100;
-			porcentajeOcupacioSeccion4 = (tiempoAcumuladoOcupadoSeccion4 / reloj) * 100;
-			porcentajeOcupacioSeccion5 = (tiempoAcumuladoOcupadoSeccion5 / reloj) * 100;
-
-		}
-        private static void calcularPermanenciaColaSecciones()
-		{
-
-                promedioPermanenciaColaSeccion1 = tiempoAcumuladoEnEsperaSeccion1 / Seccion1.cantClientesPasaronPorCola;
-                promedioPermanenciaColaSeccion2 = tiempoAcumuladoEnEsperaSeccion2 / Seccion2.cantClientesPasaronPorCola;
-                promedioPermanenciaColaSeccion3 = tiempoAcumuladoEnEsperaSeccion3 / Seccion3.cantClientesPasaronPorCola;
-                promedioPermanenciaColaSeccion4 = tiempoAcumuladoEnEsperaSeccion4 / Seccion4.cantClientesPasaronPorCola;
-                promedioPermanenciaColaSeccion5 = tiempoAcumuladoEnEsperaSeccion5 / Seccion5.cantClientesPasaronPorCola;
-            
-        }
-
-
-
         private static void InicializarPedido()
         {
 			Seccion1.NuevoCliente(new Cliente(reloj));
@@ -544,28 +421,6 @@ namespace TP5.Mvvm {
 			Seccion3.NuevoCliente(new Cliente(reloj));
             
 		}
-
-
-
-
-        private static string DeterminarEvento()
-        {
-			if (reloj == 0)
-			{
-				return "inicio";
-            }
-			
-            
-			if ( servidorFin == null || proxLlegada <= servidorFin.finAtencion )
-			{
-
-				return "llegada";
-			}
-
-			return "finAtencion";
-
-
-        }
 
         public static void determinarRelojActual()
         {
