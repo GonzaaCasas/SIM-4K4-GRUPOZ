@@ -31,6 +31,13 @@ namespace TP5.ViewModels {
 				NavigationType = typeof(PuntoB),
 				NavigationDestination = new Uri("Views/PuntoB.xaml", UriKind.RelativeOrAbsolute)
 			});
+			this.Menu.Add(new MenuItem()
+			{
+				Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.AlphaG },
+				Label = "Grilla",
+				NavigationType = typeof(HojaGrilla),
+				NavigationDestination = new Uri("Views/HojaGrilla.xaml", UriKind.RelativeOrAbsolute)
+			});
 		}
 	}
 }

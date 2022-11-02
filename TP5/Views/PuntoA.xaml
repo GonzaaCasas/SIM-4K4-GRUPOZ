@@ -132,6 +132,38 @@
                          HorizontalAlignment="Left"
                          Text="15000"
                          VerticalAlignment="Bottom"/>
+                
+                <StackPanel Margin="10,20,10,20"></StackPanel>
+                <Label Content="Simulaciones a visualizar" FontSize="14" VerticalAlignment="Bottom"/>
+                <controls:RangeSlider 
+                 x:Name="Slider"
+                 Margin="4"
+                 controls:SliderHelper.ChangeValueBy="LargeChange"
+                 controls:SliderHelper.EnableMouseWheel="MouseHover"
+                 AutoToolTipPlacement="TopLeft"
+                 LargeChange="10"
+                 UpperValue="15"
+                 LowerValue="1"
+                 Maximum="15"
+                 Minimum="1"
+                 Orientation="Horizontal"
+                 SmallChange="1"
+                 IsSnapToTickEnabled="True"
+                 Style="{DynamicResource MahApps.Styles.RangeSlider.Win10}"
+                    >
+                    <controls:RangeSlider.AutoToolTipRangeValuesTemplate>
+                        <DataTemplate DataType="mah:RangeSliderAutoTooltipValues">
+                            <UniformGrid Columns="2" Rows="2">
+                                <TextBlock HorizontalAlignment="Right" Text="Desde:" />
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding LowerValue, StringFormat='{}{0:N2}'}" />
+                                <TextBlock HorizontalAlignment="Right" Text="Hasta:" />
+                                <TextBlock HorizontalAlignment="Right" Text="{Binding UpperValue, StringFormat='{}{0:N2}'}" />
+                            </UniformGrid>
+                        </DataTemplate>
+                    </controls:RangeSlider.AutoToolTipRangeValuesTemplate>
+                </controls:RangeSlider>
+            </StackPanel>
+            <StackPanel x:Name="stackCarga" Grid.Row="1" Grid.Column="3" Panel.ZIndex="20" >
                 <Button x:Name="BtnGenerar" 
                         Grid.Column="3" 
                         Grid.Row="1" 
@@ -141,8 +173,7 @@
                         Click="BtnGenerar_Click"
                         Command="{Binding generarCommand}" Margin="47,10,48,0"
                         >Generar</Button>
-            </StackPanel>
-            <StackPanel x:Name="stackCarga" Grid.Row="1" Grid.Column="3" Panel.ZIndex="20" >
+                <StackPanel Margin="10,20,10,20"></StackPanel>
                 <controls:ProgressRing  x:Name="animacionCarga" Foreground="{DynamicResource AccentColorBrush}"
                   IsActive="{Binding cargaActiva}" Visibility="{Binding visibilidadCarga}"/>
                 <Label x:Name="lblCarga" FontSize="14" Content="{Binding strCarga}" HorizontalAlignment="Center"></Label>

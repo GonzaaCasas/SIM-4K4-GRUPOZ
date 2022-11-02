@@ -265,6 +265,9 @@
     <Compile Include="ViewModels\MenuItem.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\HojaGrilla.xaml.cs">
+      <DependentUpon>HojaGrilla.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PuntoA.xaml.cs">
       <DependentUpon>PuntoA.xaml</DependentUpon>
     </Compile>
@@ -283,6 +286,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\HojaGrilla.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
