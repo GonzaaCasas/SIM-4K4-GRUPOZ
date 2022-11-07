@@ -1,0 +1,23 @@
+﻿<Page x:Class="TP6.Views.Ayuda"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="Ayuda"
+      d:DesignHeight="361"
+      d:DesignWidth="994"
+      mc:Ignorable="d">
+
+    <DockPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+               Margin="30,10,30,10"
+                >
+        <!--<Label FontSize="38">hola hola</Label>-->
+        <Image>
+            <Image.Source>
+                <BitmapImage DecodePixelWidth="0" UriSource="/Imagenes/diagrama.png"></BitmapImage>
+            </Image.Source>
+        </Image>
+    </DockPanel>
+</Page>
