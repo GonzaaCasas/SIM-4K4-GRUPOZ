@@ -257,8 +257,10 @@
     <Compile Include="Models\DistribucionExponencial.cs" />
     <Compile Include="Models\DistribucionUniforme.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\Euler.cs" />
     <Compile Include="Models\IDistribucion.cs" />
     <Compile Include="Models\RandomAux.cs" />
+    <Compile Include="Models\RungeKutta.cs" />
     <Compile Include="Models\Servidor.cs" />
     <Compile Include="Models\FilaVectorEstado.cs" />
     <Compile Include="Navigation\FrameAnimator.cs" />
