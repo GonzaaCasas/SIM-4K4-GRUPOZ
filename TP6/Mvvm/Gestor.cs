@@ -412,7 +412,12 @@ namespace TP6.Mvvm {
 				filaActual.colaS5_ProductoDesdeS4 = clientesSeccion4.Count;
 				filaActual.colaS5_ProductoDesdeS2 = clientesSeccion2.Count;
 
-				calculo.acumProductosEnSistema += cantProductosEnSistema;
+				filaActual.colaEncastre_ProductoDesdeS5 = clientesSeccion5.Count();
+                filaActual.colaEncastre_ProductoDesdeS3 = clientesSeccion3.Count();
+
+
+
+                calculo.acumProductosEnSistema += cantProductosEnSistema;
 
 				calculo.acumProductosEnCola += servidores.Sum(servidor => servidor.cola.Count());
 
