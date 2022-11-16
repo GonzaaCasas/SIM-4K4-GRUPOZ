@@ -26,6 +26,11 @@ namespace TP6.Mvvm {
         public static List<double> valoresy = new List<double>();
         public static List<double> valoresyd = new List<double>();
 
+		public static double valorT;
+        public static double pico;
+        public static double y;
+        public static double yd;
+
         public static Servidor servidorFin;
 
 		public static Queue<Cliente> clientesSeccion2 = new Queue<Cliente>();
@@ -364,21 +369,22 @@ namespace TP6.Mvvm {
 
                     if (estrategia == "RK")
 					{
-                        (valorest, valoresx, valoresy, valoresyd) = RungeKutta.calcular(0, 0, rnd);
+                        //  (valorest, valoresx, valoresy, valoresyd) = RungeKutta.calcular(0, 0, rnd);
 
+                        (valorT, pico, y, yd) = RungeKutta.calcular(0, 0, rnd);
                     }
                     else
 					{
-                        (valorest, valoresx, valoresy, valoresyd) = Euler.calcular(0, 0, rnd);
+                        (valorT, pico, y, yd) = Euler.calcular(0, 0, rnd);
 
                     }
 
-                    filaActual.valorest = valorest;
-                    filaActual.valoresx = valoresx;
-                    filaActual.valoresy = valoresy;
-                    filaActual.valoresyd = valoresyd;
+                    filaActual.valort = (decimal)valorT;
+                    filaActual.picox = (decimal)pico;
+                    filaActual.y = (decimal)y;
+                    filaActual.yd = (decimal)yd;
 
-                    filaActual.proximoFinEncastre =  reloj + (decimal)valorest.Last();
+                    filaActual.proximoFinEncastre =  reloj + filaActual.valort;
 
 
                     noHayEncastreEnProceso = false;
@@ -428,11 +434,15 @@ namespace TP6.Mvvm {
 					filaCompleta = new List<object> { filaActual, calculo };
 
 					HojaGrilla.CargarFila(filaCompleta, i);
+					valorest.Add((double)filaActual.valort);
+                    valoresx.Add((double)filaActual.picox);
+                    valoresy.Add((double)filaActual.y);
+                    valoresyd.Add((double)filaActual.yd);
 
-				}
+                }
 
-				//filasparaGrilla.Add(filaCompleta);
-			}
+                //filasparaGrilla.Add(filaCompleta);
+            }
 
 
 		}
@@ -469,8 +479,6 @@ namespace TP6.Mvvm {
 						reloj = (decimal)(filaAnterior.proximaLlegada <= servidorFin.finAtencion ? filaAnterior.proximaLlegada : servidorFin.finAtencion);
 
                     }
-
-			
 
                 }
 			}
@@ -605,6 +613,24 @@ namespace TP6.Mvvm {
 			return calculo.ensamblesPorHora;
 		}
 
-	}
+		public static List<double> ObtenerValoresT()
+		{
+			return valorest;
+		}
+        public static List<double> ObtenerValoresY()
+        {
+            return valoresy;
+        }
+        public static List<double> ObtenerValoresX()
+        {
+            return valoresx;
+        }
+        public static List<double> ObtenerValoresYD()
+        {
+            return valoresyd;
+        }
+
+
+    }
 
 }

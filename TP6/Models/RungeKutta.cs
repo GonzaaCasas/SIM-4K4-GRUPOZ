@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TP6.Models {
 	internal class RungeKutta {
-		public Tuple<double, double> calcular(double x0, double y0, RandomAux rnd) {
+		public static (double, double, double, double) calcular(double x0, double y0, RandomAux rnd) {
 
 			double a = (double)new DistribucionUniforme(0.5, 2, rnd).Generar_x();
 			double b = 10;
@@ -52,8 +52,8 @@ namespace TP6.Models {
 
 			}
 
-			return new Tuple<double, double>(t, pico);
-		}
+			return (t, pico, y, yd);
+        }
 		private static double derivada(double a, double b, double c, double y, double x, double t) {
 			return Math.Exp(-c * t) - (a * y) - b * x;
 		}

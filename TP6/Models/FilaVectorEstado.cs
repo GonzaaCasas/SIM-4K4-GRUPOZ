@@ -20,6 +20,9 @@ namespace TP6.Models {
 
 		public decimal valort;
         public decimal picox;
+        public decimal y;
+        public decimal yd;
+
 
         // server 1
         public string estadoS1 { get; set; }
@@ -125,7 +128,9 @@ namespace TP6.Models {
 
 			 this.valort = filaAnterior.valort;
 			 this.picox = filaAnterior.picox;
-    }
+			 this.y = filaAnterior.y;
+			 this.yd = filaAnterior.yd;
+        }		 
 
 		public string DeterminarEvento(decimal proximaLllegadaFilaAnterior, Nullable<decimal> proximoFinEncastreFilaAnteriror) {
 

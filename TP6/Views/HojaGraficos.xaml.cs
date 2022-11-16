@@ -40,10 +40,10 @@ namespace TP6.Views
         {
             if (flag)
             {
-                //valorest =  Gestor.ObtenerValoresT();
-                //valoresx =  Gestor.ObtenerValoresX();
-                //valoresy =  Gestor.ObtenerValoresY();
-                //valoresyd = Gestor.ObtenerValoresYD();
+                valorest = Gestor.ObtenerValoresT();
+                valoresx = Gestor.ObtenerValoresX();
+                valoresy = Gestor.ObtenerValoresY();
+                valoresyd = Gestor.ObtenerValoresYD();
                 BtnFuncT_Click(new Object(), new RoutedEventArgs());
             }
         }
