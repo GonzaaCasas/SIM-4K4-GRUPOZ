@@ -66,10 +66,13 @@ namespace TP6.Models {
 		public int colaS5_ProductoDesdeS4 { get; set; }
 		public int colaS5_ProductoDesdeS2 { get; set; }
 
+        public int colaEncastre_ProductoDesdeS5 { get; set; }
+        public int colaEncastre_ProductoDesdeS3 { get; set; }
 
 
 
-		public FilaVectorEstado() {
+
+        public FilaVectorEstado() {
 
 		}
 
