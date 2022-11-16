@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TP6.Models {
 	internal class RungeKutta {
-		public (List<double>, List<double>, List<double>, List<double>) calcular(double x0, double y0, RandomAux rnd) {
+		public static (List<double>, List<double>, List<double>, List<double>) calcular(double x0, double y0, RandomAux rnd) {
 
 			List<double> valorest = new List<double>();
 			List<double> valoresx = new List<double>();
@@ -21,7 +21,7 @@ namespace TP6.Models {
 
 			double x = x0;
 			double y = y0;
-			double yd = this.derivada(a, b, c, y, x, t);
+			double yd = derivada(a, b, c, y, x, t);
 			double l1 = h * yd;
 			double k1 = h * y;
 			double l2 = h * derivada(a, b, c, (x + 0.5 * k1), (y + 0.5 * l1), (t + 0.5 * h));
@@ -63,7 +63,7 @@ namespace TP6.Models {
 
 			return (valorest, valoresx, valoresy, valoresyd);
 		}
-		private double derivada(double a, double b, double c, double y, double x, double t) {
+		private static double derivada(double a, double b, double c, double y, double x, double t) {
 			return Math.Exp(-c * t) - (a * y) - b * x;
 		}
 	}

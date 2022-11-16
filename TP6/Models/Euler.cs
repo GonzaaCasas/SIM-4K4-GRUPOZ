@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TP6.Models {
 	internal class Euler {
-		public (List<double>, List<double>, List<double>, List<double>) calcular(double x0, double y0, RandomAux rnd) {
+		public static (List<double>, List<double>, List<double>, List<double>) calcular(double x0, double y0, RandomAux rnd) {
 
 			List<double> valorest = new List<double>();
 			List<double> valoresx = new List<double>();
@@ -21,7 +21,7 @@ namespace TP6.Models {
 
 			double x = x0;
 			double y = y0;
-			double yd = this.derivada(a, b, c, y, x, t);
+			double yd = derivada(a, b, c, y, x, t);
 
 			int picos = 0;
 			double anterior = 0;
@@ -31,7 +31,7 @@ namespace TP6.Models {
 				t = t + h;
 				x = x + y * h;
 				y = y + yd * h;
-				yd = this.derivada(a, b, c, y, x, t);
+				yd = derivada(a, b, c, y, x, t);
 
 				if (pico > x && pico > anterior) {
 					picos++;
@@ -49,7 +49,7 @@ namespace TP6.Models {
 			return (valorest, valoresx, valoresy, valoresyd);
 		}
 
-		private double derivada(double a, double b, double c, double y, double x, double t) {
+		private static double derivada(double a, double b, double c, double y, double x, double t) {
 			return Math.Exp(-c * t) - (a * y) - b * x;
 		}
 	}

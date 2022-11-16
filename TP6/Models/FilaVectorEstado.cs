@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TP6.Mvvm;
 
@@ -10,10 +11,18 @@ namespace TP6.Models {
 																				 // public string proximoMaterial { get; set; }  // proximo cliente
 		public decimal tiempoEntreLlegadas { get; set; }
 		public decimal proximaLlegada { get; set; }
+        public Nullable<decimal> proximoFinEncastre { get; set; }
 
+        public List<double> valorest = new List<double>();
+        public List<double> valoresx = new List<double>();
+        public List<double> valoresy = new List<double>();
+        public List<double> valoresyd = new List<double>();
 
-		// server 1
-		public string estadoS1 { get; set; }
+		public decimal valort;
+        public decimal picox;
+
+        // server 1
+        public string estadoS1 { get; set; }
 		public Nullable<int> materialS1 { get; set; }
 		public Nullable<decimal> tiempoAtencionS1 { get; set; }
 		public Nullable<decimal> proximoFinAtencionS1 { get; set; }
@@ -66,7 +75,7 @@ namespace TP6.Models {
 			//proximoMaterial = filaAnterior.proximoMaterial;
 			this.tiempoEntreLlegadas = filaAnterior.tiempoEntreLlegadas;
 			this.proximaLlegada = filaAnterior.proximaLlegada;
-
+			this.proximoFinEncastre = filaAnterior.proximoFinEncastre;
 
 			// server 1
 			this.estadoS1 = filaAnterior.estadoS1;
@@ -107,11 +116,18 @@ namespace TP6.Models {
 			this.proximoFinAtencionS5 = filaAnterior.proximoFinAtencionS5;
 			this.colaS5 = filaAnterior.colaS5;
 
+			// valores de Ecuacion Diferencial
 
+			 this.valorest = filaAnterior.valorest;
+			 this.valoresx = filaAnterior.valoresx;
+			 this.valoresy = filaAnterior.valoresy;
+			 this.valoresyd = filaAnterior.valoresyd;
 
-		}
+			 this.valort = filaAnterior.valort;
+			 this.picox = filaAnterior.picox;
+    }
 
-		public string DeterminarEvento(decimal proximaLllegadaFilaAnterior) {
+		public string DeterminarEvento(decimal proximaLllegadaFilaAnterior, Nullable<decimal> proximoFinEncastreFilaAnteriror) {
 
 
 			if (this.reloj == 0) {
@@ -128,6 +144,12 @@ namespace TP6.Models {
 				return this.evento = "Llegada Materiales";
 
 			}
+
+			if (proximoFinEncastreFilaAnteriror != null && proximoFinEncastreFilaAnteriror == Gestor.reloj)
+			{
+				return this.evento = "Fin Encastre";
+
+            }
 
 			this.evento = Gestor.servidorFin.nombre.Equals("Seccion1") ? "Fin Atencion Servidor 1" : Gestor.servidorFin.nombre.Equals("Seccion2") ? "Fin Atencion Servidor 2" :
 									 Gestor.servidorFin.nombre.Equals("Seccion3") ? "Fin Atencion Servidor 3" : Gestor.servidorFin.nombre.Equals("Seccion4") ? "Fin Atencion Servidor 4" :

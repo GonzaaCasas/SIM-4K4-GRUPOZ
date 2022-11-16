@@ -12,8 +12,8 @@ namespace TP5.Models
        // public string proximoMaterial { get; set; }  // proximo cliente
         public decimal tiempoEntreLlegadas { get; set; }
         public decimal proximaLlegada { get; set; }
+        public Nullable<decimal> proximoFinEncastre { get; set; }
 
-  
         // server 1
         public string estadoS1 { get; set; }
         public Nullable<int> materialS1 { get; set; }
@@ -70,7 +70,7 @@ namespace TP5.Models
             //proximoMaterial = filaAnterior.proximoMaterial;
             this.tiempoEntreLlegadas = filaAnterior.tiempoEntreLlegadas;
             this.proximaLlegada = filaAnterior.proximaLlegada;
-
+            this.proximoFinEncastre = filaAnterior.proximoFinEncastre; 
 
             // server 1
             this.estadoS1 = filaAnterior.estadoS1;

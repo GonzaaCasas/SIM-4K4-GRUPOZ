@@ -112,7 +112,7 @@ namespace TP6.Views {
 					animacionCarga.Visibility = Visibility.Visible;
 					lblCarga.Content = "Calculando...";
 					Task.Factory.StartNew(() => {
-						Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5, rangomin, rangomax);
+						Gestor.simular(cantidadSimular, minimoA1, maximoA1, minimoA2, maximoA2, minimoA4, maximoA4, mediaA3, mediaA5, rangomin, rangomax, "RK");
 					}).ContinueWith(task => {
 						animacionCarga.IsActive = false;
 						animacionCarga.Visibility = Visibility.Hidden;

@@ -19,8 +19,14 @@ namespace TP6.Mvvm {
 		public static List<object> filaCompleta;
 		private static List<List<object>> filasparaGrilla = new List<List<object>>();
 
+        static  RandomAux rnd = new RandomAux();
 
-		public static Servidor servidorFin;
+        public static List<double> valorest = new List<double>();
+        public static List<double> valoresx = new List<double>();
+        public static List<double> valoresy = new List<double>();
+        public static List<double> valoresyd = new List<double>();
+
+        public static Servidor servidorFin;
 
 		public static Queue<Cliente> clientesSeccion2 = new Queue<Cliente>();
 		public static Queue<Cliente> clientesSeccion3 = new Queue<Cliente>();
@@ -118,18 +124,20 @@ namespace TP6.Mvvm {
 
 
 		private static bool esInicio = true;
+		private static bool noHayEncastreEnProceso = true;
 
-		private static double min = 0;
+        private static double min = 0;
 		private static double max = 0;
 
 
 		public static bool puntoA { get; set; }
 
 
-		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5, double rangomin, double rangomax) {
+		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5, double rangomin, double rangomax, string estrategia) {
 
 			puntoA = true;
-			_eventos = eventos;
+            noHayEncastreEnProceso = true;
+            _eventos = eventos;
 			filaAnterior = new FilaVectorEstado();
 			calculoAnterior = new Calculo();
 			limpiarVariables();
@@ -151,7 +159,7 @@ namespace TP6.Mvvm {
 				filaActual.reloj = reloj;
 				calculo.reloj = reloj;
 
-				switch (filaActual.DeterminarEvento(filaAnterior.proximaLlegada)) {
+				switch (filaActual.DeterminarEvento(filaAnterior.proximaLlegada, filaAnterior.proximoFinEncastre)) {
 					case "Inicio":
 						//proxLlegada = GenerarLlegadaCliente();
 						//filaActual.evento = "Inicio";
@@ -277,7 +285,6 @@ namespace TP6.Mvvm {
 						clienteFin = servidorFin.TerminarAtencion();
 
 
-
 						clientesSeccion5.Enqueue(clienteFin);
 
 						calculo.tiempoAcumuladoOcupadoSeccion5 += clienteFin.horaFinAtencion - clienteFin.horaInicioAtencion;
@@ -296,65 +303,85 @@ namespace TP6.Mvvm {
 						//  calculo.tiempoAcumuladoEnEsperaSeccion5 += clienteFin.horaInicioAtencion - clienteFin.horaLlegada; // del cliente que termino su atencion en s2 o s4, calcula cuanto tiempo estuvo esperando en cola
 
 						filaActual.material = clienteFin.ClienteId.ToString();
-
+										
 						break;
 
-					default:
+                    case "Fin Encastre":
+
+                        calculo.acumEnsamblados++;
+
+
+
+                        Cliente cliente3 = clientesSeccion3.Dequeue();
+                        Cliente cliente5 = clientesSeccion5.Dequeue();
+
+						filaActual.material = cliente5.ClienteId % 2 == 0 ? $"{cliente5.ClienteId - 1}, {cliente5.ClienteId}, {cliente3.ClienteId}" :
+                        cliente5.ClienteId == 1 ?  $"{cliente5.ClienteId}, {cliente5.ClienteId + 1}, {cliente3.ClienteId}" :
+                          $"{cliente5.ClienteId - 1}, {cliente5.ClienteId},  {cliente3.ClienteId}" ;
+
+
+                        calculo.acumuladorTiempoBloqueoSeccion5 += reloj - cliente5.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion5
+                        calculo.acumuladorTiempoBloqueoSeccion3 += reloj - cliente3.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion3
+
+
+
+                        if (cliente3.tiempoSistema > cliente5.tiempoSistema)
+                        {
+
+                            acumTiempoSistema += cliente3.tiempoSistema;
+                        }
+                        else
+                        {
+                            acumTiempoSistema += cliente5.tiempoSistema;
+                        }
+
+                        //diaCalculado = Math.Floor(reloj / (60 * 24)); // si paso mas de un dia calcula cuantos paso
+                        horaCalculada = Math.Floor(reloj / 60); // si la hora cae en 23.5 entonces es la hora 23 ; la lista va de 0 a 23 horas (24 horas total)
+
+                        if (horaCalculada >= 0 && horaCalculada < calculo.ensamblesPorHora.Count)
+                        {
+                            calculo.ensamblesPorHora[(int)horaCalculada]++;
+                        }
+                        else
+                        {
+                            calculo.ensamblesPorHora.Add(1);
+                        }
+
+                        noHayEncastreEnProceso = true;
+						filaActual.proximoFinEncastre = null; // no hay prox fin encastre
+
+                        break;
+
+                    default:
 						break;
 				}
 
-				//if (clientesSeccion2.Count >= 1 && clientesSeccion4.Count >= 1)
-				//{
-				//     cliente2 = clientesSeccion2.Dequeue();
-				//     cliente4 = clientesSeccion4.Dequeue();
 
-				//     calculo.cantClientesPasaronporColaDesdeS2++;
-				//     calculo.cantClientesPasaronporColaDesdeS4++;
-				//     cantProductosEnSistema--;
+				// para determinar el proximo fin Encastre
 
-				//    if (cliente4.tiempoSistema > cliente2.tiempoSistema)
-				//    {
-				//        Seccion4.GenerarLlegadaCliente(Seccion5);
-				//    }
-				//    else
-				//    {
-				//        Seccion2.GenerarLlegadaCliente(Seccion5);
-				//    }
+				if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1 && noHayEncastreEnProceso) {
 
 
+                    if (estrategia == "RK")
+					{
+                        (valorest, valoresx, valoresy, valoresyd) = RungeKutta.calcular(0, 0, rnd);
 
-				//}
+                    }
+                    else
+					{
+                        (valorest, valoresx, valoresy, valoresyd) = Euler.calcular(0, 0, rnd);
 
-				if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1) {
+                    }
 
+                    filaActual.valorest = valorest;
+                    filaActual.valoresx = valoresx;
+                    filaActual.valoresy = valoresy;
+                    filaActual.valoresyd = valoresyd;
 
-					Cliente cliente3 = clientesSeccion3.Dequeue();
-					Cliente cliente5 = clientesSeccion5.Dequeue();
-
-
-					calculo.acumuladorTiempoBloqueoSeccion5 += reloj - cliente5.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion5
-					calculo.acumuladorTiempoBloqueoSeccion3 += reloj - cliente3.horaFinAtencion; // acumula tiempo bloqueo de los productos provenientes de seccion3
-
-
-					calculo.acumEnsamblados++;
-
-					if (cliente3.tiempoSistema > cliente5.tiempoSistema) {
-
-						acumTiempoSistema += cliente3.tiempoSistema;
-					} else {
-						acumTiempoSistema += cliente5.tiempoSistema;
-					}
-
-					//diaCalculado = Math.Floor(reloj / (60 * 24)); // si paso mas de un dia calcula cuantos paso
-					horaCalculada = Math.Floor(reloj / 60); // si la hora cae en 23.5 entonces es la hora 23 ; la lista va de 0 a 23 horas (24 horas total)
-
-					if (horaCalculada >= 0 && horaCalculada < calculo.ensamblesPorHora.Count) {
-						calculo.ensamblesPorHora[(int)horaCalculada]++;
-					} else {
-						calculo.ensamblesPorHora.Add(1);
-					}
+                    filaActual.proximoFinEncastre =  reloj + (decimal)valorest.Last();
 
 
+                    noHayEncastreEnProceso = false;
 				}
 
 				// colas de productos provenientes de 4 y de 2 al servidor 5
@@ -427,10 +454,25 @@ namespace TP6.Mvvm {
 				determinarServidorFin();
 				if (servidorFin == null) {
 					reloj = filaAnterior.proximaLlegada;
-				} else {
-					reloj = (decimal)(filaAnterior.proximaLlegada <= servidorFin.finAtencion ? filaAnterior.proximaLlegada : servidorFin.finAtencion);
-
 				}
+				else {
+
+					if (filaAnterior.proximoFinEncastre != null)
+					{
+
+                        reloj = (decimal)(filaAnterior.proximaLlegada <= servidorFin.finAtencion && filaAnterior.proximaLlegada <= filaAnterior.proximoFinEncastre ? filaAnterior.proximaLlegada
+                         : servidorFin.finAtencion <= filaAnterior.proximoFinEncastre ? servidorFin.finAtencion
+                         : filaAnterior.proximoFinEncastre);
+					}
+					else
+					{
+						reloj = (decimal)(filaAnterior.proximaLlegada <= servidorFin.finAtencion ? filaAnterior.proximaLlegada : servidorFin.finAtencion);
+
+                    }
+
+			
+
+                }
 			}
 
 
@@ -507,7 +549,6 @@ namespace TP6.Mvvm {
 		}
 		public static void inicializarDistribuciones(double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5) {
 
-			RandomAux rnd = new RandomAux();
 
 			_uniformeActividad1 = new DistribucionUniforme(a1, b1, rnd);
 			_uniformeActividad2 = new DistribucionUniforme(a2, b2, rnd);
