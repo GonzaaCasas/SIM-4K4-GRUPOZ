@@ -19,11 +19,11 @@ namespace TP6.Models {
 			double yd = derivada(a, b, c, y, x, t);
 			double l1 = h * yd;
 			double k1 = h * y;
-			double l2 = h * derivada(a, b, c, (x + 0.5 * k1), (y + 0.5 * l1), (t + 0.5 * h));
+			double l2 = h * derivada(a, b, c, (y + 0.5 * l1), (x + 0.5 * k1), (t + 0.5 * h));
 			double k2 = h * (y + 0.5 * l1);
-			double l3 = h * derivada(a, b, c, (x + 0.5 * k2), (y + 0.5 * l2), (t + 0.5 * h));
+			double l3 = h * derivada(a, b, c, (y + 0.5 * l2), (x + 0.5 * k2), (t + 0.5 * h));
 			double k3 = h * (y + 0.5 * l2);
-			double l4 = h * derivada(a, b, c, (x + k3), (y + l3), (t + h));
+			double l4 = h * derivada(a, b, c, (y + l3), (x + k3), (t + h));
 			double k4 = h * (y + l3);
 
 			int picos = 0;
