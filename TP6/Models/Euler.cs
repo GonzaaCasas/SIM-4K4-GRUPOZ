@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace TP6.Models {
 	internal class Euler {
-		public (List<double>, List<double>, List<double>, List<double>) calcular(double x0, double y0, RandomAux rnd) {
-
-			List<double> valorest = new List<double>();
-			List<double> valoresx = new List<double>();
-			List<double> valoresy = new List<double>();
-			List<double> valoresyd = new List<double>();
+		public Tuple<double, double> calcular(double x0, double y0, RandomAux rnd) {
 
 			double a = (double)new DistribucionUniforme(0.5, 2, rnd).Generar_x();
 			double b = 10;
@@ -39,14 +34,9 @@ namespace TP6.Models {
 				anterior = pico;
 				pico = x;
 
-				valorest.Add(t);
-				valoresx.Add(x);
-				valoresy.Add(y);
-				valoresyd.Add(yd);
-
 			}
 
-			return (valorest, valoresx, valoresy, valoresyd);
+			return new Tuple<double, double>(t, pico);
 		}
 
 		private double derivada(double a, double b, double c, double y, double x, double t) {

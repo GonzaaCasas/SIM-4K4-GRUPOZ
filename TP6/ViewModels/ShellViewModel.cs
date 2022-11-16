@@ -37,9 +37,16 @@ namespace TP6.ViewModels {
 				NavigationType = typeof(PuntoB),
 				NavigationDestination = new Uri("Views/PuntoB.xaml", UriKind.RelativeOrAbsolute)
 			});
+			this.Menu.Add(new MenuItem()
+			{
+				Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.ChartTimelineVariant },
+				Label = "Graficos",
+				NavigationType = typeof(HojaGraficos),
+				NavigationDestination = new Uri("Views/HojaGraficos.xaml", UriKind.RelativeOrAbsolute)
+			});
 			this.OptionsMenu.Add(new MenuItem() {
 				Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.Help },
-				Label = "Resultados",
+				Label = "Ayuda",
 				NavigationType = typeof(PuntoB),
 				NavigationDestination = new Uri("Views/Ayuda.xaml", UriKind.RelativeOrAbsolute)
 			});
