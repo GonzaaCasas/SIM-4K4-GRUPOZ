@@ -23,6 +23,8 @@ namespace TP6.Views {
 		private double minimoA4;
 		private double maximoA4;
 
+		private string estrategia;
+
 		private double mediaA5;
 
 		private double rangomin;
@@ -104,6 +106,15 @@ namespace TP6.Views {
 
 					cantidadSimular = int.Parse(TxtCantidad.Text);
 
+                    if ((bool)rbRK.IsChecked)
+                    {
+						estrategia = "RK";
+                    }
+                    else
+                    {
+						estrategia = "Euler";
+                    }
+
 
 					rangomin = Slider.LowerValue;
 					rangomax = Slider.UpperValue;
@@ -129,25 +140,35 @@ namespace TP6.Views {
 
 		}
 
-		//private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
-		//{
-		//    DataTable tabla = new DataTable();
-		//    tabla.Columns.Add(strCol1);
-		//    tabla.Columns.Add(strCol2);
+        private void rbEuler_Checked(object sender, RoutedEventArgs e)
+        {
 
-		//    foreach (var item in lista)
-		//    {
+        }
 
-		//        DataRow _row = tabla.NewRow();
-		//        _row[0] = (tabla.Rows.Count + 1).ToString();
+        private void rbRK_Checked(object sender, RoutedEventArgs e)
+        {
 
-		//        _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
-		//        tabla.Rows.Add(_row);
-		//    }
+        }
 
-		//    return tabla;
-		//}
+        //private DataTable generarTabla(List<decimal> lista, string strCol1, string strCol2)
+        //{
+        //    DataTable tabla = new DataTable();
+        //    tabla.Columns.Add(strCol1);
+        //    tabla.Columns.Add(strCol2);
+
+        //    foreach (var item in lista)
+        //    {
+
+        //        DataRow _row = tabla.NewRow();
+        //        _row[0] = (tabla.Rows.Count + 1).ToString();
+
+        //        _row[1] = Math.Round(item, 4, MidpointRounding.AwayFromZero).ToString();
+        //        tabla.Rows.Add(_row);
+        //    }
+
+        //    return tabla;
+        //}
 
 
-	}
+    }
 }
