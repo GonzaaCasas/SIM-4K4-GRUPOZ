@@ -26,6 +26,8 @@ namespace TP6.Mvvm {
         public static List<double> valoresy = new List<double>();
         public static List<double> valoresyd = new List<double>();
 
+		public static bool primerCalculo = true;
+
 		public static double valorT;
         public static double pico;
         public static double y;
@@ -366,16 +368,30 @@ namespace TP6.Mvvm {
 
 				if (clientesSeccion5.Count >= 1 && clientesSeccion3.Count >= 1 && noHayEncastreEnProceso) {
 
+					
 
                     if (estrategia == "RK")
 					{
                         //  (valorest, valoresx, valoresy, valoresyd) = RungeKutta.calcular(0, 0, rnd);
 
+                        if (primerCalculo)
+                        {
+							(valorest, valoresx, valoresy, valoresyd) = RungeKutta.ObtenerVector(0,0, rnd);
+                        }
+
                         (valorT, pico, y, yd) = RungeKutta.calcular(0, 0, rnd);
+
+
                     }
                     else
 					{
-                        (valorT, pico, y, yd) = Euler.calcular(0, 0, rnd);
+
+						if (primerCalculo)
+						{
+							(valorest, valoresx, valoresy, valoresyd) = Euler.ObtenerVector(0, 0, rnd);
+						}
+
+						(valorT, pico, y, yd) = Euler.calcular(0, 0, rnd);
 
                     }
 
@@ -388,6 +404,7 @@ namespace TP6.Mvvm {
 
 
                     noHayEncastreEnProceso = false;
+					primerCalculo = false;
 				}
 
 				// colas de productos provenientes de 4 y de 2 al servidor 5
@@ -434,10 +451,10 @@ namespace TP6.Mvvm {
 					filaCompleta = new List<object> { filaActual, calculo };
 
 					HojaGrilla.CargarFila(filaCompleta, i);
-					valorest.Add((double)filaActual.valort);
-                    valoresx.Add((double)filaActual.picox);
-                    valoresy.Add((double)filaActual.y);
-                    valoresyd.Add((double)filaActual.yd);
+					//valorest.Add((double)filaActual.valort);
+     //               valoresx.Add((double)filaActual.picox);
+     //               valoresy.Add((double)filaActual.y);
+     //               valoresyd.Add((double)filaActual.yd);
 
                 }
 

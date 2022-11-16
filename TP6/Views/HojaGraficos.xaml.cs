@@ -53,21 +53,31 @@ namespace TP6.Views
             grafico2 = new Grafico2();
             dockPlot.Children.Clear();
             dockPlot.Children.Add(grafico2);
-            grafico2.AgregarSerieLinea(valoresx, "Valores X");
-            grafico2.AgregarSerieLinea(valoresy, "Valores X'");
-            grafico2.AgregarSerieLinea(valoresyd, "Valores X''");
-            string[] intervalos = ConstruirLabels(valorest);
-            grafico2.AgregarIntervalos(intervalos, false);
+
+            grafico2.NombreEjeX("Tiempo");
+            grafico2.AgregarSerieXY(valorest, valoresx, "Valores X");
+            grafico2.AgregarSerieXY(valorest, valoresy, "Valores X'");
+            grafico2.AgregarSerieXY(valorest, valoresyd, "Valores X''");
+
+
+            //grafico2.AgregarSerieLinea(valoresx, "Valores X");
+            //grafico2.AgregarSerieLinea(valoresy, "Valores X'");
+            //grafico2.AgregarSerieLinea(valoresyd, "Valores X''");
+            //string[] intervalos = ConstruirLabels(valorest);
+            //grafico2.AgregarIntervalos(intervalos, false);
             grafico2.Visibility = Visibility.Visible;
         }
 
         private string[] ConstruirLabels(List<double> valores)
         {
             string[] labels = new string[valores.Count];
-            for (int i = 1; i <= valores.Count(); i++)
+            for (int i = 0; i < valores.Count(); i++)
             {
-                labels[i - 1] = i.ToString();
+                //labels[i - 1] = i.ToString();
+                labels[i] = valores[i].ToString();
             }
+
+
             return labels;
         }
 
@@ -76,9 +86,11 @@ namespace TP6.Views
             grafico2 = new Grafico2();
             dockPlot.Children.Clear();
             dockPlot.Children.Add(grafico2);
-            grafico2.AgregarSerieLinea(valoresyd, "Valores X''");
-            string[] intervalos = ConstruirLabels(valoresx);
-            grafico2.AgregarIntervalos(intervalos, false);
+            grafico2.NombreEjeX("X");
+            grafico2.AgregarSerieXY(valoresx, valoresyd, "Valores X''");
+            //grafico2.AgregarSerieLinea(valoresyd, "Valores X''");
+            //string[] intervalos = ConstruirLabels(valoresx);
+            //grafico2.AgregarIntervalos(intervalos, false);
             grafico2.Visibility = Visibility.Visible;
         }
 
@@ -87,9 +99,11 @@ namespace TP6.Views
             grafico2 = new Grafico2();
             dockPlot.Children.Clear();
             dockPlot.Children.Add(grafico2);
-            grafico2.AgregarSerieLinea(valoresy, "Valores X'");
-            string[] intervalos = ConstruirLabels(valoresx);
-            grafico2.AgregarIntervalos(intervalos, false);
+            grafico2.NombreEjeX("X");
+            grafico2.AgregarSerieXY(valoresx, valoresy, "Valores X'");
+            //grafico2.AgregarSerieLinea(valoresy, "Valores X'");
+            //string[] intervalos = ConstruirLabels(valoresx);
+            //grafico2.AgregarIntervalos(intervalos, false);
             grafico2.Visibility = Visibility.Visible;
         }
 
@@ -98,9 +112,11 @@ namespace TP6.Views
             grafico2 = new Grafico2();
             dockPlot.Children.Clear();
             dockPlot.Children.Add(grafico2);
-            grafico2.AgregarSerieLinea(valoresyd, "Valores X''");
-            string[] intervalos = ConstruirLabels(valoresy);
-            grafico2.AgregarIntervalos(intervalos, false);
+            grafico2.NombreEjeX("X'");
+            grafico2.AgregarSerieXY(valoresy, valoresyd, "Valores X'");
+            //grafico2.AgregarSerieLinea(valoresyd, "Valores X''");
+            //string[] intervalos = ConstruirLabels(valoresy);
+            //grafico2.AgregarIntervalos(intervalos, false);
             grafico2.Visibility = Visibility.Visible;
         }
 

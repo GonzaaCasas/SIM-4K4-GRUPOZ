@@ -24,7 +24,7 @@
             <DockPanel x:Name="dockPlot"
                         Grid.Column="0"
                         Grid.Row="1" 
-                        Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        Margin="0,0,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         Visibility="Visible"
                        Panel.ZIndex="20">
                 <local:Grafico2 x:Name="Grafico2"></local:Grafico2>
@@ -32,46 +32,46 @@
 
             <StackPanel Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal"   Margin="0,0,0,0">
                 <Button x:Name="BtnFuncT"
-                        Width="120"
-                        Height="40"
+                        Width="140"
+                        Height="60"
                         Click="BtnFuncT_Click"
                         IsEnabled="False">
                     <StackPanel Orientation="Horizontal">
                         <!--<iconPacks:PackIconModern x:Name="IconGrafico" HorizontalAlignment="Left" Width="15" Height="15" Kind="Eye" />-->
-                        <TextBlock Text="      x'' , x' , x &#x0a; en funcion de t" ></TextBlock>
+                        <TextBlock FontSize="16" Text="      x'' , x' , x &#x0a; en funcion de t" ></TextBlock>
                     </StackPanel>
                 </Button>
                 <StackPanel Width="60"></StackPanel>
                 <Button x:Name="BtnYDFuncX"
-                        Width="120"
-                        Height="40"
+                        Width="140"
+                        Height="60"
                         Click="BtnYDFuncX_Click"
                         IsEnabled="False">
                     <StackPanel Orientation="Horizontal">
                         <!--<iconPacks:PackIconMaterial x:Name="IconIntervalo" HorizontalAlignment="Left" Width="15" Height="15" Kind="ChartBoxOutline" />-->
-                        <TextBlock Text="x'' en funcion &#x0a;        de x" ></TextBlock>
+                        <TextBlock FontSize="16" Text="x'' en funcion &#x0a;        de x" ></TextBlock>
                     </StackPanel>
                 </Button>
                 <StackPanel Width="20"></StackPanel>
                 <Button x:Name="BtnYFuncX"
-                        Width="120"
-                        Height="40"
+                        Width="140"
+                        Height="60"
                         Click="BtnYFuncX_Click"
                         IsEnabled="False">
                     <StackPanel Orientation="Horizontal">
                         <!--<iconPacks:PackIconMaterial x:Name="IconIntervalo" HorizontalAlignment="Left" Width="15" Height="15" Kind="ChartBoxOutline" />-->
-                        <TextBlock Text="x' en funcion &#x0a;        de x" ></TextBlock>
+                        <TextBlock FontSize="16" Text="x' en funcion &#x0a;        de x" ></TextBlock>
                     </StackPanel>
                 </Button>
                 <StackPanel Width="20"></StackPanel>
                 <Button x:Name="BtnYDFuncY"
-                        Width="120"
-                        Height="40"
+                        Width="140"
+                        Height="60"
                         Click="BtnYDFuncY_Click"
                         IsEnabled="False">
                     <StackPanel Orientation="Horizontal">
                         <!--<iconPacks:PackIconMaterial x:Name="IconIntervalo" HorizontalAlignment="Left" Width="15" Height="15" Kind="ChartBoxOutline" />-->
-                        <TextBlock Text="x'' en funcion &#x0a;        de x'" ></TextBlock>
+                        <TextBlock FontSize="16" Text="x'' en funcion &#x0a;        de x'" ></TextBlock>
                     </StackPanel>
                 </Button>
             </StackPanel>

@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LiveChartsCore.Defaults;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
-using LiveChartsCore.SkiaSharpView.Painting.Effects;
 using SkiaSharp;
 
 namespace TP6.Views
@@ -39,7 +29,7 @@ namespace TP6.Views
             {
                 new Axis
                 {
-                    Name = "Días",
+                    //Name = "Días",
                     NamePaint = new SolidColorPaint(SKColors.Black),
 
                     LabelsPaint = new SolidColorPaint(SKColors.Black),
@@ -86,7 +76,43 @@ namespace TP6.Views
                     Name = titulo,
                     Values = serie
                 }
+
             }).ToArray();
+        }
+        
+        public void AgregarSerieXY(List<double> serieX, List<double> serieY, string titulo)
+        {
+
+            List<ObservablePoint> puntosCoord = new List<ObservablePoint>();
+
+            for (int i = 0; i < serieX.Count; i++)
+            {
+                puntosCoord.Add(new ObservablePoint(serieX[i], serieY[i]));
+
+            }
+
+            Series = Series.Concat(new ISeries[]
+            {
+
+                new LineSeries<ObservablePoint>
+                {
+                    Name = titulo,
+                    Values = puntosCoord.ToArray(),
+
+                }
+
+            }).ToArray();
+        }
+
+        public void NombreEjeX(string nombre)
+        {
+            XAxes = new Axis[]
+            {
+                new Axis
+                {
+                    Name = nombre,
+                }
+            };
         }
 
 
