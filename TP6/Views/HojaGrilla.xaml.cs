@@ -84,6 +84,10 @@ namespace TP6.Views {
 			tabla.Columns.Add("valorT");
 			tabla.Columns.Add("valorPico");
 
+			tabla.Columns.Add("colaEncastre_ProductoDesdeS5");
+			tabla.Columns.Add("colaEncastre_ProductoDesdeS3");
+
+
 			//calculo
 			tabla.Columns.Add("acumSolicitadas");
 			tabla.Columns.Add("acumEnsamblados");
@@ -201,66 +205,69 @@ namespace TP6.Views {
 
 			dr[32] = filaTabla.proximoFinEncastre;
 			dr[33] = filaTabla.valort;
-			dr[34] = filaTabla.picox;
+			dr[34] = Math.Round(filaTabla.picox, 4, MidpointRounding.AwayFromZero).ToString();
+
+			dr[35] = filaTabla.colaEncastre_ProductoDesdeS5;
+			dr[36] = filaTabla.colaEncastre_ProductoDesdeS3;
 
 			//calculo
 			Calculo calculoTabla = (Calculo)fila[1];
 
-			dr[35] = calculoTabla.acumSolicitadas;
-			dr[36] = calculoTabla.acumEnsamblados;
-			dr[37] = Math.Round(calculoTabla.propRealizadosSolicitados, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[38] = Math.Round(calculoTabla.promedioDuracionEnsamble, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[39] = Math.Round(calculoTabla.promedioEnsamblesPorHora, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[37] = calculoTabla.acumSolicitadas;
+			dr[38] = calculoTabla.acumEnsamblados;
+			dr[39] = Math.Round(calculoTabla.propRealizadosSolicitados, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[40] = Math.Round(calculoTabla.promedioDuracionEnsamble, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[41] = Math.Round(calculoTabla.promedioEnsamblesPorHora, 2, MidpointRounding.AwayFromZero).ToString();
 
-			dr[40] = calculoTabla.cantMaxCola1;
-			dr[41] = calculoTabla.cantMaxCola2;
-			dr[42] = calculoTabla.cantMaxCola3;
-			dr[43] = calculoTabla.cantMaxCola4;
-			dr[44] = calculoTabla.cantMaxColaS5_ProductoDesdeS2;
-			dr[45] = calculoTabla.cantMaxColaS5_ProductoDesdeS4;
+			dr[42] = calculoTabla.cantMaxCola1;
+			dr[43] = calculoTabla.cantMaxCola2;
+			dr[44] = calculoTabla.cantMaxCola3;
+			dr[45] = calculoTabla.cantMaxCola4;
+			dr[46] = calculoTabla.cantMaxColaS5_ProductoDesdeS2;
+			dr[47] = calculoTabla.cantMaxColaS5_ProductoDesdeS4;
 
 
 
-			dr[46] = calculoTabla.cantMaxColaEncastre;
+			dr[48] = calculoTabla.cantMaxColaEncastre;
 
-			dr[47] = calculoTabla.tiempoAcumuladoEnEsperaSeccion1;
-			dr[48] = calculoTabla.tiempoAcumuladoEnEsperaSeccion2;
-			dr[49] = calculoTabla.tiempoAcumuladoEnEsperaSeccion3;
-			dr[50] = calculoTabla.tiempoAcumuladoEnEsperaSeccion4;
-			dr[51] = calculoTabla.tiempoAcumuladoEnEsperaSeccion5DesdeS2;
-			dr[52] = calculoTabla.tiempoAcumuladoEnEsperaSeccion5DesdeS4;
+			dr[49] = calculoTabla.tiempoAcumuladoEnEsperaSeccion1;
+			dr[50] = calculoTabla.tiempoAcumuladoEnEsperaSeccion2;
+			dr[51] = calculoTabla.tiempoAcumuladoEnEsperaSeccion3;
+			dr[52] = calculoTabla.tiempoAcumuladoEnEsperaSeccion4;
+			dr[53] = calculoTabla.tiempoAcumuladoEnEsperaSeccion5DesdeS2;
+			dr[54] = calculoTabla.tiempoAcumuladoEnEsperaSeccion5DesdeS4;
 
-			dr[53] = calculoTabla.tiempoAcumuladoOcupadoSeccion1;
-			dr[54] = calculoTabla.tiempoAcumuladoOcupadoSeccion2;
-			dr[55] = calculoTabla.tiempoAcumuladoOcupadoSeccion3;
-			dr[56] = calculoTabla.tiempoAcumuladoOcupadoSeccion4;
-			dr[57] = calculoTabla.tiempoAcumuladoOcupadoSeccion5;
+			dr[55] = calculoTabla.tiempoAcumuladoOcupadoSeccion1;
+			dr[56] = calculoTabla.tiempoAcumuladoOcupadoSeccion2;
+			dr[57] = calculoTabla.tiempoAcumuladoOcupadoSeccion3;
+			dr[58] = calculoTabla.tiempoAcumuladoOcupadoSeccion4;
+			dr[59] = calculoTabla.tiempoAcumuladoOcupadoSeccion5;
 
-			dr[58] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion1, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[59] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion2, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[60] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion3, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[61] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion4, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[62] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion5DesdeS2, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[63] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion5DesdeS4, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[60] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion1, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[61] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion2, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[62] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion3, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[63] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion4, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[64] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion5DesdeS2, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[65] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion5DesdeS4, 2, MidpointRounding.AwayFromZero).ToString();
 
 
 
 			//dr[57] = Math.Round(calculoTabla.promedioPermanenciaColaSeccion5, 2, MidpointRounding.AwayFromZero).ToString(); 
 
-			dr[64] = Math.Round(calculoTabla.porcentajeOcupacioSeccion1, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[65] = Math.Round(calculoTabla.porcentajeOcupacioSeccion2, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[66] = Math.Round(calculoTabla.porcentajeOcupacioSeccion3, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[67] = Math.Round(calculoTabla.porcentajeOcupacioSeccion4, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[68] = Math.Round(calculoTabla.porcentajeOcupacioSeccion5, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[66] = Math.Round(calculoTabla.porcentajeOcupacioSeccion1, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[67] = Math.Round(calculoTabla.porcentajeOcupacioSeccion2, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[68] = Math.Round(calculoTabla.porcentajeOcupacioSeccion3, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[69] = Math.Round(calculoTabla.porcentajeOcupacioSeccion4, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[70] = Math.Round(calculoTabla.porcentajeOcupacioSeccion5, 2, MidpointRounding.AwayFromZero).ToString();
 
-			dr[69] = calculoTabla.acumProductosEnCola;
-			dr[70] = Math.Round(calculoTabla.promedioProductosEnCola, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[71] = calculoTabla.acumProductosEnCola;
+			dr[72] = Math.Round(calculoTabla.promedioProductosEnCola, 2, MidpointRounding.AwayFromZero).ToString();
 
-			dr[71] = calculoTabla.acumProductosEnSistema;
-			dr[72] = Math.Round(calculoTabla.promedioProductosEnSistema, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[73] = calculoTabla.acumProductosEnSistema;
+			dr[74] = Math.Round(calculoTabla.promedioProductosEnSistema, 2, MidpointRounding.AwayFromZero).ToString();
 
-			dr[73] = Math.Round(calculoTabla.proporcionTiempoBloqueoA3, 2, MidpointRounding.AwayFromZero).ToString();
-			dr[74] = Math.Round(calculoTabla.proporcionTiempoBloqueoA5, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[75] = Math.Round(calculoTabla.proporcionTiempoBloqueoA3, 2, MidpointRounding.AwayFromZero).ToString();
+			dr[76] = Math.Round(calculoTabla.proporcionTiempoBloqueoA5, 2, MidpointRounding.AwayFromZero).ToString();
 
 
 

@@ -588,6 +588,39 @@
                                 </DataGridTextColumn.HeaderStyle>
                             </DataGridTextColumn>
 
+                            <DataGridTextColumn Header="Cola encastre&#x0a;(Desde 5)" Binding="{Binding colaEncastre_ProductoDesdeS5 }">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,0,5,3"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Cola encastre&#x0a;(Desde 3)" Binding="{Binding colaEncastre_ProductoDesdeS3}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,1,5,1"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                        Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+                                        <Setter Property="BorderThickness" Value="1,0,5,3"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
 
                             <DataGridTextColumn Header="Acum.&#x0a;Solicitados" Binding="{Binding acumSolicitadas}">
                                 <DataGridTextColumn.CellStyle>
