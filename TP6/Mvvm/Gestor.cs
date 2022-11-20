@@ -142,6 +142,7 @@ namespace TP6.Mvvm {
 
 		public static void simular(int eventos, double a1, double b1, double a2, double b2, double a4, double b4, double media3, double media5, double rangomin, double rangomax, string estrategia) {
 
+			primerCalculo = true;
 			puntoA = true;
             noHayEncastreEnProceso = true;
             _eventos = eventos;
